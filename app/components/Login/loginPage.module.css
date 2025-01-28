@@ -1,0 +1,9 @@
+.active {
+    color: #3c65f5 !important;
+    border-bottom: 1px solid #3c65f5 !important;
+}
+.cursorPointer {
+    cursor: pointer !important;
+    padding-bottom: 15px !important;
+    border-bottom: 1px solid transparent;
+}

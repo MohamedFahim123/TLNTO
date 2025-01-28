@@ -1,0 +1,177 @@
+.box-profile-image {
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    .img-profile {
+        width: 105px;
+        padding-right: 20px;
+        img {
+            display: block;
+        }
+    }
+}
+.icon-search-right {
+    background-image: url(../imgs/page/dashboard/search.svg);
+    background-position: right 12px center;
+    padding-right: 40px;
+    background-repeat: no-repeat;
+}
+.btn {
+    &.tags-link {
+        margin-bottom: 10px;
+        margin-right: 10px;
+        span {
+            display: inline-block;
+            height: 8px;
+            width: 8px;
+            margin: 0px 0px 0px 6px;
+            background: url(../imgs/page/profile/remove.svg) no-repeat center;
+        }
+    }
+}
+.info-icon {
+    background: url(../imgs/page/profile/info.svg) no-repeat left center;
+    display: inline-block;
+    padding: 0px 0px 0px 20px;
+}
+.box-padding {
+    padding: 30px;
+}
+
+.box-filters-job
+{
+    border-bottom: 1px solid $color-border-2;
+    margin-bottom: 30px;
+    padding: 0px 0px 5px 0px;
+    .box-view-type
+    {
+        img
+        {
+            vertical-align: middle;
+        }
+    }
+}
+.text-showing
+{
+    display: inline-block;
+    min-height: 30px;
+    line-height: 37px;
+}
+.box-border
+{
+    border: 1px solid $color-border-2;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 1px 0px 3px 15px;
+    vertical-align: sub;
+}
+.text-sortby {
+    color: #A0ABB8;
+    font-weight: 500;
+    font-size: $font-xs;
+    display: inline-block;
+    vertical-align: middle;
+}
+.box-view-type {
+    float: right;
+    margin-left: 10px;
+    a {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+.dropdown-sort {
+    line-height: 21px;
+    display: inline-block;
+    vertical-align: middle;
+    .dropdown-toggle::after {
+        border: 0px;
+    }
+    .dropdown-toggle {
+        padding: 0px;
+        outline: none;
+        font-size: $font-xs;
+        font-weight: 500;
+        font-family: $font-heading;
+        &:focus {
+            box-shadow: none;
+        }
+        i {
+            color: $color-text-paragraph;
+            float: right;
+            margin: -1px 7px 0px 0px;
+            font-size: 18px; 
+            line-height: 16px !important;
+        }
+    }
+}
+.paginations {
+    margin: 15px 0px 10px 0px;
+    .pager {
+        padding: 0px;
+        li {
+            display: inline-block;
+            vertical-align: middle;
+            a {
+                display: block;
+                padding: 10px 8px;
+                font-weight: 600;
+                color: $color-text-mutted;
+                line-height: 26px;
+                text-decoration: none;
+                position: relative;
+                font-size: $font-lg;
+                font-weight: bold;
+                &:hover {
+                    color: $color-brand;
+                }
+                &.active {
+                    color: $color-brand;
+                }
+                &.pager-number.active::before {
+                    content: "";
+                    height: 28px;
+                    width: 28px;
+                    background: $color-border-2;
+                    opacity: 0.3;
+                    border-radius: 50%;
+                    position: absolute;
+                    z-index: 0;
+                    top: 8px;
+                    left: -1px;
+                }
+                &.pager-number:hover::before {
+                    content: "";
+                    height: 28px;
+                    width: 28px;
+                    background: $color-border-2;
+                    opacity: 0.3;
+                    border-radius: 50%;
+                    position: absolute;
+                    z-index: 0;
+                    top: 8px;
+                    left: -1px;
+                }
+            }
+            .pager-prev {
+                background: url(../imgs/template/icons/page-prev.svg) no-repeat center;
+                height: 48px;
+                width: 48px;
+                margin-right: 15px;
+                &:hover {
+                    background: url(../imgs/template/icons/page-prev-hover.svg) no-repeat center;
+                }
+            }
+            .pager-next {
+                background: url(../imgs/template/icons/page-next.svg) no-repeat center;
+                height: 48px;
+                width: 48px;
+                margin-left: 15px;
+                &:hover {
+                    background: url(../imgs/template/icons/page-next-hover.svg) no-repeat center;
+                }
+            }
+        }
+    }
+}

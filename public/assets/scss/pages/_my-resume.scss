@@ -1,0 +1,42 @@
+.item-timeline {
+    display: flex;
+    width: 100%;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    .timeline-year {
+        position: relative;
+        padding-right: 20px;
+        margin-right: 20px;
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: 100%;
+            width: 1px;
+            border-right: 1px solid $color-border-2;
+        }
+        span {
+            position: relative;
+            border-radius: 30px;
+            background-color: $color-border-3;
+            padding: 1px 15px 2px 15px;
+            min-width: 130px;
+            color: $color-brand-2;
+            text-align: center;
+            display: inline-block;
+        }
+    }
+    .timeline-info {
+        position: relative;
+        width: 100%;
+        padding-right: 30px;
+    }
+    .timeline-actions {
+        min-width: 93px;
+        text-align: right;
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+    }
+}

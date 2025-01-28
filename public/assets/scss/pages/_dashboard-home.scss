@@ -1,0 +1,88 @@
+.panel-white {
+    background-color: $background-white;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    border: 1px solid $color-border-2;
+}
+
+.panel-head {
+    border-bottom: 1px solid $color-border-2;
+    padding: 18px 30px;
+    margin-bottom: 0px;
+    position: relative;
+    .dropdown-menu {
+        top: 83%;
+        min-width: 14rem;
+        padding: 0.5rem;
+        .dropdown-item {
+            color: $color-brand;
+            &.active, &:active {
+                background-color: transparent;
+                color: $color-brand-2;
+            }
+            &:hover {
+                background-color: transparent;
+                color: $color-brand-2;
+            }
+        }
+    }
+}
+
+.panel-body {
+    padding: 30px;
+}
+
+.menudrop {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    height: 20px;
+    width: 20px;
+    background: url(../imgs/page/dashboard/dot-menu.svg) no-repeat center;
+    cursor: pointer;
+}
+
+.box-heading {
+    display: flex;
+    width: 100%;
+    position: relative;
+    align-items: flex-start;
+    .box-title {
+        width: 50%;
+    }
+    .box-breadcrumb {
+        width: 50%;
+        text-align: right;
+        margin-top: -5px;
+        .breadcrumbs {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 6px;
+            background-color: $background-white;
+            border: 1px solid $color-border-2;
+            ul {
+                li {
+                    position: relative;
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 7px;
+                        left: 5px;
+                        height: 14px;
+                        width: 14px;
+                        background: url(../imgs/page/dashboard/arrow.svg) no-repeat 0px 0px;
+                    }
+                    a {
+                        &.icon-home {
+                            background: url(../imgs/page/dashboard/home.svg) no-repeat 0px -2px;
+                            padding-left: 21px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.swiper-group-10 .swiper-slide {
+    text-align: center;
+}

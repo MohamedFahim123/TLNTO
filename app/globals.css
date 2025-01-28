@@ -1,0 +1,57 @@
+.section-box {
+  border-radius: 16px !important;
+  -webkit-border-radius: 16px !important;
+  -moz-border-radius: 16px !important;
+  -ms-border-radius: 16px !important;
+  -o-border-radius: 16px !important;
+}
+.hover-up {
+  border-color: #ffffff;
+}
+.hover-up:hover {
+  border-color: #999 !important;
+}
+
+.btn-tag {
+  background-color: #eaf2ff;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  color: #66789c;
+  margin: 0 5px 5px 0;
+}
+.high {
+  background-color: #fff5f8;
+  color: #f1416c;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.planing {
+  background-color: #f1faff;
+  color: #06a0f7;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.in-progress {
+  background-color: #fbe5df;
+  color: #ef5a32;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.low {
+  background-color: #eff2f5;
+  color: #111a4d;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.complete {
+  background-color: #e8fff3;
+  color: #41bc79;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}

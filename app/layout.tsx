@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import '@/public/assets/css/style.css';
+import "@/public/assets/css/style.css";
+// import "@/public/dashboard/assets/css/style.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Your Favorite Job Portal",
-  description: "With SkillNi You Can Find Your Dream Job",
+  description: "With Tlnto You Can Find Your Dream Job",
 };
 
 export default function RootLayout({
@@ -14,9 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

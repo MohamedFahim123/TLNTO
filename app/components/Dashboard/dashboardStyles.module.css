@@ -1,0 +1,191 @@
+.myHeader {
+  max-height: 85px !important;
+  display: flex;
+  align-items: center;
+}
+.navLinks a {
+  padding: 10px 20px;
+}
+.active {
+  border-radius: 8px;
+  background-color: #483577 !important;
+  color: #fff !important;
+}
+.active:hover span {
+  color: #fff !important;
+}
+.active img {
+  filter: invert(100%) sepia(50%) saturate(50%) hue-rotate(124deg)
+    brightness(200%) contrast(100%);
+}
+.candidateCard {
+  min-height: 500px !important;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.panelWhite {
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.boxPadding {
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.formControl {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+textarea.formControl {
+  resize: none;
+}
+
+select.formControl {
+  padding: 8px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #6e59a4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #483577;
+}
+
+.boxUpload {
+  border: 2px dashed #6e59a4;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.uploadButton {
+  background-color: #6e59a4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.uploadButton:hover {
+  background-color: #483577;
+}
+
+.fileDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.fileName {
+  font-size: 14px;
+  color: #333333;
+}
+
+.btnDelete {
+  color: #ff0000;
+  border: none;
+  background: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btnDelete:hover {
+  text-decoration: underline;
+}
+
+.submitButton {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px 0;
+  font-size: 16px;
+  background-color: #6e59a4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.submitButton:hover {
+  background-color: #483577;
+}
+
+.bottomIllustration {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.bottomIllustration img {
+  width: 200px;
+}
+.timelineYear {
+  font-size: 16px;
+  font-weight: bold;
+  color: #483577;
+}
+
+.timelineInfo h5 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.timelineInfo p {
+  color: #666;
+}
+
+.box-timeline {
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.item-timeline {
+  margin-bottom: 15px;
+  padding: 10px 0;
+}
+

@@ -28,49 +28,25 @@ TABLE CONTENT
 ***/
 
 // Configuration and helpers
-@import 'abstracts/variables',
-'abstracts/functions',
-'abstracts/mixins';
+@import "abstracts/variables", "abstracts/functions", "abstracts/mixins";
 // Vendors
-@import 'vendors/vendors-import';
+@import "vendors/vendors-import";
 // Base stuff
-@import 'base/common',
-'base/animation',
-'base/typography';
+@import "base/common", "base/animation", "base/typography";
 // Components
-@import 'components/buttons',
-'components/form',
-'components/slider',
-'components/noUISlider',
-'components/card',
-'components/tabs',
-'components/misc',
-'components/banners';
+@import "components/buttons", "components/form", "components/slider",
+  "components/noUISlider", "components/card", "components/tabs",
+  "components/misc", "components/banners";
 
 // Layout-related sections
-@import 'layout/header',
-'layout/navigation',
-'layout/sidebar',
-'layout/footer',
-'layout/spacing';
+@import "layout/header", "layout/navigation", "layout/sidebar", "layout/footer",
+  "layout/spacing";
 // Page-specific styles
-@import 'pages/pages',
-'pages/blog',
-'pages/candidates',
-'pages/job-single',
-'pages/job-single-2',
-'pages/blog-grid-2',
-'pages/job-listing-grid',
-'pages/job-listing-list',
-'pages/company',
-'pages/login-register',
-'pages/homepage1',
-'pages/homepage2',
-'pages/homepage3',
-'pages/homepage4',
-'pages/homepage5',
-'pages/homepage6';
+@import "pages/pages", "pages/blog", "pages/candidates", "pages/job-single",
+  "pages/job-single-2", "pages/blog-grid-2", "pages/job-listing-grid",
+  "pages/job-listing-list", "pages/company", "pages/login-register",
+  "pages/homepage1", "pages/homepage2", "pages/homepage3", "pages/homepage4",
+  "pages/homepage5", "pages/homepage6";
 // Responsive
-@import 'layout/responsive';
-
+@import "layout/responsive";
 

@@ -1,0 +1,57 @@
+.icon-edu {
+    background: url(../imgs/page/post-job/edu.svg) no-repeat left center;
+    padding-left: 31px;
+}
+.box-upload {
+    border: 2px dashed $border-color-1-hover;
+    border-radius: 8px;
+    padding: 15px 18px;
+    background-color: $background-white;
+    .add-file-upload {
+        width: 85px;
+        height: 85px;
+        border: 1px solid $border-color;
+        border-radius: 16px;
+        background: $background-white url(../imgs/page/post-job/plus.svg) no-repeat center;
+        margin-right: 15px;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        input {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 12;
+            opacity: 0;
+        }
+    }
+}
+.bg-postjob {
+    background: url(../imgs/page/post-job/bg.svg) no-repeat right 20px bottom;
+}
+input[type="date"] {
+     position: relative;
+     color: white;
+}
+input[type="date"]:before {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    content: attr(data-date);
+    display: inline-block;
+    color: black;
+    width: 90%;
+    height: 90%;
+    line-height: 40px;
+    padding: 0px 0px 0px 20px;
+    background: #fff;
+}
+.box-file-uploaded {
+    height: 100%;
+    padding-bottom: 30px;
+}
+select {
+    background: url(../imgs/page/post-job/arrow-down.svg) no-repeat right 15px center;
+}
