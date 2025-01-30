@@ -1,9 +1,9 @@
 ﻿import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { MainRegion } from "../utils/mainData";
-import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   handleOpen: () => void;
@@ -27,31 +27,13 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
 
   return (
     <>
-      <header
-        className={scroll ? "header sticky-bar stick" : "header sticky-bar"}
-      >
+      <header className={scroll ? "header sticky-bar stick" : "header sticky-bar"}>
         <div className="container">
           <div className="main-header">
             <div className="header-left">
               <div className="header-logo">
                 <Link legacyBehavior href={`/${Region}/jobs/home`}>
-                  <a className="d-flex">
-                    {pathname.includes("/auth") ? (
-                      <Image
-                        width={80}
-                        height={30}
-                        alt="jobBox"
-                        src="/assets/imgs/template/logo.svg"
-                      />
-                    ) : (
-                      <Image
-                        width={80}
-                        height={30}
-                        alt="jobBox"
-                        src="/assets/imgs/template/logo.svg"
-                      />
-                    )}
-                  </a>
+                  <a className="d-flex">{pathname.includes("/auth") ? <Image width={80} height={30} alt="jobBox" src="/assets/imgs/template/logo.svg" /> : <Image width={80} height={30} alt="jobBox" src="/assets/imgs/template/logo.svg" />}</a>
                 </Link>
               </div>
             </div>
@@ -59,11 +41,7 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
               <nav className="nav-main-menu">
                 <ul className="main-menu">
                   <li>
-                    <Link
-                      legacyBehavior
-                      href={`/${Region}/jobs/home`}
-                      className={"active"}
-                    >
+                    <Link legacyBehavior href={`/${Region}/jobs/home`} className={"active"}>
                       Home
                     </Link>
                   </li>
@@ -82,10 +60,28 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
                       Candidates
                     </Link>
                   </li>
-                  <li>
-                    <Link legacyBehavior href="/">
+                  <li className="has-children">
+                    <Link legacyBehavior href={`/${Region}/jobs/about-us`}>
                       Pages
                     </Link>
+
+                    <ul className="sub-menu">
+                      <li>
+                        <Link legacyBehavior href={`/${Region}/jobs/about-us`}>
+                          About Us
+                        </Link>
+                      </li>
+                      <li>
+                        <Link legacyBehavior href={`/${Region}/jobs/pricing-plan`}>
+                          <a>Pricing Plan</a>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link legacyBehavior href={`/${Region}/jobs/content-protected`}>
+                          Content Protected
+                        </Link>
+                      </li>
+                    </ul>
                   </li>
                   <li>
                     <Link legacyBehavior href={`/${Region}/jobs/blogs`}>
@@ -93,16 +89,14 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
                     </Link>
                   </li>
                   <li>
-                    <Link legacyBehavior href="/">
-                      Contact
+                    <Link legacyBehavior href={`/${Region}/jobs/contact-us`}>
+                      Contact Us
                     </Link>
                   </li>
                 </ul>
               </nav>
               <div
-                className={`burger-icon burger-icon-white ${
-                  openClass && "burger-close"
-                }`}
+                className={`burger-icon burger-icon-white ${openClass && "burger-close"}`}
                 onClick={() => {
                   handleOpen();
                   handleRemove();
@@ -115,20 +109,18 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
             </div>
             <div className="header-right">
               <div className="block-signin">
-                <Link legacyBehavior href="/">
+                <Link legacyBehavior href={`/${Region}/auth/register`}>
                   <a className="text-link-bd-btom hover-up">Register</a>
                 </Link>
-                <Link legacyBehavior href="/">
-                  <a className="btn btn-default btn-shadow ml-40 hover-up">
-                    Sign in
-                  </a>
+                <Link legacyBehavior href={`/${Region}/auth/login`}>
+                  <a className="btn btn-default btn-shadow ml-40 hover-up">Sign in</a>
                 </Link>
               </div>
             </div>
           </div>
         </div>
       </header>
-      <div className="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+      {/* <div className="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
         <div className="mobile-header-wrapper-inner">
           <div className="mobile-header-content-area">
             <div className="perfect-scroll">
@@ -136,17 +128,13 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
                 <nav>
                   <ul className="mobile-menu font-heading">
                     <li>
-                      <Link
-                        legacyBehavior
-                        href={`/${Region}/jobs/home`}
-                        className="active"
-                      >
-                        Home
+                      <Link legacyBehavior href={`/${Region}/jobs/home`} className="active">
+                        Home sddd
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href={`/${Region}/jobs/find-job`}>
-                        Find a Job
+                        Find
                       </Link>
                     </li>
                     <li>
@@ -214,103 +202,100 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
-        <div className="mobile-header-wrapper-inner">
-          <div className="mobile-header-content-area">
-            <div className="perfect-scroll">
-              <div className="mobile-search mobile-header-border mb-30">
-                <form action="#">
-                  <input type="text" placeholder="Search…" />
-                  <i className="fi-rr-search" />
-                </form>
-              </div>
-              <div className="mobile-menu-wrap mobile-header-border">
-                {/* mobile menu start*/}
-                <nav>
-                  <ul className="mobile-menu font-heading">
-                    <li>
-                      <Link
-                        legacyBehavior
-                        href={`/${Region}/jobs/home`}
-                        className="active"
-                      >
-                        Home
-                      </Link>
-                    </li>
-                    <li>
-                      <Link legacyBehavior href={`/${Region}/jobs/find-job`}>
-                        Find a Job
-                      </Link>
-                    </li>
-                    <li>
-                      <Link legacyBehavior href={`/${Region}/jobs/recruiters`}>
-                        Recruiters
-                      </Link>
-                    </li>
-                    <li>
-                      <Link legacyBehavior href={`/${Region}/jobs/candidates`}>
-                        Candidates
-                      </Link>
-                    </li>
-                    <li>
-                      <Link legacyBehavior href="/">
-                        Pages
-                      </Link>
-                    </li>
-                    <li>
-                      <Link legacyBehavior href={`/${Region}/jobs/blogs`}>
-                        Blogs
-                      </Link>
-                    </li>
-                    <li>
-                      <Link legacyBehavior href="/">
-                        Contact
-                      </Link>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <div className="mobile-account">
-                <h6 className="mb-10">Your Account</h6>
-                <ul className="mobile-menu font-heading">
-                  <li>
-                    <Link legacyBehavior href="/">
-                      <a>Profile</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link legacyBehavior href="/">
-                      <a>Work Preferences</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link legacyBehavior href="/">
-                      <a>Account Settings</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link legacyBehavior href="">
-                      <a>Go Pro</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link legacyBehavior href="/">
-                      <a>Sign Out</a>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="site-copyright">
-                Copyright 2022 © JobBox. <br />
-                Designed by AliThemes.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </div> */}
     </>
   );
 };
 
 export default React.memo(Header);
+
+// <div className="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
+//         <div className="mobile-header-wrapper-inner">
+//           <div className="mobile-header-content-area">
+//             <div className="perfect-scroll">
+//               <div className="mobile-search mobile-header-border mb-30">
+//                 <form action="#">
+//                   <input type="text" placeholder="Search…" />
+//                   <i className="fi-rr-search" />
+//                 </form>
+//               </div>
+//               <div className="mobile-menu-wrap mobile-header-border">
+//                 {/* mobile menu start*/}
+//                 <nav>
+//                   <ul className="mobile-menu font-heading">
+//                     <li>
+//                       <Link legacyBehavior href={`/${Region}/jobs/home`} className="active">
+//                         Home
+//                       </Link>
+//                     </li>
+//                     <li>
+//                       <Link legacyBehavior href={`/${Region}/jobs/find-job`}>
+//                         Find a Job
+//                       </Link>
+//                     </li>
+//                     <li>
+//                       <Link legacyBehavior href={`/${Region}/jobs/recruiters`}>
+//                         Recruiters
+//                       </Link>
+//                     </li>
+//                     <li>
+//                       <Link legacyBehavior href={`/${Region}/jobs/candidates`}>
+//                         Candidates
+//                       </Link>
+//                     </li>
+//                     <li>
+//                       <Link legacyBehavior href="/">
+//                         Pages
+//                       </Link>
+//                     </li>
+//                     <li>
+//                       <Link legacyBehavior href={`/${Region}/jobs/blogs`}>
+//                         Blogs
+//                       </Link>
+//                     </li>
+//                     <li>
+//                       <Link legacyBehavior href="/">
+//                         Contact
+//                       </Link>
+//                     </li>
+//                   </ul>
+//                 </nav>
+//               </div>
+//               <div className="mobile-account">
+//                 <h6 className="mb-10">Your Account</h6>
+//                 <ul className="mobile-menu font-heading">
+//                   <li>
+//                     <Link legacyBehavior href="/">
+//                       <a>Profile</a>
+//                     </Link>
+//                   </li>
+//                   <li>
+//                     <Link legacyBehavior href="/">
+//                       <a>Work Preferences</a>
+//                     </Link>
+//                   </li>
+//                   <li>
+//                     <Link legacyBehavior href="/">
+//                       <a>Account Settings</a>
+//                     </Link>
+//                   </li>
+//                   <li>
+//                     <Link legacyBehavior href="">
+//                       <a>Go Pro</a>
+//                     </Link>
+//                   </li>
+//                   <li>
+//                     <Link legacyBehavior href="/">
+//                       <a>Sign Out</a>
+//                     </Link>
+//                   </li>
+//                 </ul>
+//               </div>
+//               <div className="site-copyright">
+//                 Copyright 2022 © JobBox. <br />
+//                 Designed by AliThemes.
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>

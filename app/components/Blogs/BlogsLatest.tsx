@@ -1,18 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { MainRegion } from "@/app/utils/mainData";
+import Cookies from "js-cookie";
+const Region: string = Cookies.get("region") || MainRegion;
 export default function BlogsLatest() {
   return (
     <section className="section-box mt-50">
       <div className="post-loop-grid">
         <div className="container">
           <div className="text-left">
-            <h2 className="section-title mb-10 wow animate__animated animate__fadeInUp">
-              Latest Posts
-            </h2>
-            <p className="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">
-              Don{"'"}t miss the trending news
-            </p>
+            <h2 className="section-title mb-10 wow animate__animated animate__fadeInUp">Latest Posts</h2>
+            <p className="font-lg color-text-paragraph-2 wow animate__animated animate__fadeInUp">Don{"'"}t miss the trending news</p>
           </div>
           <div className="row mt-30">
             <div className="col-lg-8">
@@ -20,65 +19,42 @@ export default function BlogsLatest() {
                 <div className="col-lg-6 mb-30">
                   <div className="card-grid-3 hover-up">
                     <div className="text-center card-grid-3-image">
-                      <Link legacyBehavior href="blog-details">
+                      <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                         <a>
                           <figure>
-                            <Image
-                              width={400}
-                              height={250}
-                              alt={"img Box"}
-                              src="/assets/imgs/page/blog/img1.png"
-                            />
+                            <Image width={400} height={250} alt={"img Box"} src="/assets/imgs/page/blog/img1.png" />
                           </figure>
                         </a>
                       </Link>
                     </div>
                     <div className="card-block-info">
                       <div className="tags mb-15">
-                        <Link legacyBehavior href="blog-grid">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a className="btn btn-tag">News</a>
                         </Link>
                       </div>
                       <h5>
-                        <Link legacyBehavior href="blog-details">
-                          <a>
-                            21 Job Interview Tips: How To Make a Great
-                            Impression
-                          </a>
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
+                          <a>21 Job Interview Tips: How To Make a Great Impression</a>
                         </Link>
                       </h5>
                       <p className="mt-10 color-text-paragraph font-sm">
-                        Our mission is to create the world&amp;rsquo;s most
-                        sustainable healt={"img Box"}hcare company by creating
-                        high-quality healt={"img Box"}hcare products in iconic,
-                        sustainable packaging.
+                        Our mission is to create the world&amp;rsquo;s most sustainable healt={"img Box"}hcare company by creating high-quality healt={"img Box"}hcare products in iconic, sustainable packaging.
                       </p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-6 col-6">
                             <div className="d-flex">
-                              <Image
-                                alt="jobBox"
-                                width={100}
-                                height={100}
-                                className="img-rounded"
-                                src="/assets/imgs/page/homepage1/user1.png"
-                              />
+                              <Image alt="jobBox" width={100} height={100} className="img-rounded" src="/assets/imgs/page/homepage1/user1.png" />
                               <div className="info-right-img">
-                                <span className="font-sm font-bold color-brand-1 op-70">
-                                  Azumi Rose
-                                </span>
+                                <span className="font-sm font-bold color-brand-1 op-70">Azumi Rose</span>
                                 <br />
-                                <span className="font-xs color-text-paragraph-2">
-                                  25 April 2022
-                                </span>
+                                <span className="font-xs color-text-paragraph-2">25 April 2022</span>
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-6 text-end col-6 pt-15">
-                            <span className="color-text-paragraph-2 font-xs">
-                              8 mins to read
-                            </span>
+                            <span className="color-text-paragraph-2 font-xs">8 mins to read</span>
                           </div>
                         </div>
                       </div>
@@ -88,65 +64,42 @@ export default function BlogsLatest() {
                 <div className="col-lg-6 mb-30">
                   <div className="card-grid-3 hover-up">
                     <div className="text-center card-grid-3-image">
-                      <Link legacyBehavior href="blog-details">
+                      <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                         <a>
                           <figure>
-                            <Image
-                              width={400}
-                              height={250}
-                              alt={"img Box"}
-                              src="/assets/imgs/page/blog/img2.png"
-                            />
+                            <Image width={400} height={250} alt={"img Box"} src="/assets/imgs/page/blog/img2.png" />
                           </figure>
                         </a>
                       </Link>
                     </div>
                     <div className="card-block-info">
                       <div className="tags mb-15">
-                        <Link legacyBehavior href="blog-grid">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a className="btn btn-tag">Events</a>
                         </Link>
                       </div>
                       <h5>
-                        <Link legacyBehavior href="blog-details">
-                          <a>
-                            Email Examples: How To Respond to Employer Interview
-                            Requests
-                          </a>
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
+                          <a>Email Examples: How To Respond to Employer Interview Requests</a>
                         </Link>
                       </h5>
                       <p className="mt-10 color-text-paragraph font-sm">
-                        Our mission is to create the world&amp;rsquo;s most
-                        sustainable healt={"img Box"}hcare company by creating
-                        high-quality healt={"img Box"}hcare products in iconic,
-                        sustainable packaging.
+                        Our mission is to create the world&amp;rsquo;s most sustainable healt={"img Box"}hcare company by creating high-quality healt={"img Box"}hcare products in iconic, sustainable packaging.
                       </p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-6 col-6">
                             <div className="d-flex">
-                              <Image
-                                alt="jobBox"
-                                width={100}
-                                height={100}
-                                className="img-rounded"
-                                src="/assets/imgs/page/homepage1/user2.png"
-                              />
+                              <Image alt="jobBox" width={100} height={100} className="img-rounded" src="/assets/imgs/page/homepage1/user2.png" />
                               <div className="info-right-img">
-                                <span className="font-sm font-bold color-brand-1 op-70">
-                                  Azumi Rose
-                                </span>
+                                <span className="font-sm font-bold color-brand-1 op-70">Azumi Rose</span>
                                 <br />
-                                <span className="font-xs color-text-paragraph-2">
-                                  25 April 2022
-                                </span>
+                                <span className="font-xs color-text-paragraph-2">25 April 2022</span>
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-6 text-end col-6 pt-15">
-                            <span className="color-text-paragraph-2 font-xs">
-                              8 mins to read
-                            </span>
+                            <span className="color-text-paragraph-2 font-xs">8 mins to read</span>
                           </div>
                         </div>
                       </div>
@@ -156,64 +109,42 @@ export default function BlogsLatest() {
                 <div className="col-lg-6 mb-30">
                   <div className="card-grid-3 hover-up">
                     <div className="text-center card-grid-3-image">
-                      <Link legacyBehavior href="blog-details">
+                      <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                         <a>
                           <figure>
-                            <Image
-                              width={400}
-                              height={250}
-                              alt={"img Box"}
-                              src="/assets/imgs/page/blog/img3.png"
-                            />
+                            <Image width={400} height={250} alt={"img Box"} src="/assets/imgs/page/blog/img3.png" />
                           </figure>
                         </a>
                       </Link>
                     </div>
                     <div className="card-block-info">
                       <div className="tags mb-15">
-                        <Link legacyBehavior href="blog-grid">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a className="btn btn-tag">Events</a>
                         </Link>
                       </div>
                       <h5>
-                        <Link legacyBehavior href="blog-details">
-                          <a>
-                            How To Write an Application Letter (With Examples)
-                          </a>
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
+                          <a>How To Write an Application Letter (With Examples)</a>
                         </Link>
                       </h5>
                       <p className="mt-10 color-text-paragraph font-sm">
-                        Our mission is to create the world&amp;rsquo;s most
-                        sustainable healt={"img Box"}hcare company by creating
-                        high-quality healt={"img Box"}hcare products in iconic,
-                        sustainable packaging.
+                        Our mission is to create the world&amp;rsquo;s most sustainable healt={"img Box"}hcare company by creating high-quality healt={"img Box"}hcare products in iconic, sustainable packaging.
                       </p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-6 col-6">
                             <div className="d-flex">
-                              <Image
-                                width={100}
-                                height={100}
-                                className="img-rounded"
-                                src="/assets/imgs/page/homepage1/user3.png"
-                                alt="img box"
-                              />
+                              <Image width={100} height={100} className="img-rounded" src="/assets/imgs/page/homepage1/user3.png" alt="img box" />
                               <div className="info-right-img">
-                                <span className="font-sm font-bold color-brand-1 op-70">
-                                  Azumi Rose
-                                </span>
+                                <span className="font-sm font-bold color-brand-1 op-70">Azumi Rose</span>
                                 <br />
-                                <span className="font-xs color-text-paragraph-2">
-                                  25 April 2022
-                                </span>
+                                <span className="font-xs color-text-paragraph-2">25 April 2022</span>
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-6 text-end col-6 pt-15">
-                            <span className="color-text-paragraph-2 font-xs">
-                              8 mins to read
-                            </span>
+                            <span className="color-text-paragraph-2 font-xs">8 mins to read</span>
                           </div>
                         </div>
                       </div>
@@ -223,64 +154,42 @@ export default function BlogsLatest() {
                 <div className="col-lg-6 mb-30">
                   <div className="card-grid-3 hover-up">
                     <div className="text-center card-grid-3-image">
-                      <Link legacyBehavior href="blog-details">
+                      <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                         <a>
                           <figure>
-                            <Image
-                              width={400}
-                              height={250}
-                              alt={"img Box"}
-                              src="/assets/imgs/page/homepage1/img-news1.png"
-                            />
+                            <Image width={400} height={250} alt={"img Box"} src="/assets/imgs/page/homepage1/img-news1.png" />
                           </figure>
                         </a>
                       </Link>
                     </div>
                     <div className="card-block-info">
                       <div className="tags mb-15">
-                        <Link legacyBehavior href="blog-grid">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a className="btn btn-tag">Events</a>
                         </Link>
                       </div>
                       <h5>
-                        <Link legacyBehavior href="blog-details">
-                          <a>
-                            17 jobs hired at 15 (and even 14) you should know
-                          </a>
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
+                          <a>17 jobs hired at 15 (and even 14) you should know</a>
                         </Link>
                       </h5>
                       <p className="mt-10 color-text-paragraph font-sm">
-                        Our mission is to create the world&amp;rsquo;s most
-                        sustainable healt={"img Box"}hcare company by creating
-                        high-quality healt={"img Box"}hcare products in iconic,
-                        sustainable packaging.
+                        Our mission is to create the world&amp;rsquo;s most sustainable healt={"img Box"}hcare company by creating high-quality healt={"img Box"}hcare products in iconic, sustainable packaging.
                       </p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-6 col-6">
                             <div className="d-flex">
-                              <Image
-                                alt="jobBox"
-                                width={100}
-                                height={100}
-                                className="img-rounded"
-                                src="/assets/imgs/page/about/user1.png"
-                              />
+                              <Image alt="jobBox" width={100} height={100} className="img-rounded" src="/assets/imgs/page/about/user1.png" />
                               <div className="info-right-img">
-                                <span className="font-sm font-bold color-brand-1 op-70">
-                                  Azumi Rose
-                                </span>
+                                <span className="font-sm font-bold color-brand-1 op-70">Azumi Rose</span>
                                 <br />
-                                <span className="font-xs color-text-paragraph-2">
-                                  25 April 2022
-                                </span>
+                                <span className="font-xs color-text-paragraph-2">25 April 2022</span>
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-6 text-end col-6 pt-15">
-                            <span className="color-text-paragraph-2 font-xs">
-                              8 mins to read
-                            </span>
+                            <span className="color-text-paragraph-2 font-xs">8 mins to read</span>
                           </div>
                         </div>
                       </div>
@@ -290,64 +199,42 @@ export default function BlogsLatest() {
                 <div className="col-lg-6 mb-30">
                   <div className="card-grid-3 hover-up">
                     <div className="text-center card-grid-3-image">
-                      <Link legacyBehavior href="blog-details">
+                      <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                         <a>
                           <figure>
-                            <Image
-                              width={400}
-                              height={250}
-                              alt={"img Box"}
-                              src="/assets/imgs/page/homepage1/img-news2.png"
-                            />
+                            <Image width={400} height={250} alt={"img Box"} src="/assets/imgs/page/homepage1/img-news2.png" />
                           </figure>
                         </a>
                       </Link>
                     </div>
                     <div className="card-block-info">
                       <div className="tags mb-15">
-                        <Link legacyBehavior href="blog-grid">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a className="btn btn-tag">Events</a>
                         </Link>
                       </div>
                       <h5>
-                        <Link legacyBehavior href="blog-details">
-                          <a>
-                            How To Write a Cover Letter (Plus Tips and Examples)
-                          </a>
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
+                          <a>How To Write a Cover Letter (Plus Tips and Examples)</a>
                         </Link>
                       </h5>
                       <p className="mt-10 color-text-paragraph font-sm">
-                        Our mission is to create the world&amp;rsquo;s most
-                        sustainable healt={"img Box"}hcare company by creating
-                        high-quality healt={"img Box"}hcare products in iconic,
-                        sustainable packaging.
+                        Our mission is to create the world&amp;rsquo;s most sustainable healt={"img Box"}hcare company by creating high-quality healt={"img Box"}hcare products in iconic, sustainable packaging.
                       </p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-6 col-6">
                             <div className="d-flex">
-                              <Image
-                                alt="jobBox"
-                                width={100}
-                                height={100}
-                                className="img-rounded"
-                                src="/assets/imgs/page/about/user2.png"
-                              />
+                              <Image alt="jobBox" width={100} height={100} className="img-rounded" src="/assets/imgs/page/about/user2.png" />
                               <div className="info-right-img">
-                                <span className="font-sm font-bold color-brand-1 op-70">
-                                  Azumi Rose
-                                </span>
+                                <span className="font-sm font-bold color-brand-1 op-70">Azumi Rose</span>
                                 <br />
-                                <span className="font-xs color-text-paragraph-2">
-                                  25 April 2022
-                                </span>
+                                <span className="font-xs color-text-paragraph-2">25 April 2022</span>
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-6 text-end col-6 pt-15">
-                            <span className="color-text-paragraph-2 font-xs">
-                              8 mins to read
-                            </span>
+                            <span className="color-text-paragraph-2 font-xs">8 mins to read</span>
                           </div>
                         </div>
                       </div>
@@ -357,62 +244,42 @@ export default function BlogsLatest() {
                 <div className="col-lg-6 mb-30">
                   <div className="card-grid-3 hover-up">
                     <div className="text-center card-grid-3-image">
-                      <Link legacyBehavior href="blog-details">
+                      <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                         <a>
                           <figure>
-                            <Image
-                              width={400}
-                              height={250}
-                              alt={"img Box"}
-                              src="/assets/imgs/page/homepage1/img-news3.png"
-                            />
+                            <Image width={400} height={250} alt={"img Box"} src="/assets/imgs/page/homepage1/img-news3.png" />
                           </figure>
                         </a>
                       </Link>
                     </div>
                     <div className="card-block-info">
                       <div className="tags mb-15">
-                        <Link legacyBehavior href="blog-grid">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a className="btn btn-tag">Events</a>
                         </Link>
                       </div>
                       <h5>
-                        <Link legacyBehavior href="blog-details">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a>10 Best Skills To Include on a Resume in 2022</a>
                         </Link>
                       </h5>
                       <p className="mt-10 color-text-paragraph font-sm">
-                        Our mission is to create the world&amp;rsquo;s most
-                        sustainable healt={"img Box"}hcare company by creating
-                        high-quality healt={"img Box"}hcare products in iconic,
-                        sustainable packaging.
+                        Our mission is to create the world&amp;rsquo;s most sustainable healt={"img Box"}hcare company by creating high-quality healt={"img Box"}hcare products in iconic, sustainable packaging.
                       </p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-6 col-6">
                             <div className="d-flex">
-                              <Image
-                                alt="jobBox"
-                                width={100}
-                                height={100}
-                                className="img-rounded"
-                                src="/assets/imgs/page/about/user3.png"
-                              />
+                              <Image alt="jobBox" width={100} height={100} className="img-rounded" src="/assets/imgs/page/about/user3.png" />
                               <div className="info-right-img">
-                                <span className="font-sm font-bold color-brand-1 op-70">
-                                  Azumi Rose
-                                </span>
+                                <span className="font-sm font-bold color-brand-1 op-70">Azumi Rose</span>
                                 <br />
-                                <span className="font-xs color-text-paragraph-2">
-                                  25 April 2022
-                                </span>
+                                <span className="font-xs color-text-paragraph-2">25 April 2022</span>
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-6 text-end col-6 pt-15">
-                            <span className="color-text-paragraph-2 font-xs">
-                              8 mins to read
-                            </span>
+                            <span className="color-text-paragraph-2 font-xs">8 mins to read</span>
                           </div>
                         </div>
                       </div>
@@ -422,65 +289,42 @@ export default function BlogsLatest() {
                 <div className="col-lg-6 mb-30">
                   <div className="card-grid-3 hover-up">
                     <div className="text-center card-grid-3-image">
-                      <Link legacyBehavior href="blog-details">
+                      <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                         <a>
                           <figure>
-                            <Image
-                              width={400}
-                              height={250}
-                              alt={"img Box"}
-                              src="/assets/imgs/page/blog/img1.png"
-                            />
+                            <Image width={400} height={250} alt={"img Box"} src="/assets/imgs/page/blog/img1.png" />
                           </figure>
                         </a>
                       </Link>
                     </div>
                     <div className="card-block-info">
                       <div className="tags mb-15">
-                        <Link legacyBehavior href="blog-grid">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a className="btn btn-tag">Events</a>
                         </Link>
                       </div>
                       <h5>
-                        <Link legacyBehavior href="blog-details">
-                          <a>
-                            39 Strengths and Weaknesses To Discuss in a Job
-                            Interview
-                          </a>
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
+                          <a>39 Strengths and Weaknesses To Discuss in a Job Interview</a>
                         </Link>
                       </h5>
                       <p className="mt-10 color-text-paragraph font-sm">
-                        Our mission is to create the world&amp;rsquo;s most
-                        sustainable healt={"img Box"}hcare company by creating
-                        high-quality healt={"img Box"}hcare products in iconic,
-                        sustainable packaging.
+                        Our mission is to create the world&amp;rsquo;s most sustainable healt={"img Box"}hcare company by creating high-quality healt={"img Box"}hcare products in iconic, sustainable packaging.
                       </p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-6 col-6">
                             <div className="d-flex">
-                              <Image
-                                alt="jobBox"
-                                width={100}
-                                height={100}
-                                className="img-rounded"
-                                src="/assets/imgs/page/homepage1/user1.png"
-                              />
+                              <Image alt="jobBox" width={100} height={100} className="img-rounded" src="/assets/imgs/page/homepage1/user1.png" />
                               <div className="info-right-img">
-                                <span className="font-sm font-bold color-brand-1 op-70">
-                                  Azumi Rose
-                                </span>
+                                <span className="font-sm font-bold color-brand-1 op-70">Azumi Rose</span>
                                 <br />
-                                <span className="font-xs color-text-paragraph-2">
-                                  25 April 2022
-                                </span>
+                                <span className="font-xs color-text-paragraph-2">25 April 2022</span>
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-6 text-end col-6 pt-15">
-                            <span className="color-text-paragraph-2 font-xs">
-                              8 mins to read
-                            </span>
+                            <span className="color-text-paragraph-2 font-xs">8 mins to read</span>
                           </div>
                         </div>
                       </div>
@@ -490,64 +334,42 @@ export default function BlogsLatest() {
                 <div className="col-lg-6 mb-30">
                   <div className="card-grid-3 hover-up">
                     <div className="text-center card-grid-3-image">
-                      <Link legacyBehavior href="blog-details">
+                      <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                         <a>
                           <figure>
-                            <Image
-                              width={400}
-                              height={250}
-                              alt={"img Box"}
-                              src="/assets/imgs/page/blog/img2.png"
-                            />
+                            <Image width={400} height={250} alt={"img Box"} src="/assets/imgs/page/blog/img2.png" />
                           </figure>
                         </a>
                       </Link>
                     </div>
                     <div className="card-block-info">
                       <div className="tags mb-15">
-                        <Link legacyBehavior href="blog-grid">
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
                           <a className="btn btn-tag">Events</a>
                         </Link>
                       </div>
                       <h5>
-                        <Link legacyBehavior href="blog-details">
-                          <a>
-                            List of Weaknesses: 10 Things To Say in an Interview
-                          </a>
+                        <Link legacyBehavior href={`/${Region}/jobs/blogs/slug`}>
+                          <a>List of Weaknesses: 10 Things To Say in an Interview</a>
                         </Link>
                       </h5>
                       <p className="mt-10 color-text-paragraph font-sm">
-                        Our mission is to create the world&amp;rsquo;s most
-                        sustainable healt={"img Box"}hcare company by creating
-                        high-quality healt={"img Box"}hcare products in iconic,
-                        sustainable packaging.
+                        Our mission is to create the world&amp;rsquo;s most sustainable healt={"img Box"}hcare company by creating high-quality healt={"img Box"}hcare products in iconic, sustainable packaging.
                       </p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-6 col-6">
                             <div className="d-flex">
-                              <Image
-                                alt="jobBox"
-                                width={100}
-                                height={100}
-                                className="img-rounded"
-                                src="/assets/imgs/page/homepage1/user1.png"
-                              />
+                              <Image alt="jobBox" width={100} height={100} className="img-rounded" src="/assets/imgs/page/homepage1/user1.png" />
                               <div className="info-right-img">
-                                <span className="font-sm font-bold color-brand-1 op-70">
-                                  Azumi Rose
-                                </span>
+                                <span className="font-sm font-bold color-brand-1 op-70">Azumi Rose</span>
                                 <br />
-                                <span className="font-xs color-text-paragraph-2">
-                                  25 April 2022
-                                </span>
+                                <span className="font-xs color-text-paragraph-2">25 April 2022</span>
                               </div>
                             </div>
                           </div>
                           <div className="col-lg-6 text-end col-6 pt-15">
-                            <span className="color-text-paragraph-2 font-xs">
-                              8 mins to read
-                            </span>
+                            <span className="color-text-paragraph-2 font-xs">8 mins to read</span>
                           </div>
                         </div>
                       </div>
@@ -618,28 +440,16 @@ export default function BlogsLatest() {
                   <div className="post-list-small-item d-flex align-items-center">
                     <figure className="thumb mr-15">
                       <Link href="/blog-details">
-                        <Image
-                          width={100}
-                          height={90}
-                          src="/assets/imgs/page/blog/img-trending.png"
-                          alt={"img Box"}
-                        />
+                        <Image width={100} height={90} src="/assets/imgs/page/blog/img-trending.png" alt={"img Box"} />
                       </Link>
                     </figure>
                     <div className="content">
                       <h5>
-                        <Link href="/blog-details">
-                          How to get better agents in New York, USA
-                        </Link>
+                        <Link href="/blog-details">How to get better agents in New York, USA</Link>
                       </h5>
                       <div className="post-meta text-muted d-flex align-items-center mb-15">
                         <div className="author d-flex align-items-center mr-20">
-                          <Image
-                            width={30}
-                            height={30}
-                            alt={"img Box"}
-                            src="/assets/imgs/page/homepage1/user1.png"
-                          />
+                          <Image width={30} height={30} alt={"img Box"} src="/assets/imgs/page/homepage1/user1.png" />
                           <span>Sugar Rosie</span>
                         </div>
                       </div>
@@ -648,28 +458,16 @@ export default function BlogsLatest() {
                   <div className="post-list-small-item d-flex align-items-center">
                     <figure className="thumb mr-15">
                       <Link href="/blog-details">
-                        <Image
-                          width={100}
-                          height={90}
-                          src="/assets/imgs/page/blog/gallery1.png"
-                          alt={"img Box"}
-                        />
+                        <Image width={100} height={90} src="/assets/imgs/page/blog/gallery1.png" alt={"img Box"} />
                       </Link>
                     </figure>
                     <div className="content">
                       <h5>
-                        <Link href="/blog-details">
-                          How To Create a Resume for a Job in Social
-                        </Link>
+                        <Link href="/blog-details">How To Create a Resume for a Job in Social</Link>
                       </h5>
                       <div className="post-meta text-muted d-flex align-items-center mb-15">
                         <div className="author d-flex align-items-center mr-20">
-                          <Image
-                            width={30}
-                            height={30}
-                            alt={"img Box"}
-                            src="/assets/imgs/page/homepage1/user3.png"
-                          />
+                          <Image width={30} height={30} alt={"img Box"} src="/assets/imgs/page/homepage1/user3.png" />
                           <span>Harding</span>
                         </div>
                         <div className="date">
@@ -681,28 +479,16 @@ export default function BlogsLatest() {
                   <div className="post-list-small-item d-flex align-items-center">
                     <figure className="thumb mr-15">
                       <Link href="/blog-details">
-                        <Image
-                          width={100}
-                          height={90}
-                          src="/assets/imgs/page/blog/gallery2.png"
-                          alt={"img Box"}
-                        />
+                        <Image width={100} height={90} src="/assets/imgs/page/blog/gallery2.png" alt={"img Box"} />
                       </Link>
                     </figure>
                     <div className="content">
                       <h5>
-                        <Link href="/blog-details">
-                          10 Ways to Avoid a Referee Disaster Zone
-                        </Link>
+                        <Link href="/blog-details">10 Ways to Avoid a Referee Disaster Zone</Link>
                       </h5>
                       <div className="post-meta text-muted d-flex align-items-center mb-15">
                         <div className="author d-flex align-items-center mr-20">
-                          <Image
-                            width={30}
-                            height={30}
-                            alt={"img Box"}
-                            src="/assets/imgs/page/homepage1/user2.png"
-                          />
+                          <Image width={30} height={30} alt={"img Box"} src="/assets/imgs/page/homepage1/user2.png" />
                           <span>Steven</span>
                         </div>
                         <div className="date">
@@ -714,28 +500,16 @@ export default function BlogsLatest() {
                   <div className="post-list-small-item d-flex align-items-center">
                     <figure className="thumb mr-15">
                       <Link href="/blog-details">
-                        <Image
-                          width={100}
-                          height={90}
-                          src="/assets/imgs/page/blog/gallery4.png"
-                          alt={"img Box"}
-                        />
+                        <Image width={100} height={90} src="/assets/imgs/page/blog/gallery4.png" alt={"img Box"} />
                       </Link>
                     </figure>
                     <div className="content">
                       <h5>
-                        <Link href="/blog-details">
-                          How To Set Work-Life Boundaries From Any Location
-                        </Link>
+                        <Link href="/blog-details">How To Set Work-Life Boundaries From Any Location</Link>
                       </h5>
                       <div className="post-meta text-muted d-flex align-items-center mb-15">
                         <div className="author d-flex align-items-center mr-20">
-                          <Image
-                            width={30}
-                            height={30}
-                            alt={"img Box"}
-                            src="/assets/imgs/page/homepage1/user3.png"
-                          />
+                          <Image width={30} height={30} alt={"img Box"} src="/assets/imgs/page/homepage1/user3.png" />
                           <span>Merias</span>
                         </div>
                         <div className="date">
@@ -747,28 +521,16 @@ export default function BlogsLatest() {
                   <div className="post-list-small-item d-flex align-items-center">
                     <figure className="thumb mr-15">
                       <Link href="/blog-details">
-                        <Image
-                          width={100}
-                          height={90}
-                          src="/assets/imgs/page/blog/gallery5.png"
-                          alt={"img Box"}
-                        />
+                        <Image width={100} height={90} src="/assets/imgs/page/blog/gallery5.png" alt={"img Box"} />
                       </Link>
                     </figure>
                     <div className="content">
                       <h5>
-                        <Link href="/blog-details">
-                          How to Land Your Dream Marketing Job
-                        </Link>
+                        <Link href="/blog-details">How to Land Your Dream Marketing Job</Link>
                       </h5>
                       <div className="post-meta text-muted d-flex align-items-center mb-15">
                         <div className="author d-flex align-items-center mr-20">
-                          <Image
-                            width={30}
-                            height={30}
-                            alt={"img Box"}
-                            src="/assets/imgs/page/homepage1/user1.png"
-                          />
+                          <Image width={30} height={30} alt={"img Box"} src="/assets/imgs/page/homepage1/user1.png" />
                           <span>Rosie</span>
                         </div>
                         <div className="date">
@@ -782,10 +544,7 @@ export default function BlogsLatest() {
               <div className="sidebar-border-bg bg-right">
                 <span className="text-grey">WE ARE</span>
                 <span className="text-hiring">HIRING</span>
-                <p className="font-xxs color-text-paragraph mt-5">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Recusandae architecto
-                </p>
+                <p className="font-xxs color-text-paragraph mt-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae architecto</p>
                 <div className="mt-15">
                   <Link legacyBehavior href="#">
                     <a className="btn btn-paragraph-2">Know More</a>
@@ -799,108 +558,63 @@ export default function BlogsLatest() {
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            alt="jobBox"
-                            width={100}
-                            height={100}
-                            src="/assets/imgs/page/blog/gallery1.png"
-                          />
+                          <Image alt="jobBox" width={100} height={100} src="/assets/imgs/page/blog/gallery1.png" />
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            alt="jobBox"
-                            width={100}
-                            height={100}
-                            src="/assets/imgs/page/blog/gallery2.png"
-                          />
+                          <Image alt="jobBox" width={100} height={100} src="/assets/imgs/page/blog/gallery2.png" />
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            alt="jobBox"
-                            width={100}
-                            height={100}
-                            src="/assets/imgs/page/blog/gallery3.png"
-                          />
+                          <Image alt="jobBox" width={100} height={100} src="/assets/imgs/page/blog/gallery3.png" />
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            alt="jobBox"
-                            width={100}
-                            height={100}
-                            src="/assets/imgs/page/blog/gallery4.png"
-                          />
+                          <Image alt="jobBox" width={100} height={100} src="/assets/imgs/page/blog/gallery4.png" />
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            alt="jobBox"
-                            width={100}
-                            height={100}
-                            src="/assets/imgs/page/blog/gallery5.png"
-                          />
+                          <Image alt="jobBox" width={100} height={100} src="/assets/imgs/page/blog/gallery5.png" />
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            width={100}
-                            alt="jobBox"
-                            height={100}
-                            src="/assets/imgs/page/blog/gallery6.png"
-                          />
+                          <Image width={100} alt="jobBox" height={100} src="/assets/imgs/page/blog/gallery6.png" />
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            width={100}
-                            height={100}
-                            alt="jobBox"
-                            src="/assets/imgs/page/blog/gallery7.png"
-                          />
+                          <Image width={100} height={100} alt="jobBox" src="/assets/imgs/page/blog/gallery7.png" />
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            alt="jobBox"
-                            width={100}
-                            height={100}
-                            src="/assets/imgs/page/blog/gallery8.png"
-                          />
+                          <Image alt="jobBox" width={100} height={100} src="/assets/imgs/page/blog/gallery8.png" />
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link legacyBehavior href="#">
                         <a>
-                          <Image
-                            alt="jobBox"
-                            width={100}
-                            height={100}
-                            src="/assets/imgs/page/blog/gallery9.png"
-                          />
+                          <Image alt="jobBox" width={100} height={100} src="/assets/imgs/page/blog/gallery9.png" />
                         </a>
                       </Link>
                     </li>

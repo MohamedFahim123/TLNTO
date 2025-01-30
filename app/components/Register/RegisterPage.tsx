@@ -7,9 +7,7 @@ import styles from "./registerPage.module.css";
 import UserRegisterForm from "./UserRegisterForm";
 
 export default function RegisterPage() {
-  const [userLoginType, setUserLoginType] = useState<"User" | "Company">(
-    "User"
-  );
+  const [userLoginType, setUserLoginType] = useState<"User" | "Company">("User");
 
   const handleUpdateUserLoginType = (userLogiinType: "User" | "Company") => {
     setUserLoginType(userLogiinType);
@@ -21,20 +19,10 @@ export default function RegisterPage() {
         <div className="row login-register-cover">
           <div className="col-lg-4 col-md-6 col-sm-12 mx-auto">
             <ul className="d-flex align-items-center gap-3 fw-bold border-bottom mb-4">
-              <li
-                onClick={() => handleUpdateUserLoginType("User")}
-                className={`${userLoginType === "User" ? styles.active : ""} ${
-                  styles.cursorPointer
-                }`}
-              >
+              <li onClick={() => handleUpdateUserLoginType("User")} className={`${userLoginType === "User" ? styles.active : ""} ${styles.cursorPointer}`}>
                 User
               </li>
-              <li
-                onClick={() => handleUpdateUserLoginType("Company")}
-                className={`${
-                  userLoginType === "Company" ? styles.active : ""
-                } ${styles.cursorPointer}`}
-              >
+              <li onClick={() => handleUpdateUserLoginType("Company")} className={`${userLoginType === "Company" ? styles.active : ""} ${styles.cursorPointer}`}>
                 Company
               </li>
               <li></li>
@@ -49,33 +37,17 @@ export default function RegisterPage() {
                   <span>Or continue with</span>
                 </div>
                 <button className="btn social-login hover-up mb-20">
-                  <Image
-                    width={20}
-                    height={20}
-                    src="/assets/imgs/template/icons/icon-google.svg"
-                    alt="jobbox"
-                  />
+                  <Image width={20} height={20} src="/assets/imgs/template/icons/icon-google.svg" alt="jobbox" />
                   <strong>Sign up with Google</strong>
                 </button>
               </div>
             )}
           </div>
           <div className="img-1 d-none d-lg-block">
-            <Image
-              className="shape-1"
-              src="/assets/imgs/page/login-register/img-1.svg"
-              alt="JobBox"
-              width={200}
-              height={200}
-            />
+            <Image className="shape-1" src="/assets/imgs/page/login-register/img-1.svg" alt="JobBox" width={200} height={200} />
           </div>
           <div className="img-2">
-            <Image
-              src="/assets/imgs/page/login-register/img-2.svg"
-              alt="JobBox"
-              width={200}
-              height={200}
-            />
+            <Image src="/assets/imgs/page/login-register/img-2.svg" alt="JobBox" width={200} height={200} />
           </div>
         </div>
       </div>

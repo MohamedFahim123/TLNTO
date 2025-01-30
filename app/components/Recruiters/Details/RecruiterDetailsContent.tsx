@@ -1,11 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function RecruiterDetailsContent({
-  activeIndex,
-}: {
-  activeIndex: number;
-}) {
+export default function RecruiterDetailsContent({ activeIndex }: { activeIndex: number }) {
   return (
     <section className="section-box mt-50">
       <div className="container">
@@ -13,103 +9,32 @@ export default function RecruiterDetailsContent({
           <div className="col-lg-8 col-md-12 col-sm-12 col-12">
             <div className="content-single">
               <div className="tab-content">
-                <div
-                  className={`tab-pane fade ${
-                    activeIndex === 1 && "show active"
-                  }`}
-                >
+                <div className={`tab-pane fade ${activeIndex === 1 && "show active"}`}>
                   <h4>Welcome to AliStudio Team</h4>
-                  <p>
-                    The AliStudio Design team has a vision to establish a
-                    trusted platform that enables productive and healthy
-                    enterprises in a world of digital and remote everything,
-                    constantly changing work patterns and norms, and the need
-                    for organizational resiliency.
-                  </p>
-                  <p>
-                    The ideal candidate will have strong creative skills and a
-                    portfolio of work which demonstrates their passion for
-                    illustrative design and typography. This candidate will have
-                    experiences in working with numerous different design
-                    platforms such as digital and print forms.
-                  </p>
+                  <p>The AliStudio Design team has a vision to establish a trusted platform that enables productive and healthy enterprises in a world of digital and remote everything, constantly changing work patterns and norms, and the need for organizational resiliency.</p>
+                  <p>The ideal candidate will have strong creative skills and a portfolio of work which demonstrates their passion for illustrative design and typography. This candidate will have experiences in working with numerous different design platforms such as digital and print forms.</p>
                   <h4>Essential Knowledge, Skills, and Experience</h4>
                   <ul>
-                    <li>
-                      A portfolio demonstrating well thought through and
-                      polished end to end customer journeys
-                    </li>
-                    <li>
-                      5+ years of industry experience in interactive design and
-                      / or visual design
-                    </li>
+                    <li>A portfolio demonstrating well thought through and polished end to end customer journeys</li>
+                    <li>5+ years of industry experience in interactive design and / or visual design</li>
                     <li>Excellent interpersonal skills</li>
-                    <li>
-                      Aware of trends in mobile, communications, and
-                      collaboration
-                    </li>
-                    <li>
-                      Ability to create highly polished design prototypes,
-                      mockups, and other communication artifacts
-                    </li>
-                    <li>
-                      The ability to scope and estimate efforts accurately and
-                      prioritize tasks and goals independently
-                    </li>
-                    <li>
-                      History of impacting shipping products with your work
-                    </li>
-                    <li>
-                      A Bachelor s Degree in Design (or related field) or
-                      equivalent professional experience
-                    </li>
-                    <li>
-                      Proficiency in a variety of design tools such as Figma,
-                      Photoshop, Illustrator, and Sketch
-                    </li>
+                    <li>Aware of trends in mobile, communications, and collaboration</li>
+                    <li>Ability to create highly polished design prototypes, mockups, and other communication artifacts</li>
+                    <li>The ability to scope and estimate efforts accurately and prioritize tasks and goals independently</li>
+                    <li>History of impacting shipping products with your work</li>
+                    <li>A Bachelor s Degree in Design (or related field) or equivalent professional experience</li>
+                    <li>Proficiency in a variety of design tools such as Figma, Photoshop, Illustrator, and Sketch</li>
                   </ul>
                 </div>
-                <div
-                  className={`tab-pane fade ${
-                    activeIndex === 2 && "show active"
-                  }`}
-                >
+                <div className={`tab-pane fade ${activeIndex === 2 && "show active"}`}>
                   <h4>Recruitments</h4>
-                  <p>
-                    The AliStudio Design team has a vision to establish a
-                    trusted platform that enables productive and healthy
-                    enterprises in a world of digital and remote everything,
-                    constantly changing work patterns and norms, and the need
-                    for organizational resiliency.
-                  </p>
-                  <p>
-                    The ideal candidate will have strong creative skills and a
-                    portfolio of work which demonstrates their passion for
-                    illustrative design and typography. This candidate will have
-                    experiences in working with numerous different design
-                    platforms such as digital and print forms.
-                  </p>
+                  <p>The AliStudio Design team has a vision to establish a trusted platform that enables productive and healthy enterprises in a world of digital and remote everything, constantly changing work patterns and norms, and the need for organizational resiliency.</p>
+                  <p>The ideal candidate will have strong creative skills and a portfolio of work which demonstrates their passion for illustrative design and typography. This candidate will have experiences in working with numerous different design platforms such as digital and print forms.</p>
                 </div>
-                <div
-                  className={`tab-pane fade ${
-                    activeIndex === 3 && "show active"
-                  }`}
-                >
+                <div className={`tab-pane fade ${activeIndex === 3 && "show active"}`}>
                   <h4>People</h4>
-                  <p>
-                    The AliStudio Design team has a vision to establish a
-                    trusted platform that enables productive and healthy
-                    enterprises in a world of digital and remote everything,
-                    constantly changing work patterns and norms, and the need
-                    for organizational resiliency.
-                  </p>
-                  <p>
-                    The ideal candidate will have strong creative skills and a
-                    portfolio of work which demonstrates their passion for
-                    illustrative design and typography. This candidate will have
-                    experiences in working with numerous different design
-                    platforms such as digital and print forms.
-                  </p>
+                  <p>The AliStudio Design team has a vision to establish a trusted platform that enables productive and healthy enterprises in a world of digital and remote everything, constantly changing work patterns and norms, and the need for organizational resiliency.</p>
+                  <p>The ideal candidate will have strong creative skills and a portfolio of work which demonstrates their passion for illustrative design and typography. This candidate will have experiences in working with numerous different design platforms such as digital and print forms.</p>
                 </div>
               </div>
             </div>
@@ -123,12 +48,7 @@ export default function RecruiterDetailsContent({
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <div className="card-grid-2-image-left">
                           <div className="image-box">
-                            <Image
-                              width={100}
-                              height={100}
-                              src="/assets/imgs/brands/brand-6.png"
-                              alt="jobBox"
-                            />
+                            <Image width={100} height={100} src="/assets/imgs/brands/brand-6.png" alt="jobBox" />
                           </div>
                           <div className="right-info">
                             <Link legacyBehavior href="#">
@@ -163,11 +83,7 @@ export default function RecruiterDetailsContent({
                           <span> mins ago</span>
                         </span>
                       </div>
-                      <p className="font-sm color-text-paragraph mt-10">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Recusandae architecto eveniet, dolor quo
-                        repellendus pariatur.
-                      </p>
+                      <p className="font-sm color-text-paragraph mt-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae architecto eveniet, dolor quo repellendus pariatur.</p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-7 col-7">
@@ -175,11 +91,7 @@ export default function RecruiterDetailsContent({
                             <span className="text-muted">/Hour</span>
                           </div>
                           <div className="col-lg-5 col-5 text-end">
-                            <div
-                              className="btn btn-apply-now"
-                              data-bs-toggle="modal"
-                              data-bs-target="#ModalApplyJobForm"
-                            >
+                            <div className="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">
                               Apply now
                             </div>
                           </div>
@@ -195,12 +107,7 @@ export default function RecruiterDetailsContent({
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <div className="card-grid-2-image-left">
                           <div className="image-box">
-                            <Image
-                              width={100}
-                              height={100}
-                              src="/assets/imgs/brands/brand-7.png"
-                              alt="jobBox"
-                            />
+                            <Image width={100} height={100} src="/assets/imgs/brands/brand-7.png" alt="jobBox" />
                           </div>
                           <div className="right-info">
                             <Link legacyBehavior href="#">
@@ -235,11 +142,7 @@ export default function RecruiterDetailsContent({
                           <span> mins ago</span>
                         </span>
                       </div>
-                      <p className="font-sm color-text-paragraph mt-10">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Recusandae architecto eveniet, dolor quo
-                        repellendus pariatur.
-                      </p>
+                      <p className="font-sm color-text-paragraph mt-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae architecto eveniet, dolor quo repellendus pariatur.</p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-7 col-7">
@@ -247,11 +150,7 @@ export default function RecruiterDetailsContent({
                             <span className="text-muted">/Hour</span>
                           </div>
                           <div className="col-lg-5 col-5 text-end">
-                            <div
-                              className="btn btn-apply-now"
-                              data-bs-toggle="modal"
-                              data-bs-target="#ModalApplyJobForm"
-                            >
+                            <div className="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">
                               Apply now
                             </div>
                           </div>
@@ -267,12 +166,7 @@ export default function RecruiterDetailsContent({
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <div className="card-grid-2-image-left">
                           <div className="image-box">
-                            <Image
-                              width={100}
-                              height={100}
-                              src="/assets/imgs/brands/brand-8.png"
-                              alt="jobBox"
-                            />
+                            <Image width={100} height={100} src="/assets/imgs/brands/brand-8.png" alt="jobBox" />
                           </div>
                           <div className="right-info">
                             <Link legacyBehavior href="#">
@@ -307,11 +201,7 @@ export default function RecruiterDetailsContent({
                           <span> mins ago</span>
                         </span>
                       </div>
-                      <p className="font-sm color-text-paragraph mt-10">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Recusandae architecto eveniet, dolor quo
-                        repellendus pariatur.
-                      </p>
+                      <p className="font-sm color-text-paragraph mt-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae architecto eveniet, dolor quo repellendus pariatur.</p>
                       <div className="card-2-bottom mt-20">
                         <div className="row">
                           <div className="col-lg-7 col-7">
@@ -319,11 +209,7 @@ export default function RecruiterDetailsContent({
                             <span className="text-muted">/Hour</span>
                           </div>
                           <div className="col-lg-5 col-5 text-end">
-                            <div
-                              className="btn btn-apply-now"
-                              data-bs-toggle="modal"
-                              data-bs-target="#ModalApplyJobForm"
-                            >
+                            <div className="btn btn-apply-now" data-bs-toggle="modal" data-bs-target="#ModalApplyJobForm">
                               Apply now
                             </div>
                           </div>
@@ -408,9 +294,7 @@ export default function RecruiterDetailsContent({
                     </div>
                     <div className="sidebar-text-info">
                       <span className="text-description">Company field</span>
-                      <strong className="small-heading">
-                        Accounting / Finance
-                      </strong>
+                      <strong className="small-heading">Accounting / Finance</strong>
                     </div>
                   </li>
                   <li>
@@ -419,9 +303,7 @@ export default function RecruiterDetailsContent({
                     </div>
                     <div className="sidebar-text-info">
                       <span className="text-description">Location</span>
-                      <strong className="small-heading">
-                        Chicago, US Remote Friendly
-                      </strong>
+                      <strong className="small-heading">Chicago, US Remote Friendly</strong>
                     </div>
                   </li>
                   <li>
@@ -455,9 +337,7 @@ export default function RecruiterDetailsContent({
               </div>
               <div className="sidebar-list-job">
                 <ul className="ul-disc">
-                  <li>
-                    205 North Michigan Avenue, Suite 810 Chicago, 60601, USA
-                  </li>
+                  <li>205 North Michigan Avenue, Suite 810 Chicago, 60601, USA</li>
                   <li>Phone: (123) 456-7890</li>
                   <li>Email: contact@Evara.com</li>
                 </ul>
@@ -471,10 +351,7 @@ export default function RecruiterDetailsContent({
             <div className="sidebar-border-bg bg-right">
               <span className="text-grey">WE ARE</span>
               <span className="text-hiring">HIRING</span>
-              <p className="font-xxs color-text-paragraph mt-5">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Recusandae architecto
-              </p>
+              <p className="font-xxs color-text-paragraph mt-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae architecto</p>
               <div className="mt-15">
                 <Link legacyBehavior href="page-contact">
                   <a className="btn btn-paragraph-2">Know More</a>

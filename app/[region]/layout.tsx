@@ -28,11 +28,7 @@ export default function RegionLayout({ children }: PropsChildren) {
       {!pathName.includes("/dashboard") ? (
         <>
           <div className="body-overlay-1" onClick={handleRemove} />
-          <Header
-            handleOpen={handleOpen}
-            handleRemove={handleRemove}
-            openClass={openClass}
-          />
+          <Header handleOpen={handleOpen} handleRemove={handleRemove} openClass={openClass} />
           <Sidebar openClass={openClass} />
           <main className="main">{children}</main>
           <Footer />

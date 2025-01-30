@@ -1,5 +1,5 @@
 {
-  "name": "skillni",
+  "name": "tlnto",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "next lint",
     "sass": "sass --watch public/assets/scss/style.scss:public/assets/css/style.css"
   },
-  "dependencies": {
+  "dependencies": { 
     "@headlessui/react": "^2.2.0",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.7",

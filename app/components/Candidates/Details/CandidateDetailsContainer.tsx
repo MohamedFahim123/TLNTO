@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import CandidateDetailsHero from "./CandidateDetailsHero";
-import AboutCandidateDetails from "./AboutCandidateDetails";
 import NewsletterSection from "../../Home/NewsletterSection";
+import AboutCandidateDetails from "./AboutCandidateDetails";
+import CandidateDetailsHero from "./CandidateDetailsHero";
 export default function CandidateDetailsContainer() {
   const [activeIndex, setActiveIndex] = useState<number>(1);
 

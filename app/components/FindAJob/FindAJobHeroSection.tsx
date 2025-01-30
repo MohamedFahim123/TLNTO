@@ -7,18 +7,11 @@ export default function FindAJobHeroSection() {
             <h3 className="wow animate__animated animate__fadeInUp">
               <span className="color-brand-2">22 Jobs</span> Available Now
             </h3>
-            <div
-              className="font-sm color-text-paragraph-2 mt-10 wow animate__animated animate__fadeInUp"
-              data-wow-delay=".1s"
-            >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
-              repellendus magni, <br className="d-none d-xl-block" />
+            <div className="font-sm color-text-paragraph-2 mt-10 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero repellendus magni, <br className="d-none d-xl-block" />
               atque delectus molestias quis?
             </div>
-            <div
-              className="form-find text-start mt-40 wow animate__animated animate__fadeInUp"
-              data-wow-delay=".2s"
-            >
+            <div className="form-find text-start mt-40 wow animate__animated animate__fadeInUp" data-wow-delay=".2s">
               <form>
                 <div className="box-industry">
                   <select className="form-input mr-10 select-active input-industry">
@@ -61,9 +54,7 @@ export default function FindAJobHeroSection() {
                     <option value="BM">Bermuda</option>
                     <option value="BT">Bhutan</option>
                     <option value="BO">Bolivia</option>
-                    <option value="BQ">
-                      Bonaire, Saint Eustatius and Saba
-                    </option>
+                    <option value="BQ">Bonaire, Saint Eustatius and Saba</option>
                     <option value="BA">Bosnia and Herzegovina</option>
                     <option value="BW">Botswana</option>
                     <option value="BV">Bouvet Island</option>
@@ -131,9 +122,7 @@ export default function FindAJobHeroSection() {
                     <option value="GW">Guinea-Bissau</option>
                     <option value="GY">Guyana</option>
                     <option value="HT">Haiti</option>
-                    <option value="HM">
-                      Heard Island and McDonald Islands
-                    </option>
+                    <option value="HM">Heard Island and McDonald Islands</option>
                     <option value="HN">Honduras</option>
                     <option value="HK">Hong Kong</option>
                     <option value="HU">Hungary</option>
@@ -284,14 +273,8 @@ export default function FindAJobHeroSection() {
                     <option value="ZW">Zimbabwe</option>
                   </select>
                 </div>
-                <input
-                  className="form-input input-keysearch mr-10"
-                  type="text"
-                  placeholder="Your keyword... "
-                />
-                <button className="btn btn-default btn-find font-sm">
-                  Search
-                </button>
+                <input className="form-input input-keysearch mr-10" type="text" placeholder="Your keyword... " />
+                <button className="btn btn-default btn-find font-sm">Search</button>
               </form>
             </div>
           </div>
