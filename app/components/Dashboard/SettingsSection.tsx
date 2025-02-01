@@ -1,13 +1,34 @@
 import Image from "next/image";
 import styles from "./dashboardStyles.module.css";
+import Link from "next/link";
 
 export default function SettingsSection() {
   return (
     <div className="container">
+      <div className="head d-flex align-items-center justify-content-between ">
+        <h4 className=" my-4">Settings</h4>
+        <div className="links bg-white border border-black border-opacity-10 border-1 rounded-3 py-2 px-4 text-black-50 ">
+          <span className="d-flex align-items-center justify-content-center">
+            <Image
+              className="me-1 lh-2"
+              width={14}
+              height={14}
+              src="/assets/imgs/page/dashboard/home.svg"
+              alt="jobBox"
+            />
+            <Link className="d-flex align-items-center " href="/dashboard">
+              Admin <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
+            </Link>
+            Settings
+          </span>
+        </div>
+      </div>
       <div className="row">
         <div className="col-lg-8 col-md-8">
-          <div className={`${styles.panelWhite} mb-4`}>
-            <div className={styles.boxPadding}>
+          <div
+            className={`section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white`}
+          >
+            <div className={"container py-4"}>
               <h5 className={styles.title}>Update your profile</h5>
               <div className="d-flex align-items-center mb-4">
                 <div className={styles.imgProfile}>
@@ -150,8 +171,10 @@ export default function SettingsSection() {
             </div>
           </div>
 
-          <div className={`${styles.panelWhite} mt-4`}>
-            <div className={styles.boxPadding}>
+          <div
+            className={`section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white`}
+          >
+            <div className={"container py-4"}>
               <h5 className={styles.subtitle}>Contact Information</h5>
               <div className="row">
                 <div className="col-md-6">
@@ -197,8 +220,10 @@ export default function SettingsSection() {
               </div>
             </div>
           </div>
-          <div className={`${styles.panelWhite} mt-4`}>
-            <div className={styles.boxPadding}>
+          <div
+            className={`section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white`}
+          >
+            <div className={"container py-4"}>
               <h5 className={styles.subtitle}>Google Map</h5>
               <div className="mt-3">
                 <iframe
@@ -216,8 +241,10 @@ export default function SettingsSection() {
           </div>
         </div>
         <div className="col-lg-4 col-md-4">
-          <div className={styles.panelWhite}>
-            <div className={styles.boxPadding}>
+          <div
+            className={`section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white`}
+          >
+            <div className={"container py-4"}>
               <h5 className={styles.subtitle}>Social Network</h5>
               <div className="row">
                 <div className="col-md-12">

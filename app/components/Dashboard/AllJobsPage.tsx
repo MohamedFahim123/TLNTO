@@ -91,6 +91,7 @@ export default function AllJobsPage() {
     setActiveTab(index);
   };
 
+  
   return (
     <>
       <div className="col-lg-12">

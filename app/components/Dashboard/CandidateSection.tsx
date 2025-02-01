@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 import Candidate from "./Candidate";
 import { CandidateElement, candidates } from "./candidates";
-import styles from "./dashboardStyles.module.css";
 import Pagination from "./Pagination";
 import ShowSelect from "./ShowSelect";
 
@@ -28,18 +29,20 @@ export default function CandidateSection() {
   const [limit, setLimit] = useState(showLimit);
   const [pages, setPages] = useState(Math.ceil(filteredData.length / limit));
 
-  useEffect(() => {
-    cratePagination();
-  }, [limit, pages, filteredData.length]);
-
-  const cratePagination = () => {
+  const cratePagination = useCallback(() => {
     const arr: number[] = new Array(Math.ceil(filteredData.length / limit))
       .fill(null)
       .map((_, idx) => idx + 1);
 
     setPagination(arr);
     setPages(Math.ceil(filteredData.length / limit));
-  };
+  }, [filteredData.length, limit]);
+
+  useEffect(() => {
+    if (pages > 1 && filteredData.length > 0) {
+      cratePagination();
+    }
+  }, [limit, pages, filteredData.length, cratePagination]);
 
   const startIndex: number = currentPage * limit - limit;
   const endIndex: number = startIndex + limit;
@@ -78,10 +81,30 @@ export default function CandidateSection() {
   return (
     <>
       <div className="col-12">
-        <div className="section-box">
+        <div className="head d-flex align-items-center justify-content-between">
+          <h4 className=" my-4">Candidates</h4>
+          <div className="links bg-white border border-black border-opacity-10 border-1 rounded-3 py-2 px-4 text-black-50 ">
+            <span className="d-flex align-items-center justify-content-center">
+              <Image
+                className="me-1 lh-2"
+                width={14}
+                height={14}
+                src="/assets/imgs/page/dashboard/home.svg"
+                alt="jobBox"
+              />
+              <Link className="d-flex align-items-center " href="/dashboard">
+                Admin{" "}
+                <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
+              </Link>
+              Candidates
+            </span>
+          </div>
+        </div>
+        <div className="section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white">
           <div className="container">
-            <h2 className="mb-30">Candidates</h2>
-            <div className={`${styles.panelWhite} mb-30`}>
+            <div
+              className={``}
+            >
               <div className="box-padding">
                 <div className="row mb-30">
                   <div className="col-12">

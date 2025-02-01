@@ -55,3 +55,20 @@
   font-weight: 700;
   letter-spacing: 0.5px;
 }
+.eye-icon {
+  position: absolute;
+  right: 25px;
+  top: 48px;
+  cursor: pointer;
+}
+.login-eye {
+  right: 15px !important;
+}
+.login-register-cover .img-1 {
+  right: 5% !important;
+  top: 5% !important;
+  z-index: -1 !important;
+}
+input[type= "file"] {
+  line-height: 29px !important;
+}

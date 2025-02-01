@@ -9,8 +9,9 @@
     "lint": "next lint",
     "sass": "sass --watch public/assets/scss/style.scss:public/assets/css/style.css"
   },
-  "dependencies": { 
+  "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.7",
     "js-cookie": "^3.0.5",
@@ -20,6 +21,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
     "react-hot-toast": "^2.5.1",
+    "react-icons": "^5.4.0",
     "react-perfect-scrollbar": "^1.5.8",
     "sass": "^1.83.1",
     "swiper": "^11.2.1"
