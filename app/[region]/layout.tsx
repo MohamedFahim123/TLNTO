@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { PropsChildren } from "../utils/interfaces";
+import { ToastContainer } from "react-toastify";
 
 export default function RegionLayout({ children }: PropsChildren) {
   const [openClass, setOpenClass] = useState<string>("");
@@ -28,14 +29,22 @@ export default function RegionLayout({ children }: PropsChildren) {
       {!pathName.includes("/dashboard") ? (
         <>
           <div className="body-overlay-1" onClick={handleRemove} />
-          <Header handleOpen={handleOpen} handleRemove={handleRemove} openClass={openClass} />
+          <ToastContainer position="top-right" />
+          <Header
+            handleOpen={handleOpen}
+            handleRemove={handleRemove}
+            openClass={openClass}
+          />
           <Sidebar openClass={openClass} />
           <main className="main">{children}</main>
           <Footer />
           <BackToTop />
         </>
       ) : (
-        <>{children}</>
+        <>
+          <ToastContainer position="top-right" />
+          {children}
+        </>
       )}
     </>
   );

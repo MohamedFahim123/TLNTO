@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function LoginForm({
   userLoginType,
@@ -19,6 +20,7 @@ export default function LoginForm({
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<CompanyAndUserLoginForm>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -26,8 +28,10 @@ export default function LoginForm({
   const onSubmit: SubmitHandler<CompanyAndUserLoginForm> = async (
     data: CompanyAndUserLoginForm
   ) => {
+    const toastId = toast.loading("Submitting...");
     const URL: string =
       userLoginType === "User" ? AuthUrls.userLogin : AuthUrls.companyLogin;
+
     try {
       const response = await axios.post(URL, data, {
         headers: {
@@ -35,10 +39,49 @@ export default function LoginForm({
           Accept: "application/json",
         },
       });
-      console.log(response);
+
+      toast.dismiss(toastId);
+      toast.success(response?.data?.message || "Login Successful!", {
+        autoClose: 1500,
+      });
+
+      const token: string = response?.data?.data?.token;
+      if (token) {
+        await axios.post("/api/token", { token });
+        window.location.href = `/${Region}/dashboard`;
+      }
     } catch (error) {
-      if (error instanceof Error) {
-        console.log(error);
+      toast.dismiss(toastId);
+
+      if (axios.isAxiosError(error)) {
+        const errorResponse = error.response?.data;
+
+        if (errorResponse?.errors) {
+          let firstErrorMessage = "";
+
+          Object.keys(errorResponse.errors).forEach((field, index) => {
+            const message = errorResponse.errors[field][0];
+
+            if (index === 0) {
+              firstErrorMessage = message;
+            }
+
+            setError(field as keyof CompanyAndUserLoginForm, {
+              type: "server",
+              message,
+            });
+          });
+
+          toast.error(firstErrorMessage || "Login failed!", {
+            autoClose: 1500,
+          });
+        } else {
+          toast.error(errorResponse?.message || "Login Failed!", {
+            autoClose: 1500,
+          });
+        }
+      } else {
+        toast.error("An unexpected error occurred!", { autoClose: 1500 });
       }
     }
   };
@@ -53,7 +96,7 @@ export default function LoginForm({
           Email *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${errors.email && "InputError"}`}
           {...register("email", { required: true })}
           id="CompanyLoginEmail"
           type="email"
@@ -68,7 +111,7 @@ export default function LoginForm({
           Password *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${errors.email && "InputError"}`}
           {...register("password", { required: true })}
           id="CompanyLoginpassword"
           type={showPassword ? "text" : "password"}

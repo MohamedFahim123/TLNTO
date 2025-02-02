@@ -19,14 +19,14 @@ export default function LoginPage() {
         <div className="row login-register-cover">
           <div className="col-lg-6 col-md-6 mx-auto border border-1 border-radius-20 shadow p-4">
             <ul className="d-flex align-items-center gap-3 fw-bold border-bottom mb-4">
-              {/* <li
+              <li
                 onClick={() => handleUpdateUserLoginType("User")}
                 className={`${userLoginType === "User" ? styles.active : ""} ${
                   styles.cursorPointer
                 }`}
               >
                 User
-              </li> */}
+              </li>
               <li
                 onClick={() => handleUpdateUserLoginType("Company")}
                 className={`${
@@ -45,7 +45,7 @@ export default function LoginPage() {
                 <div className="divider-text-center my-3">
                   <span>Or continue with</span>
                 </div>
-                <button className="btn social-login hover-up mb-20">
+                <button className="btn social-login border-1 border border-radius-20 hover-up mb-20">
                   <Image
                     width={20}
                     height={20}

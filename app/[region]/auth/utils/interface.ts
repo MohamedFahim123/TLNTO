@@ -10,6 +10,16 @@ export interface CompanyRegisterFrom {
   password: string;
   password_confirmation: string;
 }
+
+export interface UserRegisterFormInputs {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  password: string;
+  password_confirmation: string;
+}
+
 export interface CompanyAndUserLoginForm {
   email: string;
   password: string;

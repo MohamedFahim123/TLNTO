@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import styles from "./dashboardStyles.module.css";
+import { MdDelete } from "react-icons/md";
 
 export default function MyCVSection() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -40,23 +41,24 @@ export default function MyCVSection() {
       </div>
       <div className="section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white mb-4">
         <div className="container py-4">
-          <h5 className={styles.subtitle}>Update your CV</h5>
+          <h5 className={styles.subtitle}>Upload a video</h5>
           <div className="row mt-30">
-            <div className="col-lg-6 col-md-6">
+            <div className="col-lg-6 mb-3 col-md-6">
               <div className={styles.formGroup}>
                 <div className={styles.boxUpload}>
                   <div>
                     <label
-                      htmlFor="cvUpload"
+                      htmlFor="videoUpdload"
                       className={styles.uploadButton}
                       style={{ cursor: "pointer" }}
                     >
                       {uploadedFile ? "Replace File" : "Upload File"}
                     </label>
                     <input
-                      id="cvUpload"
+                      id="videoUpdload"
                       className="fileupload"
                       type="file"
+                      accept="video/*"
                       style={{ display: "none" }}
                       onChange={handleFileUpload}
                     />
@@ -64,7 +66,7 @@ export default function MyCVSection() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-6 col-md-6">
+            <div className="col-lg-6 mb-3 col-md-6">
               {uploadedFile ? (
                 <div
                   className={`${styles.formGroup} d-flex align-items-center ${styles.fileDisplay}`}
@@ -95,16 +97,32 @@ export default function MyCVSection() {
         <div className="container py-4">
           <h5 className={styles.title}>Education</h5>
           <div className="row mt-3">
-            <div className="col-lg-6">
-              <label className={styles.formLabel}>From</label>
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="institutionCv"
+              >
+                Institution *
+              </label>
+              <input
+                className={styles.formControl}
+                type="text"
+                name="institutionCv"
+                id="institutionCv"
+                placeholder="National Design Academy"
+              />
+            </div>
+            <div className="col-lg-6 mb-3 d-md-none d-lg-block"></div>
+            <div className="col-lg-6 mb-3">
+              <label className={`${styles.formLabel} mb-2`}>From</label>
               <input
                 className={styles.formControl}
                 type="date"
                 defaultValue="2022-09-20"
               />
             </div>
-            <div className="col-lg-6">
-              <label className={styles.formLabel}>To</label>
+            <div className="col-lg-6 mb-3">
+              <label className={`${styles.formLabel} mb-2`}>To</label>
               <input
                 className={styles.formControl}
                 type="date"
@@ -112,13 +130,11 @@ export default function MyCVSection() {
               />
             </div>
             <div className="col-lg-12 mt-3">
-              <label className={styles.formLabel}>Description</label>
+              <label className={`${styles.formLabel} mb-2`}>Description</label>
               <textarea
                 className={styles.formControl}
                 rows={5}
-                defaultValue={
-                  "Product Designer - Spotify Inc\nLorem ipsum dolor sit amet, consectetur adipiscing elit."
-                }
+                placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
               />
             </div>
             <div className="col-lg-12 mt-3">
@@ -151,20 +167,70 @@ export default function MyCVSection() {
         </div>
       </div>
 
-      <div className={"section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white mb-4"}>
-        <div className={'container py-4'}>
+      <div
+        className={
+          "section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white mb-4"
+        }
+      >
+        <div className={"container py-4"}>
           <h5 className={styles.title}>Work & Experience</h5>
           <div className="row mt-3">
-            <div className="col-lg-6">
-              <label className={styles.formLabel}>From</label>
+            <div className="col-lg-6 mb-3">
+              <label className={`${styles.formLabel} mb-2`} htmlFor="CVCompany">
+                Company *
+              </label>
+              <input
+                className={styles.formControl}
+                id="CVCompany"
+                type="text"
+                placeholder="compnay Name"
+              />
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="CVJobTitle"
+              >
+                Job Title
+              </label>
+              <input
+                className={styles.formControl}
+                id="CVJobTitle"
+                type="text"
+                placeholder="Product Designer"
+              />
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="CVIndustry"
+              >
+                Industry
+              </label>
+              <select
+                className={`${styles.formControl} form-select`}
+                id="CVIndustry"
+                defaultValue={""}
+              >
+                <option value="" disabled>
+                  Select Industry
+                </option>
+                <option value="1">Software</option>
+                <option value="2">Finance</option>
+                <option value="3">Recruting</option>
+              </select>
+            </div>
+            <div className="col-lg-6 mb-3 d-md-none d-lg-block"></div>
+            <div className="col-lg-6 mb-3">
+              <label className={`${styles.formLabel} mb-2`}>From</label>
               <input
                 className={styles.formControl}
                 type="date"
                 defaultValue="2022-09-20"
               />
             </div>
-            <div className="col-lg-6">
-              <label className={styles.formLabel}>To</label>
+            <div className="col-lg-6 mb-3">
+              <label className={`${styles.formLabel} mb-2`}>To</label>
               <input
                 className={styles.formControl}
                 type="date"
@@ -172,13 +238,11 @@ export default function MyCVSection() {
               />
             </div>
             <div className="col-lg-12 mt-3">
-              <label className={styles.formLabel}>Description</label>
+              <label className={`${styles.formLabel} mb-2`}>Description</label>
               <textarea
                 className={styles.formControl}
                 rows={5}
-                defaultValue={
-                  "Product Designer - Spotify Inc\nLorem ipsum dolor sit amet, consectetur adipiscing elit."
-                }
+                placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
               />
             </div>
             <div className="col-lg-12 mt-3">
@@ -206,6 +270,290 @@ export default function MyCVSection() {
                 <h5>Skidmore Owings & Merrill</h5>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={
+          "section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white mb-4"
+        }
+      >
+        <div className={"container py-4"}>
+          <h5 className={styles.title}>Skills</h5>
+          <div className="row mt-3">
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="CvCategory"
+              >
+                Category *
+              </label>
+              <select
+                className={`form-select ${styles.formControl}`}
+                id="CvCategory"
+                defaultValue={""}
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                <option value="1">Software</option>
+                <option value="2">Finance</option>
+                <option value="3">Recruting</option>
+                <option value="4">Management</option>
+              </select>
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="CvSubCategory"
+              >
+                Sub-Category *
+              </label>
+              <select
+                className={`form-select ${styles.formControl}`}
+                id="CvSubCategory"
+                defaultValue={""}
+              >
+                <option value="" disabled>
+                  Select Sub-Category
+                </option>
+                <option value="1">Software</option>
+                <option value="2">Finance</option>
+                <option value="3">Recruting</option>
+                <option value="4">Management</option>
+              </select>
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label htmlFor="cvSkill" className={`${styles.formLabel} mb-2`}>
+                Skill
+              </label>
+              <input
+                className={styles.formControl}
+                type="text"
+                id="cvSkill"
+                placeholder="Lorem ipsum"
+              />
+            </div>
+            <div className="col-lg-12 mt-3">
+              <button className={styles.submitButton}>Add Skills</button>
+            </div>
+          </div>
+          <div className="my-3">
+            <h4 className="mb-3">Added Skills</h4>
+            <div
+              className={
+                "d-inline-block me-2 bg-gray text-center px-2 py-1 border border-1 border-black border-opacity-10 rounded-4"
+              }
+            >
+              Skill 1
+              <MdDelete size={20} className="text-danger ms-2 mb-1" />
+            </div>
+            <div
+              className={
+                "d-inline-block mx-2 bg-gray text-center px-2 py-1 border border-1 border-black border-opacity-10 rounded-4"
+              }
+            >
+              Skill 2
+              <MdDelete size={20} className="text-danger ms-2 mb-1" />
+            </div>
+            <div
+              className={
+                "d-inline-block mx-2 bg-gray text-center px-2 py-1 border border-1 border-black border-opacity-10 rounded-4"
+              }
+            >
+              Skill 3
+              <MdDelete size={20} className="text-danger ms-2 mb-1" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={`section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white mb-4`}
+      >
+        <div className="container py-4">
+          <h5 className={styles.title}>Courses</h5>
+          <div className="row mt-3">
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="institutionCvCourses"
+              >
+                Course Provider Institution *
+              </label>
+              <input
+                className={styles.formControl}
+                type="text"
+                name="institutionCvCourses"
+                id="institutionCvCourses"
+                placeholder="Course Provider Institution"
+              />
+            </div>
+            <div className="col-lg-6 mb-3 d-md-none d-lg-block"></div>
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="CertificationAvalable"
+              >
+                Course Provider Institution *
+              </label>
+              <select
+                className={`${styles.formControl} form-select`}
+                name="CertificationAvalable"
+                id="CertificationAvalable"
+                defaultValue={""}
+              >
+                <option value="" disabled>
+                  Select Availablity
+                </option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+              </select>
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="institutionCvCertificationIssuer"
+              >
+                Certification Issuer *
+              </label>
+              <input
+                className={styles.formControl}
+                type="text"
+                name="institutionCvCertificationIssuer"
+                id="institutionCvCertificationIssuer"
+                placeholder="Certification Issuer"
+              />
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
+                htmlFor="institutionCvCertificationId"
+              >
+                Certification Id
+              </label>
+              <input
+                className={styles.formControl}
+                type="text"
+                name="institutionCvCertificationId"
+                id="institutionCvCertificationId"
+                placeholder="Certification Id"
+              />
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label className={`${styles.formLabel} mb-2`}>From</label>
+              <input
+                className={styles.formControl}
+                type="date"
+                defaultValue="2022-09-20"
+              />
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label className={`${styles.formLabel} mb-2`}>To</label>
+              <input
+                className={styles.formControl}
+                type="date"
+                defaultValue="2022-09-20"
+              />
+            </div>
+            <div className="col-lg-12 mt-3">
+              <label className={`${styles.formLabel} mb-2`}>Description</label>
+              <textarea
+                className={styles.formControl}
+                rows={5}
+                placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              />
+            </div>
+            <div className="col-lg-12 mt-3">
+              <button className={styles.submitButton}>Add Course</button>
+            </div>
+          </div>
+          <div className="box-timeline mt-4">
+            <div className="item-timeline my-3">
+              <div className={styles.timelineYear}>2008 - 2012</div>
+              <div className={styles.timelineInfo}>
+                <h5>National Design Academy</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </div>
+            </div>
+            <div className="item-timeline my-3">
+              <div className={styles.timelineYear}>2012 - 2014</div>
+              <div className={styles.timelineInfo}>
+                <h5>University of Oxford</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </div>
+            </div>
+            <div className="item-timeline my-3">
+              <div className={styles.timelineYear}>2014 - 2016</div>
+              <div className={styles.timelineInfo}>
+                <h5>California Institute of Technology</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={
+          "section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white mb-4"
+        }
+      >
+        <div className={"container py-4"}>
+          <h5 className={styles.title}>Languages</h5>
+          <div className="row mt-3">
+            <div className="col-lg-6 mb-3">
+              <label
+                htmlFor="cvLanguage"
+                className={`${styles.formLabel} mb-2`}
+              >
+                Language
+              </label>
+              <select
+                className={`${styles.formControl} form-select`}
+                id="cvLanguage"
+                defaultValue={""}
+              >
+                <option value="" disabled>
+                  Select Language
+                </option>
+                <option value="1">English</option>
+                <option value="2">Spanish</option>
+                <option value="3">French</option>
+                <option value="4">German</option>
+              </select>
+            </div>
+            <div className="col-lg-12 mt-3">
+              <button className={styles.submitButton}>Add Language</button>
+            </div>
+          </div>
+          <div className="my-3">
+            <h4 className="mb-3">Added Languages</h4>
+            <div
+              className={
+                "d-inline-block me-2 bg-gray text-center px-2 py-1 border border-1 border-black border-opacity-10 rounded-4"
+              }
+            >
+              Language 1
+              <MdDelete size={20} className="text-danger ms-2 mb-1" />
+            </div>
+            <div
+              className={
+                "d-inline-block mx-2 bg-gray text-center px-2 py-1 border border-1 border-black border-opacity-10 rounded-4"
+              }
+            >
+              Language 2
+              <MdDelete size={20} className="text-danger ms-2 mb-1" />
+            </div>
+            <div
+              className={
+                "d-inline-block mx-2 bg-gray text-center px-2 py-1 border border-1 border-black border-opacity-10 rounded-4"
+              }
+            >
+              Language 3
+              <MdDelete size={20} className="text-danger ms-2 mb-1" />
             </div>
           </div>
         </div>

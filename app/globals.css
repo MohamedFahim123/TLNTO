@@ -69,6 +69,10 @@
   top: 5% !important;
   z-index: -1 !important;
 }
-input[type= "file"] {
+input[type="file"] {
   line-height: 29px !important;
+}
+input.InputError,
+select.InputError {
+  border: 1px solid red !important;
 }

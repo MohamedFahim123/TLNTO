@@ -1,14 +1,21 @@
 "use client";
 import { CompanyRegisterFrom } from "@/app/[region]/auth/utils/interface";
 import { AuthUrls } from "@/app/[region]/auth/utils/URLS";
-import { MainRegion } from "@/app/utils/mainData";
+import { Country, useCountriesStore } from "@/app/store/Countries";
+import { Industry, useIndustriesStore } from "@/app/store/Industries";
+import { baseUrl, MainRegion } from "@/app/utils/mainData";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
+
+interface CITY {
+  id: string;
+  name: string;
+}
 
 export default function CompanyRegisterForm({
   userLoginType,
@@ -18,34 +25,147 @@ export default function CompanyRegisterForm({
   const Region: string = Cookies.get("region") || MainRegion;
   const {
     register,
+    watch,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<CompanyRegisterFrom>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPasswordConfirm, setShowPasswordConfirm] =
     useState<boolean>(false);
+  const { countries } = useCountriesStore();
+  const { industries } = useIndustriesStore();
+  const [currCities, setCurrCities] = useState<CITY[]>([]);
+
+  const getCurrCitiesInsideChosenCountry = async () => {
+    if (watch("country_id")) {
+      const toastId = toast.loading("Loading...");
+      const data: { country_id: string } = {
+        country_id: watch("country_id"),
+      };
+      try {
+        const res = await axios.post(
+          `${baseUrl}/cities?t=${new Date().getTime()}`,
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        );
+        setCurrCities(res?.data?.data);
+        toast.update(toastId, {
+          render: res?.data?.message || "Success! Cities loaded.",
+          type: "success",
+          isLoading: false,
+          autoClose: 1000,
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.update(toastId, {
+            render: error.response?.data?.message || "Error loading Cities!",
+            type: "error",
+            isLoading: false,
+            autoClose: 1500,
+          });
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (watch("country_id")) {
+      getCurrCitiesInsideChosenCountry();
+    }
+  }, [watch("country_id")]);
 
   const onSubmit: SubmitHandler<CompanyRegisterFrom> = async (
     data: CompanyRegisterFrom
   ) => {
+    const toastId = toast.loading("Submitting...");
+
     const URL: string =
       userLoginType === "User"
         ? AuthUrls.userRegister
         : AuthUrls.companyRegister;
+
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      const value = data[key as keyof CompanyRegisterFrom];
+
+      if (value instanceof FileList && value.length > 0) {
+        formData.append(key, value[0]);
+      } else if (value instanceof File) {
+        formData.append(key, value);
+      } else {
+        formData.append(key, String(value));
+      }
+    });
+
     try {
-      const response = await axios.post(URL, data, {
+      const response = await axios.post(URL, formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Accept: "application/json",
         },
       });
-      console.log(response);
+
+      toast.dismiss(toastId);
+
+      toast.success(response?.data?.message || "Registration Successful!", {
+        autoClose: 1500,
+      });
+
+      const token: string = response?.data?.data?.token;
+      if (token) {
+        Cookies.set("TLNTO_TOKEN", token);
+        window.location.href = `/${Region}/dashboard`;
+      }
     } catch (error) {
-      if (error instanceof Error) {
-        console.log(error);
+      toast.dismiss(toastId);
+
+      if (axios.isAxiosError(error)) {
+        const errorResponse = error.response?.data;
+
+        if (errorResponse?.errors) {
+          let firstErrorMessage = "";
+
+          Object.keys(errorResponse.errors).forEach((field, index) => {
+            const message = errorResponse.errors[field][0];
+            if (index === 0) {
+              firstErrorMessage = message;
+            }
+
+            setError(field as keyof CompanyRegisterFrom, {
+              type: "server",
+              message,
+            });
+          });
+
+          toast.error(firstErrorMessage || "Registration failed!", {
+            autoClose: 1500,
+          });
+        } else {
+          toast.error(errorResponse?.message || "Registration Failed!", {
+            autoClose: 1500,
+          });
+        }
+      } else {
+        toast.error("An unexpected error occurred!", { autoClose: 1500 });
       }
     }
   };
+
+  useEffect(() => {
+    if (watch("password") !== watch("password_confirmation")) {
+      setError("password_confirmation", { message: "Passwords doesn't match" });
+    } else if (watch("password_confirmation") === watch("password")) {
+      clearErrors("password_confirmation");
+    }
+  }, [watch("password_confirmation")]);
 
   return (
     <form
@@ -57,7 +177,7 @@ export default function CompanyRegisterForm({
           Company Name *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${errors.name && "InputError"}`}
           {...register("name", { required: true })}
           id="CompanyRegisterName"
           type="text"
@@ -72,7 +192,7 @@ export default function CompanyRegisterForm({
           Email *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${errors.email && "InputError"}`}
           {...register("email", { required: true })}
           id="CompanyRegisterEmail"
           type="email"
@@ -87,7 +207,7 @@ export default function CompanyRegisterForm({
           Phone Number *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${errors.phone && "InputError"}`}
           {...register("phone", { required: true })}
           id="CompanyRegisterPhone"
           type="text"
@@ -102,17 +222,19 @@ export default function CompanyRegisterForm({
           Country *
         </label>
         <select
-          className="form-control form-select"
+          className={`form-control form-select ${
+            errors.country_id && "InputError"
+          }`}
           {...register("country_id", { required: true })}
           id="CompanyRegisterCountry_Id"
           defaultValue={""}
         >
           <option value="">Choose Your Country</option>
-          <option value="1">Country 1</option>
-          <option value="2">Country 2</option>
-          <option value="3">Country 3</option>
-          <option value="4">Country 4</option>
-          <option value="5">Country 5</option>
+          {countries?.map((country: Country) => (
+            <option key={country.id} value={country.id}>
+              {country.name}
+            </option>
+          ))}
         </select>
         {errors.country_id && (
           <div className="text-danger text-small">
@@ -125,17 +247,19 @@ export default function CompanyRegisterForm({
           City *
         </label>
         <select
-          className="form-control form-select"
+          className={`form-control form-select ${
+            errors.city_id && "InputError"
+          }`}
           {...register("city_id", { required: true })}
           id="CompanyRegistercity_id"
           defaultValue={""}
         >
           <option value="">Choose Your City</option>
-          <option value="1">City 1</option>
-          <option value="2">City 2</option>
-          <option value="3">City 3</option>
-          <option value="4">City 4</option>
-          <option value="5">City 5</option>
+          {currCities?.map((city: CITY) => (
+            <option key={city.id} value={city.id}>
+              {city.name}
+            </option>
+          ))}
         </select>
         {errors.city_id && (
           <div className="text-danger text-small">{errors.city_id.message}</div>
@@ -146,17 +270,19 @@ export default function CompanyRegisterForm({
           Industry *
         </label>
         <select
-          className="form-control form-select"
+          className={`form-control form-select ${
+            errors.industry_id && "InputError"
+          }`}
           {...register("industry_id", { required: true })}
           id="CompanyRegisterindustry_id"
           defaultValue={""}
         >
           <option value="">Choose Your Industry</option>
-          <option value="1">Industry 1</option>
-          <option value="2">Industry 2</option>
-          <option value="3">Industry 3</option>
-          <option value="4">Industry 4</option>
-          <option value="5">Industry 5</option>
+          {industries?.map((industry: Industry) => (
+            <option key={industry.id} value={industry.id}>
+              {industry.name}
+            </option>
+          ))}
         </select>
         {errors.industry_id && (
           <div className="text-danger text-small">
@@ -172,7 +298,9 @@ export default function CompanyRegisterForm({
           Commercial Certification *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${
+            errors.commercial_certification && "InputError"
+          }`}
           {...register("commercial_certification", { required: true })}
           id="CompanyRegistercommercial_certification"
           type="file"
@@ -191,7 +319,9 @@ export default function CompanyRegisterForm({
           Official Registeration *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${
+            errors.official_registeration && "InputError"
+          }`}
           {...register("official_registeration", { required: true })}
           id="CompanyRegisterofficial_registeration"
           type="file"
@@ -207,7 +337,7 @@ export default function CompanyRegisterForm({
           Password *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${errors.password && "InputError"}`}
           {...register("password", { required: true })}
           id="CompanyRegisterpassword"
           type={showPassword ? "text" : "password"}
@@ -240,7 +370,9 @@ export default function CompanyRegisterForm({
           password_confirmation *
         </label>
         <input
-          className="form-control"
+          className={`form-control ${
+            errors.password_confirmation && "InputError"
+          }`}
           {...register("password_confirmation", { required: true })}
           id="CompanyRegisterpassword_confirmation"
           type={showPasswordConfirm ? "text" : "password"}

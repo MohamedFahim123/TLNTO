@@ -19,16 +19,16 @@ export default function RegisterPage() {
     <section className="pt-100 login-register">
       <div className="container">
         <div className="row login-register-cover">
-          <div className="col-lg-10 col-md-12 mx-auto border border-1 border-radius-20 shadow p-4">
+          <div className="col-lg-9 col-md-12 mx-auto border border-1 border-radius-20 shadow p-4">
             <ul className="d-flex align-items-center gap-3 fw-bold border-bottom mb-4">
-              {/* <li
+              <li
                 onClick={() => handleUpdateUserLoginType("User")}
                 className={`${userLoginType === "User" ? styles.active : ""} ${
                   styles.cursorPointer
                 }`}
               >
                 User
-              </li> */}
+              </li>
               <li
                 onClick={() => handleUpdateUserLoginType("Company")}
                 className={`${
@@ -41,7 +41,7 @@ export default function RegisterPage() {
             </ul>
             <p className="fs-4 fw-bold text-brand-2">Register </p>
             <h2 className="mt-10 mb-5 text-brand-1">Start for free Today</h2>
-            {userLoginType === "User" && <UserRegisterForm />}
+            {userLoginType === "User" && <UserRegisterForm userLoginType={userLoginType} />}
             {userLoginType === "Company" && (
               <CompanyRegisterForm userLoginType={userLoginType} />
             )}
@@ -50,7 +50,7 @@ export default function RegisterPage() {
                 <div className="divider-text-center my-3">
                   <span>Or continue with</span>
                 </div>
-                <button className="btn social-login hover-up mb-20">
+                <button className="btn border-1 border border-radius-20 social-login hover-up mb-20">
                   <Image
                     width={20}
                     height={20}
