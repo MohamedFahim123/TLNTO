@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CompanyRegisterForm from "./CompanyRegisterForm";
 import styles from "./registerPage.module.css";
 import UserRegisterForm from "./UserRegisterForm";
+import Cookies from "js-cookie";
 
 export default function RegisterPage() {
   const [userLoginType, setUserLoginType] = useState<"User" | "Company">(
@@ -14,6 +15,12 @@ export default function RegisterPage() {
   const handleUpdateUserLoginType = (userLogiinType: "User" | "Company") => {
     setUserLoginType(userLogiinType);
   };
+
+  useEffect(() => {
+    if (userLoginType) {
+      Cookies.set("loginType", userLoginType);
+    }
+  }, [userLoginType]);
 
   return (
     <section className="pt-100 login-register">
@@ -41,7 +48,9 @@ export default function RegisterPage() {
             </ul>
             <p className="fs-4 fw-bold text-brand-2">Register </p>
             <h2 className="mt-10 mb-5 text-brand-1">Start for free Today</h2>
-            {userLoginType === "User" && <UserRegisterForm userLoginType={userLoginType} />}
+            {userLoginType === "User" && (
+              <UserRegisterForm userLoginType={userLoginType} />
+            )}
             {userLoginType === "Company" && (
               <CompanyRegisterForm userLoginType={userLoginType} />
             )}

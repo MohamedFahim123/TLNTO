@@ -8,8 +8,11 @@ import styles from "./dashboardStyles.module.css";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { DashboardUrls } from "@/app/[region]/dashboard/utils/URLS";
+import { MainRegion } from "@/app/utils/mainData";
+import Cookies from "js-cookie";
 
 export default function PostJobSection() {
+  const region: string = Cookies.get("region") || MainRegion;
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const {
@@ -63,7 +66,10 @@ export default function PostJobSection() {
               src="/assets/imgs/page/dashboard/home.svg"
               alt="jobBox"
             />
-            <Link className="d-flex align-items-center " href="/dashboard">
+            <Link
+              className="d-flex align-items-center "
+              href={`/${region}/dashboard`}
+            >
               Admin <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
             </Link>
             Post a Job

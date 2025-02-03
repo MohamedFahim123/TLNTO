@@ -4,9 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import styles from "./dashboardStyles.module.css";
 import { MdDelete } from "react-icons/md";
+import Cookies from "js-cookie";
+import { MainRegion } from "@/app/utils/mainData";
 
 export default function MyCVSection() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const region: string = Cookies.get("region") || MainRegion;
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -21,9 +24,9 @@ export default function MyCVSection() {
 
   return (
     <div className="col-12">
-      <div className="head d-flex align-items-center justify-content-between ">
-        <h4 className=" my-4">My CV</h4>
-        <div className="links bg-white border border-black border-opacity-10 border-1 rounded-3 py-2 px-4 text-black-50 ">
+      <div className="head d-flex align-items-center justify-content-between">
+        <h4 className=" my-4">My Journey</h4>
+        <div className="links bg-white border border-black border-opacity-10 border-1 rounded-3 py-2 px-4 text-black-50">
           <span className="d-flex align-items-center justify-content-center">
             <Image
               className="me-1 lh-2"
@@ -32,10 +35,13 @@ export default function MyCVSection() {
               src="/assets/imgs/page/dashboard/home.svg"
               alt="jobBox"
             />
-            <Link className="d-flex align-items-center " href="/dashboard">
+            <Link
+              className="d-flex align-items-center"
+              href={`/${region}/dashboard`}
+            >
               Admin <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
             </Link>
-            My CV
+            My Journey
           </span>
         </div>
       </div>
@@ -173,7 +179,7 @@ export default function MyCVSection() {
         }
       >
         <div className={"container py-4"}>
-          <h5 className={styles.title}>Work & Experience</h5>
+          <h5 className={styles.title}>Work Experience</h5>
           <div className="row mt-3">
             <div className="col-lg-6 mb-3">
               <label className={`${styles.formLabel} mb-2`} htmlFor="CVCompany">
@@ -329,12 +335,17 @@ export default function MyCVSection() {
               <label htmlFor="cvSkill" className={`${styles.formLabel} mb-2`}>
                 Skill
               </label>
-              <input
-                className={styles.formControl}
-                type="text"
+              <select
+                className={`${styles.formControl} form-select`}
                 id="cvSkill"
-                placeholder="Lorem ipsum"
-              />
+                defaultValue={""}
+              >
+                <option value="" disabled>Select A Skill</option>
+                <option value="1">Software</option>
+                <option value="2">Finance</option>
+                <option value="3">Recruting</option>
+                <option value="4">Management</option>
+              </select>
             </div>
             <div className="col-lg-12 mt-3">
               <button className={styles.submitButton}>Add Skills</button>
@@ -397,7 +408,7 @@ export default function MyCVSection() {
                 className={`${styles.formLabel} mb-2`}
                 htmlFor="CertificationAvalable"
               >
-                Course Provider Institution *
+                Certification Available? (Yes / No) *
               </label>
               <select
                 className={`${styles.formControl} form-select`}

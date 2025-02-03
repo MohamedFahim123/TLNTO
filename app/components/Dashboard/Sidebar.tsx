@@ -116,17 +116,17 @@ function Sidebar() {
                   src="/assets/imgs/page/dashboard/profiles.svg"
                   alt="jobBox"
                 />
-                <span className="name">My Profiles</span>
+                <span className="name">My Profile</span>
               </Link>
             </li>
             <li>
               <Link
                 className={`px-3 py-3 d-flex justify-content-start fs-6 fw-bold align-items-center gap-2 ${
-                  pathName === `/${currRegion}/dashboard/my-cv`
+                  pathName === `/${currRegion}/dashboard/my-journey`
                     ? `${styles.active}`
                     : ""
                 }`}
-                href={`/${currRegion}/dashboard/my-cv`}
+                href={`/${currRegion}/dashboard/my-journey`}
               >
                 <Image
                   width={23}
@@ -134,7 +134,7 @@ function Sidebar() {
                   src="/assets/imgs/page/dashboard/cv-manage.svg"
                   alt="jobBox"
                 />
-                <span className="name">CV Manage</span>
+                <span className="name">My Journey</span>
               </Link>
             </li>
             <li>

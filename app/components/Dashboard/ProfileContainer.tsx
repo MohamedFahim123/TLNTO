@@ -1,7 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import { MainRegion } from "@/app/utils/mainData";
 
 export default function ProfileContainer() {
+  const region: string = Cookies.get("region") || MainRegion;
+
   return (
     <>
       <div className="head d-flex align-items-center justify-content-between ">
@@ -15,7 +20,10 @@ export default function ProfileContainer() {
               src="/assets/imgs/page/dashboard/home.svg"
               alt="jobBox"
             />
-            <Link className="d-flex align-items-center " href="/dashboard">
+            <Link
+              className="d-flex align-items-center"
+              href={`/${region}/dashboard`}
+            >
               Admin <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
             </Link>
             My Profile
@@ -81,18 +89,6 @@ export default function ProfileContainer() {
                       />
                     </div>
                   </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Personal website
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="https://alithemes.com"
-                      />
-                    </div>
-                  </div>
                   <div className="col-lg-12">
                     <div className="form-group mb-30">
                       <label className="font-sm color-text-mutted mb-10">
@@ -131,30 +127,6 @@ export default function ProfileContainer() {
                         className="form-control"
                         type="text"
                         placeholder="Certificate"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Languages
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="English, French"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Categories
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="UI/UX designer"
                       />
                     </div>
                   </div>
@@ -233,59 +205,6 @@ export default function ProfileContainer() {
                     </div>
                   </div>
                   <div className="col-lg-12">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Find On Map
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="205 North Michigan Avenue, Suite 810, Chicago, 60601, USA"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Latitude
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="41.881832"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Longitude
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder=" -87.623177"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Google Map
-                      </label>
-                      <div className="box-map">
-                        <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.4860084541583!2d-87.62575418429162!3d41.88608087922149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2ca8b34afe61%3A0x6caeb5f721ca846!2s205%20N%20Michigan%20Ave%20Suit%20810%2C%20Chicago%2C%20IL%2060601%2C%20Hoa%20K%E1%BB%B3!5e1!3m2!1svi!2s!4v1663165156864!5m2!1svi!2s"
-                          style={{ border: 0 }}
-                          loading="lazy"
-                          referrerPolicy="no-referrer-when-downgrade"
-                          width="100%"
-                          height={400}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
                     <div className="form-group mt-0">
                       <button className="btn btn-default btn-brand icon-tick">
                         Save Change
@@ -299,7 +218,7 @@ export default function ProfileContainer() {
         </div>
       </div>
       <div className="col-xxl-3 col-xl-4 col-lg-4 mt-sm-4 mt-lg-0">
-        <div className="section-box py-3 mb-4 border border-black border-opacity-10 border-1 rounded-4 bg-white">
+        {/* <div className="section-box py-3 mb-4 border border-black border-opacity-10 border-1 rounded-4 bg-white">
           <div className="container">
             <div className="panel-white">
               <div className="panel-head">
@@ -382,12 +301,12 @@ export default function ProfileContainer() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white">
           <div className="container">
             <div className="panel-white">
               <div className="panel-head">
-                <h5>My Skill</h5>
+                <h5>Familiar With...</h5>
                 <a
                   className="menudrop"
                   id="dropdownMenu3"
@@ -421,11 +340,18 @@ export default function ProfileContainer() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="form-group mb-30">
-                      <input
-                        className="form-control icon-search-right"
-                        type="text"
-                        placeholder="E.g. Angular, Laravel..."
-                      />
+                      <select
+                        className="form-control form-select icon-search-right"
+                        defaultValue={""}
+                      >
+                        <option value="" disabled>
+                          Familiar With
+                        </option>
+                        <option value="1">HTML</option>
+                        <option value="2">CSS</option>
+                        <option value="3">Javascript</option>
+                        <option value="4">PHP</option>
+                      </select>
                     </div>
                   </div>
                   <div className="col-lg-12">

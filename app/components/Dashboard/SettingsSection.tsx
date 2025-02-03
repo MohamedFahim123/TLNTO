@@ -1,8 +1,13 @@
+"use client";
 import Image from "next/image";
 import styles from "./dashboardStyles.module.css";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import { MainRegion } from "@/app/utils/mainData";
 
 export default function SettingsSection() {
+  const region: string = Cookies.get("region") || MainRegion;
+
   return (
     <div className="container">
       <div className="head d-flex align-items-center justify-content-between ">
@@ -16,7 +21,10 @@ export default function SettingsSection() {
               src="/assets/imgs/page/dashboard/home.svg"
               alt="jobBox"
             />
-            <Link className="d-flex align-items-center " href="/dashboard">
+            <Link
+              className="d-flex align-items-center"
+              href={`/${region}/dashboard`}
+            >
               Admin <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
             </Link>
             Settings

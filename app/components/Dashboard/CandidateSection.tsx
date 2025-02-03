@@ -7,12 +7,15 @@ import Candidate from "./Candidate";
 import { CandidateElement, candidates } from "./candidates";
 import Pagination from "./Pagination";
 import ShowSelect from "./ShowSelect";
+import { MainRegion } from "@/app/utils/mainData";
+import Cookies from "js-cookie";
 
 export default function CandidateSection() {
   const alphabet: string[] = "abcdefghijklmnopqrstuvwxyz".split("");
   const [filteredData, setFilteredData] =
     useState<CandidateElement[]>(candidates);
   const [active, setActive] = useState<string>("");
+  const region: string = Cookies.get("region") || MainRegion;
 
   function handleClick(constter: string) {
     const newData: CandidateElement[] = candidates.filter((item) =>
@@ -92,8 +95,8 @@ export default function CandidateSection() {
                 src="/assets/imgs/page/dashboard/home.svg"
                 alt="jobBox"
               />
-              <Link className="d-flex align-items-center " href="/dashboard">
-                Admin{" "}
+              <Link className="d-flex align-items-center" href={`/${region}/dashboard`}>
+                Admin
                 <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
               </Link>
               Candidates
@@ -102,9 +105,7 @@ export default function CandidateSection() {
         </div>
         <div className="section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white">
           <div className="container">
-            <div
-              className={``}
-            >
+            <div className={``}>
               <div className="box-padding">
                 <div className="row mb-30">
                   <div className="col-12">

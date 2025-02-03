@@ -9,11 +9,14 @@ import ListView from "./ListView";
 import Pagination from "./Pagination";
 import { PRODUCT, products } from "./product";
 import ShowSelect from "./ShowSelect";
+import { MainRegion } from "@/app/utils/mainData";
+import Cookies from "js-cookie";
 
 export default function AllJobsPage() {
   const [sortType, setSortType] = useState<"title" | "date" | "salary">(
     "title"
   );
+  const region: string = Cookies.get("region") || MainRegion;
   const [sortedData, setSortedData] = useState<PRODUCT[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const showLimit: number = 8,
@@ -91,7 +94,6 @@ export default function AllJobsPage() {
     setActiveTab(index);
   };
 
-  
   return (
     <>
       <div className="col-lg-12">
@@ -106,7 +108,10 @@ export default function AllJobsPage() {
                 src="/assets/imgs/page/dashboard/home.svg"
                 alt="jobBox"
               />
-              <Link className="d-flex align-items-center " href="/dashboard">
+              <Link
+                className="d-flex align-items-center"
+                href={`/${region}/dashboard`}
+              >
                 Admin{" "}
                 <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
               </Link>

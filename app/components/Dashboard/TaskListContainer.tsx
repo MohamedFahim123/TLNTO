@@ -6,11 +6,14 @@ import BrandSlider from "./BrandSlider";
 import MyTask from "./MyTask";
 import Pagination from "./Pagination";
 import { tasks } from "./task";
+import Cookies from "js-cookie";
+import { MainRegion } from "@/app/utils/mainData";
 
 export default function TaskListContainer() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const showLimit: number = 12;
   const showPagination: number = 4;
+  const region: string = Cookies.get("region") || MainRegion;
 
   const [pagination, setPagination] = useState<number[] | []>([]);
   const limit: number = showLimit;
@@ -64,7 +67,10 @@ export default function TaskListContainer() {
                 src="/assets/imgs/page/dashboard/home.svg"
                 alt="jobBox"
               />
-              <Link className="d-flex align-items-center " href="/dashboard">
+              <Link
+                className="d-flex align-items-center"
+                href={`/${region}/dashboard`}
+              >
                 Admin{" "}
                 <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
               </Link>
