@@ -1,29 +1,25 @@
-import Image from "next/image";
+import { Job } from "@/app/store/GetAllJobsCompanyDashboard";
 import Link from "next/link";
-import { useState } from "react";
 import Modal from "../Modal";
-import { PRODUCT } from "./product";
-export default function GridView({ job }: { job: PRODUCT }) {
-  const [modalToggle, setModalToggle] = useState<boolean>(false);
-  const handleModal = () => setModalToggle(!modalToggle);
 
+export default function GridView({ job }: { job: Job }) {
   return (
     <>
       <div className="card-grid-2 hover-up">
         <div className="card-grid-2-image-left">
           <span className="flash" />
           <div className="image-box">
-            <Image
+            {/* <Image
               width={50}
               height={50}
               src={`/assets/imgs/brands/${job.img}`}
               alt="jobBox"
-            />
+            /> */}
           </div>
           <div className="right-info">
-            <Link className="name-job" href="/company-details">
+            {/* <Link className="name-job" href="/company-details">
               {job.company}
-            </Link>
+            </Link> */}
             <span className="location-small">New York, US</span>
           </div>
         </div>
@@ -32,17 +28,19 @@ export default function GridView({ job }: { job: PRODUCT }) {
             <Link href="/job-details">{job.title}</Link>
           </h6>
           <div className="mt-5">
-            <span className="card-briefcase">{job.type} </span>
+            <span className="card-briefcase">{job.work_place_type_name} </span>
             <span className="card-time">
-              {job.date}
+              {job.salary}
               <span> minutes ago</span>
             </span>
           </div>
-          <p className="font-sm color-text-paragraph mt-15">{job.desc}</p>
+          <p className="font-sm color-text-paragraph mt-15">
+            {job.description}
+          </p>
           <div className="mt-30">
             {job.tags.map((item, i) => (
               <Link className="btn btn-grey-small mr-5" href="#" key={i}>
-                {item}
+                {item.name}
               </Link>
             ))}
           </div>
@@ -50,12 +48,7 @@ export default function GridView({ job }: { job: PRODUCT }) {
             <div className="row">
               <div className="col-lg-7 col-7">
                 <span className="card-text-price">${job.salary}</span>
-                <span className="text-muted">/Hour</span>
-              </div>
-              <div className="col-lg-5 col-5 text-end">
-                <div className="btn btn-apply-now" onClick={handleModal}>
-                  Apply now
-                </div>
+                {/* <span className="text-muted">/Hour</span> */}
               </div>
             </div>
           </div>

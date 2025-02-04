@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: "Your Favourite Job Portal.",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
     <>
       <div className="bg-homepage1" />

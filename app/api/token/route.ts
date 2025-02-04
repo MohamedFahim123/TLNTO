@@ -13,8 +13,8 @@ export async function POST(req: NextRequest) {
 
     response.cookies.set("TLNTO_TOKEN", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: true,
+      sameSite: "lax",
       path: "/",
       maxAge: 86400,
     });

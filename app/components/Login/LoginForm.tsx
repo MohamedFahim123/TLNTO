@@ -21,6 +21,7 @@ export default function LoginForm({
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<CompanyAndUserLoginForm>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -47,9 +48,10 @@ export default function LoginForm({
 
       const token: string = response?.data?.data?.token;
       if (token) {
+        reset();
         await axios.post("/api/token", { token });
         window.location.href = `/${Region}/dashboard`;
-      }
+      };
     } catch (error) {
       toast.dismiss(toastId);
 

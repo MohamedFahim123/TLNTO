@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "Login to Tlnto",
 };
 
-export default function page() {
+export default async function page() {
   return <LoginPage />;
 }

@@ -17,7 +17,7 @@ export default function LoginPage() {
     <section className="pt-50 login-register">
       <div className="container">
         <div className="row login-register-cover">
-          <div className="col-lg-6 col-md-6 mx-auto border border-1 border-radius-20 shadow p-4">
+          <div className="col-lg-5 col-md-6 mx-auto border border-1 border-radius-20 shadow p-4">
             <ul className="d-flex align-items-center gap-3 fw-bold border-bottom mb-4">
               <li
                 onClick={() => handleUpdateUserLoginType("User")}

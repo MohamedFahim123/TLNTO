@@ -340,7 +340,9 @@ export default function MyCVSection() {
                 id="cvSkill"
                 defaultValue={""}
               >
-                <option value="" disabled>Select A Skill</option>
+                <option value="" disabled>
+                  Select A Skill
+                </option>
                 <option value="1">Software</option>
                 <option value="2">Finance</option>
                 <option value="3">Recruting</option>
@@ -390,6 +392,21 @@ export default function MyCVSection() {
             <div className="col-lg-6 mb-3">
               <label
                 className={`${styles.formLabel} mb-2`}
+                htmlFor="CvCoursesTitle"
+              >
+                Course Title *
+              </label>
+              <input
+                className={styles.formControl}
+                type="text"
+                name="CvCoursesTitle"
+                id="CvCoursesTitle"
+                placeholder="Course Title"
+              />
+            </div>
+            <div className="col-lg-6 mb-3">
+              <label
+                className={`${styles.formLabel} mb-2`}
                 htmlFor="institutionCvCourses"
               >
                 Course Provider Institution *
@@ -402,7 +419,6 @@ export default function MyCVSection() {
                 placeholder="Course Provider Institution"
               />
             </div>
-            <div className="col-lg-6 mb-3 d-md-none d-lg-block"></div>
             <div className="col-lg-6 mb-3">
               <label
                 className={`${styles.formLabel} mb-2`}

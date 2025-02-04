@@ -7,6 +7,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { MainRegion } from "../utils/mainData";
 import { useCountriesStore } from "../store/Countries";
 import { useIndustriesStore } from "../store/Industries";
+import { useEmploymentTypesStore } from "../store/EmployMentTypes";
+import { useWorkPlaceTypesStore } from "../store/WorkPlaceTypes";
+import { useCategoriesStore } from "../store/MainCategories";
 
 interface HeaderProps {
   handleOpen: () => void;
@@ -20,6 +23,11 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
   const pathname = usePathname();
   const { countries, getCountries, countriesLoading } = useCountriesStore();
   const { industries, getIndustries, industriesLoading } = useIndustriesStore();
+  const { employmentTypesLoading, getEmploymentTypes, employmentTypes } =
+    useEmploymentTypesStore();
+  const { workPlaceTypes, getWorkPlaceTypes, workPlaceTypesLoading } =
+    useWorkPlaceTypesStore();
+  const { categories, getCategories, categoriesLoading } = useCategoriesStore();
 
   const getAllCountries = useCallback(() => {
     if (countries.length === 0 && !countriesLoading) {
@@ -33,10 +41,37 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
     }
   }, [getIndustries, industriesLoading, industries.length]);
 
+  const getAllemploymentTypes = useCallback(() => {
+    if (employmentTypes.length === 0 && !employmentTypesLoading) {
+      getEmploymentTypes();
+    }
+  }, [getEmploymentTypes, employmentTypesLoading, employmentTypes.length]);
+
+  const getAllWorkPlaceTypes = useCallback(() => {
+    if (workPlaceTypes.length === 0 && !workPlaceTypesLoading) {
+      getWorkPlaceTypes();
+    }
+  }, [getWorkPlaceTypes, workPlaceTypesLoading, workPlaceTypes.length]);
+
+  const getAllCategories = useCallback(() => {
+    if (categories.length === 0 && !categoriesLoading) {
+      getCategories();
+    }
+  }, [getCategories, categoriesLoading, categories.length]);
+
   useEffect(() => {
     getAllCountries();
     getAllIndustries();
-  }, [getAllCountries, getAllIndustries]);
+    getAllemploymentTypes();
+    getAllWorkPlaceTypes();
+    getAllCategories();
+  }, [
+    getAllCountries,
+    getAllIndustries,
+    getAllWorkPlaceTypes,
+    getAllemploymentTypes,
+    getAllCategories,
+  ]);
 
   useEffect(() => {
     document.addEventListener("scroll", () => {
