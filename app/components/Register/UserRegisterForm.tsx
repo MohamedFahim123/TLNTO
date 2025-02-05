@@ -1,14 +1,16 @@
 "use client";
-import Link from "next/link";
-import { MainRegion } from "@/app/utils/mainData";
-import Cookies from "js-cookie";
+
 import { UserRegisterFormInputs } from "@/app/[region]/auth/utils/interface";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { AuthUrls } from "@/app/[region]/auth/utils/URLS";
+import { MainRegion } from "@/app/utils/mainData";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function UserRegisterForm({
   userLoginType,
@@ -18,6 +20,7 @@ export default function UserRegisterForm({
   const Region: string = Cookies.get("region") || MainRegion;
   const {
     register,
+    reset,
     watch,
     handleSubmit,
     setError,
@@ -25,6 +28,7 @@ export default function UserRegisterForm({
     formState: { errors, isSubmitting },
   } = useForm<UserRegisterFormInputs>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const router = useRouter();
   const [showPasswordConfirm, setShowPasswordConfirm] =
     useState<boolean>(false);
 
@@ -46,24 +50,20 @@ export default function UserRegisterForm({
         },
       });
 
-      toast.update(toastId, {
-        render: response?.data?.message || "Registration Successful!",
-        type: "success",
-        isLoading: false,
-        autoClose: 1000,
+      toast.dismiss(toastId);
+
+      toast.success(response?.data?.message || "Registration Successful!", {
+        autoClose: 1500,
       });
 
       const token: string = response?.data?.data?.token;
       if (token) {
-        Cookies.set("TLNTO_TOKEN", token, {
-          httpOnly: true,
-          secure: true,
-          sameSite: "Strict",
-          expires: 1,
-        });
-        window.location.href = `/${Region}/dashboard`;
+        reset();
+        await axios.post("/api/token", { token });
+        router.push(`/${Region}/dashboard`);
       }
     } catch (error) {
+      toast.dismiss(toastId);
       if (axios.isAxiosError(error)) {
         const errorResponse = error.response?.data;
         if (errorResponse?.errors) {
@@ -72,19 +72,17 @@ export default function UserRegisterForm({
               type: "server",
               message: errorResponse.errors[field][0],
             });
-            toast.update(toastId, {
-              render: errorResponse.errors[field][0],
-              type: "error",
-              isLoading: false,
-              autoClose: 1500,
-            });
+
+            toast.error(
+              errorResponse.errors[field][0] || "Registration failed!",
+              {
+                autoClose: 1500,
+              }
+            );
           });
         }
       } else {
-        toast.update(toastId, {
-          render: "An unexpected error occurred!",
-          type: "error",
-          isLoading: false,
+        toast.error("An unexpected error occurred!", {
           autoClose: 1500,
         });
       }
@@ -116,9 +114,7 @@ export default function UserRegisterForm({
           placeholder="First Name"
         />
         {errors.first_name && (
-          <div className="text-danger text-small">
-            {errors.first_name.message}
-          </div>
+          <div className="text-danger text-sm">{errors.first_name.message}</div>
         )}
       </div>
       <div className="form-group col-lg-6">
@@ -133,9 +129,7 @@ export default function UserRegisterForm({
           placeholder="last Name"
         />
         {errors.last_name && (
-          <div className="text-danger text-small">
-            {errors.last_name.message}
-          </div>
+          <div className="text-danger text-sm">{errors.last_name.message}</div>
         )}
       </div>
       <div className="form-group col-lg-6">
@@ -150,7 +144,7 @@ export default function UserRegisterForm({
           placeholder="User@email.com"
         />
         {errors.email && (
-          <div className="text-danger text-small">{errors.email.message}</div>
+          <div className="text-danger text-sm">{errors.email.message}</div>
         )}
       </div>
       <div className="form-group col-lg-6">
@@ -165,7 +159,7 @@ export default function UserRegisterForm({
           placeholder="Phone Number"
         />
         {errors.phone && (
-          <div className="text-danger text-small">{errors.phone.message}</div>
+          <div className="text-danger text-sm">{errors.phone.message}</div>
         )}
       </div>
       <div className="form-group col-lg-6">
@@ -180,9 +174,7 @@ export default function UserRegisterForm({
           placeholder="**********"
         />
         {errors.password && (
-          <div className="text-danger text-small">
-            {errors.password.message}
-          </div>
+          <div className="text-danger text-sm">{errors.password.message}</div>
         )}
         {showPassword ? (
           <FaEyeSlash
@@ -215,7 +207,7 @@ export default function UserRegisterForm({
           placeholder="**********"
         />
         {errors.password_confirmation && (
-          <div className="text-danger text-small">
+          <div className="text-danger text-sm">
             {errors.password_confirmation.message}
           </div>
         )}

@@ -1,4 +1,5 @@
 "use client";
+
 import { CompanyRegisterFrom } from "@/app/[region]/auth/utils/interface";
 import { AuthUrls } from "@/app/[region]/auth/utils/URLS";
 import { Country, useCountriesStore } from "@/app/store/Countries";
@@ -7,6 +8,7 @@ import { baseUrl, MainRegion } from "@/app/utils/mainData";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -37,6 +39,7 @@ export default function CompanyRegisterForm({
     useState<boolean>(false);
   const { countries } = useCountriesStore();
   const { industries } = useIndustriesStore();
+  const router = useRouter();
 
   const [currCities, setCurrCities] = useState<CITY[]>([]);
   const getCurrCitiesInsideChosenCountry = async () => {
@@ -122,8 +125,9 @@ export default function CompanyRegisterForm({
       reset();
       const token: string = response?.data?.data?.token;
       if (token) {
-        Cookies.set("TLNTO_TOKEN", token);
-        window.location.href = `/${Region}/dashboard`;
+        reset();
+        await axios.post("/api/token", { token });
+        router.push(`/${Region}/dashboard`);
       }
     } catch (error) {
       toast.dismiss(toastId);
@@ -168,7 +172,6 @@ export default function CompanyRegisterForm({
     }
   }, [watch("password_confirmation")]);
 
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -180,7 +183,7 @@ export default function CompanyRegisterForm({
         </label>
         <input
           className={`form-control ${errors.name && "InputError"}`}
-          {...register("name", { required: 'Required' })}
+          {...register("name", { required: "Required" })}
           id="CompanyRegisterName"
           type="text"
           placeholder="Company Name"
@@ -195,7 +198,7 @@ export default function CompanyRegisterForm({
         </label>
         <input
           className={`form-control ${errors.email && "InputError"}`}
-          {...register("email", { required: 'Required' })}
+          {...register("email", { required: "Required" })}
           id="CompanyRegisterEmail"
           type="email"
           placeholder="Company@email.com"
@@ -210,7 +213,7 @@ export default function CompanyRegisterForm({
         </label>
         <input
           className={`form-control ${errors.phone && "InputError"}`}
-          {...register("phone", { required: 'Required' })}
+          {...register("phone", { required: "Required" })}
           id="CompanyRegisterPhone"
           type="text"
           placeholder="Phone Number"
@@ -227,7 +230,7 @@ export default function CompanyRegisterForm({
           className={`form-control form-select ${
             errors.country_id && "InputError"
           }`}
-          {...register("country_id", { required: 'Required' })}
+          {...register("country_id", { required: "Required" })}
           id="CompanyRegisterCountry_Id"
           defaultValue={""}
         >
@@ -252,7 +255,7 @@ export default function CompanyRegisterForm({
           className={`form-control form-select ${
             errors.city_id && "InputError"
           }`}
-          {...register("city_id", { required: 'Required' })}
+          {...register("city_id", { required: "Required" })}
           id="CompanyRegistercity_id"
           defaultValue={""}
         >
@@ -275,7 +278,7 @@ export default function CompanyRegisterForm({
           className={`form-control form-select ${
             errors.industry_id && "InputError"
           }`}
-          {...register("industry_id", { required: 'Required' })}
+          {...register("industry_id", { required: "Required" })}
           id="CompanyRegisterindustry_id"
           defaultValue={""}
         >
@@ -303,7 +306,7 @@ export default function CompanyRegisterForm({
           className={`form-control ${
             errors.commercial_certification && "InputError"
           }`}
-          {...register("commercial_certification", { required: 'Required' })}
+          {...register("commercial_certification", { required: "Required" })}
           id="CompanyRegistercommercial_certification"
           type="file"
         />
@@ -324,7 +327,7 @@ export default function CompanyRegisterForm({
           className={`form-control ${
             errors.official_registeration && "InputError"
           }`}
-          {...register("official_registeration", { required: 'Required' })}
+          {...register("official_registeration", { required: "Required" })}
           id="CompanyRegisterofficial_registeration"
           type="file"
         />
@@ -340,7 +343,7 @@ export default function CompanyRegisterForm({
         </label>
         <input
           className={`form-control ${errors.password && "InputError"}`}
-          {...register("password", { required: 'Required' })}
+          {...register("password", { required: "Required" })}
           id="CompanyRegisterpassword"
           type={showPassword ? "text" : "password"}
           placeholder="**********"
@@ -375,7 +378,7 @@ export default function CompanyRegisterForm({
           className={`form-control ${
             errors.password_confirmation && "InputError"
           }`}
-          {...register("password_confirmation", { required: 'Required' })}
+          {...register("password_confirmation", { required: "Required" })}
           id="CompanyRegisterpassword_confirmation"
           type={showPasswordConfirm ? "text" : "password"}
           placeholder="**********"

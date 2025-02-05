@@ -1,11 +1,11 @@
 "use client";
 
+import Cookies from "js-cookie";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CompanyRegisterForm from "./CompanyRegisterForm";
 import styles from "./registerPage.module.css";
 import UserRegisterForm from "./UserRegisterForm";
-import Cookies from "js-cookie";
 
 export default function RegisterPage() {
   const [userLoginType, setUserLoginType] = useState<"User" | "Company">(

@@ -9,8 +9,8 @@ export default function LoginPage() {
     "Company"
   );
 
-  const handleUpdateUserLoginType = (userLogiinType: "User" | "Company") => {
-    setUserLoginType(userLogiinType);
+  const handleUpdateUserLoginType = (userLoginType: "User" | "Company") => {
+    setUserLoginType(userLoginType);
   };
 
   return (
