@@ -1,17 +1,26 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginForm from "./LoginForm";
 import styles from "./loginPage.module.css";
+import axios from "axios";
 
 export default function LoginPage() {
   const [userLoginType, setUserLoginType] = useState<"User" | "Company">(
     "Company"
   );
 
-  const handleUpdateUserLoginType = (userLoginType: "User" | "Company") => {
+  const handleUpdateUserLoginType = async (
+    userLoginType: "User" | "Company"
+  ) => {
     setUserLoginType(userLoginType);
   };
+
+  useEffect(() => {
+    (async () => {
+      await axios.post(`/api/login-type`, { loginType: userLoginType });
+    })();
+  }, [userLoginType]);
 
   return (
     <section className="pt-50 login-register">

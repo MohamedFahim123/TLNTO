@@ -1,11 +1,23 @@
 "use client";
 
+import { MainRegion } from "@/app/utils/mainData";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 function MobileMenu({ isToggled }: { isToggled: boolean }) {
   const pathName = usePathname();
+  const region: string = Cookies.get("region") || MainRegion;
+  const [loginTypeState, setLoginTypeState] = useState<string>("");
+  useEffect(() => {
+    (async () => {
+      const loginType = await axios.get("/api/get-login-type");
+      setLoginTypeState(loginType?.data?.loginType);
+    })();
+  }, []);
 
   return (
     <>
@@ -31,7 +43,7 @@ function MobileMenu({ isToggled }: { isToggled: boolean }) {
                         className={
                           pathName == "/" ? "dashboard2 active" : "dashboard2"
                         }
-                        href="/"
+                        href={`/${region}/dashboard`}
                       >
                         <Image
                           width={200}
@@ -42,130 +54,143 @@ function MobileMenu({ isToggled }: { isToggled: boolean }) {
                         <span className="name">Dashboard</span>
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        className={
-                          pathName == "/candidates"
-                            ? "dashboard2 active"
-                            : "dashboard2"
-                        }
-                        href="/candidates"
-                      >
-                        <Image
-                          width={200}
-                          height={200}
-                          src="/assets/imgs/page/dashboard/candidates.svg"
-                          alt="jobBox"
-                        />
-                        <span className="name">Candidates</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className={
-                          pathName == "/recruiters"
-                            ? "dashboard2 active"
-                            : "dashboard2"
-                        }
-                        href="/recruiters"
-                      >
-                        <Image
-                          width={200}
-                          height={200}
-                          src="/assets/imgs/page/dashboard/recruiters.svg"
-                          alt="jobBox"
-                        />
-                        <span className="name">Recruiters</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className={
-                          pathName == "/my-job-grid"
-                            ? "dashboard2 active"
-                            : "dashboard2"
-                        }
-                        href="/my-job-grid"
-                      >
-                        <Image
-                          width={200}
-                          height={200}
-                          src="/assets/imgs/page/dashboard/jobs.svg"
-                          alt="jobBox"
-                        />
-                        <span className="name">My Jobs</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className={
-                          pathName == "/my-tasks-list"
-                            ? "dashboard2 active"
-                            : "dashboard2"
-                        }
-                        href="/my-tasks-list"
-                      >
-                        <Image
-                          width={200}
-                          height={200}
-                          src="/assets/imgs/page/dashboard/tasks.svg"
-                          alt="jobBox"
-                        />
-                        <span className="name">Tasks List</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className={
-                          pathName == "/profile"
-                            ? "dashboard2 active"
-                            : "dashboard2"
-                        }
-                        href="/profile"
-                      >
-                        <Image
-                          width={200}
-                          height={200}
-                          src="/assets/imgs/page/dashboard/profiles.svg"
-                          alt="jobBox"
-                        />
-                        <span className="name">My Profiles</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className={
-                          pathName == "/my" ? "dashboard2 active" : "dashboard2"
-                        }
-                        href="/my-resume"
-                      >
-                        <Image
-                          width={200}
-                          height={200}
-                          src="/assets/imgs/page/dashboard/cv-manage.svg"
-                          alt="jobBox"
-                        />
-                        <span className="name">CV Manage</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className={
-                          pathName == "/settings"
-                            ? "dashboard2 active"
-                            : "dashboard2"
-                        }
-                        href="/settings"
-                      >
-                        <Image
-                          width={200}
-                          height={200}
-                          src="/assets/imgs/page/dashboard/settings.svg"
-                          alt="jobBox"
-                        />
-                        <span className="name">Setting</span>
-                      </Link>
-                    </li>
+
+                    {loginTypeState === "Compnay" && (
+                      <>
+                        <li>
+                          <Link
+                            className={
+                              pathName == "/candidates"
+                                ? "dashboard2 active"
+                                : "dashboard2"
+                            }
+                            href={`/${region}/candidates`}
+                          >
+                            <Image
+                              width={200}
+                              height={200}
+                              src="/assets/imgs/page/dashboard/candidates.svg"
+                              alt="jobBox"
+                            />
+                            <span className="name">Candidates</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className={
+                              pathName == "/recruiters"
+                                ? "dashboard2 active"
+                                : "dashboard2"
+                            }
+                            href={`/${region}/recruiters`}
+                          >
+                            <Image
+                              width={200}
+                              height={200}
+                              src="/assets/imgs/page/dashboard/recruiters.svg"
+                              alt="jobBox"
+                            />
+                            <span className="name">Recruiters</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className={
+                              pathName == "/my-job-grid"
+                                ? "dashboard2 active"
+                                : "dashboard2"
+                            }
+                            href={`/${region}/my-jobs`}
+                          >
+                            <Image
+                              width={200}
+                              height={200}
+                              src="/assets/imgs/page/dashboard/jobs.svg"
+                              alt="jobBox"
+                            />
+                            <span className="name">My Jobs</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className={
+                              pathName == "/my-tasks-list"
+                                ? "dashboard2 active"
+                                : "dashboard2"
+                            }
+                            href={`/${region}/my-tasks`}
+                          >
+                            <Image
+                              width={200}
+                              height={200}
+                              src="/assets/imgs/page/dashboard/tasks.svg"
+                              alt="jobBox"
+                            />
+                            <span className="name">Tasks List</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className={
+                              pathName == "/settings"
+                                ? "dashboard2 active"
+                                : "dashboard2"
+                            }
+                            href={`/${region}/settings`}
+                          >
+                            <Image
+                              width={200}
+                              height={200}
+                              src="/assets/imgs/page/dashboard/settings.svg"
+                              alt="jobBox"
+                            />
+                            <span className="name">Setting</span>
+                          </Link>
+                        </li>
+                      </>
+                    )}
+
+                    {loginTypeState === "User" && (
+                      <>
+                        <li>
+                          <Link
+                            className={
+                              pathName == "/profile"
+                                ? "dashboard2 active"
+                                : "dashboard2"
+                            }
+                            href={`/${region}/profile`}
+                          >
+                            <Image
+                              width={200}
+                              height={200}
+                              src="/assets/imgs/page/dashboard/profiles.svg"
+                              alt="jobBox"
+                            />
+                            <span className="name">My Profiles</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className={
+                              pathName == "/my"
+                                ? "dashboard2 active"
+                                : "dashboard2"
+                            }
+                            href={`/${region}/my-Journey`}
+                          >
+                            <Image
+                              width={200}
+                              height={200}
+                              src="/assets/imgs/page/dashboard/cv-manage.svg"
+                              alt="jobBox"
+                            />
+                            <span className="name">My Journey</span>
+                          </Link>
+                        </li>
+                      </>
+                    )}
+
                     <li>
                       <Link
                         className={
@@ -184,28 +209,10 @@ function MobileMenu({ isToggled }: { isToggled: boolean }) {
                         <span className="name">Authentication</span>
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        className={
-                          pathName == "/login"
-                            ? "dashboard2 active"
-                            : "dashboard2"
-                        }
-                        href="/login"
-                      >
-                        <Image
-                          width={200}
-                          height={200}
-                          src="/assets/imgs/page/dashboard/logout.svg"
-                          alt="jobBox"
-                        />
-                        <span className="name">Logout</span>
-                      </Link>
-                    </li>
                   </ul>
                 </nav>
               </div>
-              <div className="mobile-account">
+              {/* <div className="mobile-account">
                 <h6 className="mb-10">Your Account</h6>
                 <ul className="mobile-menu font-heading">
                   <li>
@@ -232,7 +239,7 @@ function MobileMenu({ isToggled }: { isToggled: boolean }) {
                     Post Job
                   </Link>
                 </div>
-              </div>
+              </div> */}
               <div className="site-copyright">
                 Copyright {new Date().getFullYear()} © JobBox. <br />
                 Designed by AliThemes.

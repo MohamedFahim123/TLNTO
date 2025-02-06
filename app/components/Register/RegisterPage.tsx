@@ -1,25 +1,27 @@
 "use client";
 
-import Cookies from "js-cookie";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CompanyRegisterForm from "./CompanyRegisterForm";
 import styles from "./registerPage.module.css";
 import UserRegisterForm from "./UserRegisterForm";
+import axios from "axios";
 
 export default function RegisterPage() {
   const [userLoginType, setUserLoginType] = useState<"User" | "Company">(
     "Company"
   );
 
-  const handleUpdateUserLoginType = (userLogiinType: "User" | "Company") => {
-    setUserLoginType(userLogiinType);
+  const handleUpdateUserLoginType = async (
+    userLoginType: "User" | "Company"
+  ) => {
+    setUserLoginType(userLoginType);
   };
 
   useEffect(() => {
-    if (userLoginType) {
-      Cookies.set("loginType", userLoginType);
-    }
+    (async () => {
+      await axios.post(`/api/login-type`, { loginType: userLoginType });
+    })();
   }, [userLoginType]);
 
   return (

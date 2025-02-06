@@ -42,6 +42,7 @@ export const useJobsCompanyDashboardStore =
     getCompanyDashboardJobs: async () => {
       const currentTime: number = new Date().getTime();
       const tokenResponse = await axios.get("/api/get-token");
+      const token: string = tokenResponse?.data?.token;
       if (currentTime - lastFetchedTime < CACHE_EXPIRATION_TIME) {
         return;
       }
@@ -55,7 +56,7 @@ export const useJobsCompanyDashboardStore =
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              Authorization: `Bearer ${tokenResponse?.data?.token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );

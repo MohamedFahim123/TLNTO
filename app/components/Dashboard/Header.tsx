@@ -1,22 +1,25 @@
 "use client";
 
+import { useCountriesStore } from "@/app/store/Countries";
+import { useEmploymentTypesStore } from "@/app/store/EmployMentTypes";
+import { useJobsCompanyDashboardStore } from "@/app/store/GetAllJobsCompanyDashboard";
+import { useIndustriesStore } from "@/app/store/Industries";
+import { useCategoriesStore } from "@/app/store/MainCategories";
+import { useWorkPlaceTypesStore } from "@/app/store/WorkPlaceTypes";
+import { MainRegion } from "@/app/utils/mainData";
+import axios from "axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import styles from "./dashboardStyles.module.css";
-import { MainRegion } from "@/app/utils/mainData";
-import { useWorkPlaceTypesStore } from "@/app/store/WorkPlaceTypes";
-import { useEmploymentTypesStore } from "@/app/store/EmployMentTypes";
-import { useCountriesStore } from "@/app/store/Countries";
-import { useIndustriesStore } from "@/app/store/Industries";
-import { useCategoriesStore } from "@/app/store/MainCategories";
-import { useJobsCompanyDashboardStore } from "@/app/store/GetAllJobsCompanyDashboard";
+import { useProfileStore } from "@/app/store/Profile";
 
 function Header() {
   const [scroll, setScroll] = useState<boolean | 0>(0);
-  const loginType: string = Cookies.get("loginType") || "";
   const region: string = Cookies.get("region") || MainRegion;
+  const [loginTypeState, setLoginTypeState] = useState<string>("");
+
   useEffect(() => {
     document.addEventListener("scroll", () => {
       const scrollCheck = window.scrollY > 100;
@@ -27,6 +30,7 @@ function Header() {
   });
 
   const { countries, getCountries, countriesLoading } = useCountriesStore();
+  const { profile, getProfile, profileLoading } = useProfileStore();
   const { industries, getIndustries, industriesLoading } = useIndustriesStore();
   const {
     companyDashboardJobs,
@@ -79,23 +83,38 @@ function Header() {
     companyDashboardJobs.length,
   ]);
 
+  const getProfileData = useCallback(() => {
+    if (!profileLoading) {
+      getProfile();
+    }
+  }, [getProfile, profileLoading]);
+
+  useEffect(() => {
+    (async () => {
+      const loginType = await axios.get("/api/get-login-type");
+      setLoginTypeState(loginType?.data?.loginType);
+    })();
+  }, []);
+
   useEffect(() => {
     getAllCountries();
     getAllIndustries();
     getAllemploymentTypes();
     getAllWorkPlaceTypes();
     getAllCategories();
-    if (loginType === "Company") {
+    getProfileData();
+    if (loginTypeState === "Company") {
       getAllCompanyDashboardJobs();
     }
   }, [
     getAllCountries,
+    getProfileData,
     getAllCategories,
     getAllIndustries,
     getAllWorkPlaceTypes,
     getAllemploymentTypes,
     getAllCompanyDashboardJobs,
-    loginType,
+    loginTypeState,
   ]);
 
   return (
@@ -119,7 +138,7 @@ function Header() {
                 </Link>
               </div>
               <span className="btn btn-grey-small ml-10">
-                Company Dashboard
+                {loginTypeState} Dashboard
               </span>
             </div>
             <div className="header-menu d-none d-md-block">
@@ -139,22 +158,27 @@ function Header() {
             </div>
             <div className="header-right">
               <div className="block-signin d-flex justify-content-between align-items-center gap-4">
-                <Link
-                  className="btn btn-default icon-edit hover-up"
-                  href={`/${region}/dashboard/post-job`}
-                >
-                  Post Job
-                </Link>
+                {!(loginTypeState === "User") && (
+                  <Link
+                    className="btn btn-default icon-edit hover-up"
+                    href={`/${region}/dashboard/post-job`}
+                  >
+                    Post Job
+                  </Link>
+                )}
 
                 <div className="member-login d-flex justify-content-between align-items-center gap-2">
                   <Image
                     width={50}
                     height={50}
                     alt="jobImg"
-                    src="/assets/imgs/page/dashboard/profile.png"
+                    src={
+                      profile?.companyLogo ||
+                      "/assets/imgs/page/homepage1/user3.png"
+                    }
                   />
                   <div className="info-member">
-                    <strong className="color-brand-1">Steven Jobs</strong>
+                    <strong className="color-brand-1">{profile?.name}</strong>
                   </div>
                 </div>
               </div>
