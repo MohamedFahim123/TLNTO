@@ -10,6 +10,9 @@ import { useIndustriesStore } from "../store/Industries";
 import { useEmploymentTypesStore } from "../store/EmployMentTypes";
 import { useWorkPlaceTypesStore } from "../store/WorkPlaceTypes";
 import { useCategoriesStore } from "../store/MainCategories";
+import axios from "axios";
+import { RxAvatar } from "react-icons/rx";
+import { BiLogOut } from "react-icons/bi";
 
 interface HeaderProps {
   handleOpen: () => void;
@@ -20,6 +23,7 @@ interface HeaderProps {
 const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
   const [scroll, setScroll] = useState<number | boolean>(0);
   const Region: string = Cookies.get("region") || MainRegion;
+  const [userLoginned, setUserLoginned] = useState<boolean>(false);
   const pathname = usePathname();
   const { countries, getCountries, countriesLoading } = useCountriesStore();
   const { industries, getIndustries, industriesLoading } = useIndustriesStore();
@@ -82,6 +86,15 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
     });
   }, [scroll]);
 
+  useEffect(() => {
+    (async () => {
+      const token = await axios.get("/api/get-token");
+      setUserLoginned(token ? true : false);
+    })();
+  }, []);
+
+  console.log(userLoginned);
+
   return (
     <>
       <header
@@ -117,64 +130,78 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
                 <ul className="main-menu">
                   <li>
                     <Link
-                      legacyBehavior
-                      href={`/${Region}/jobs/home`}
-                      className={"active"}
+                      className={
+                        pathname === `/${Region}/jobs/find-job` ? "active" : ""
+                      }
+                      href={`/${Region}/jobs/find-job`}
                     >
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link legacyBehavior href={`/${Region}/jobs/find-job`}>
                       Find a Job
                     </Link>
                   </li>
                   <li>
-                    <Link legacyBehavior href={`/${Region}/jobs/recruiters`}>
+                    <Link
+                      className={
+                        pathname === `/${Region}/jobs/recruiters`
+                          ? "active"
+                          : ""
+                      }
+                      href={`/${Region}/jobs/recruiters`}
+                    >
                       Recruiters
                     </Link>
                   </li>
                   <li>
-                    <Link legacyBehavior href={`/${Region}/jobs/candidates`}>
-                      Candidates
+                    <Link
+                      className={
+                        pathname === `/${Region}/jobs/advicev` ? "active" : ""
+                      }
+                      href={`/${Region}/advicev`}
+                    >
+                      Advicev
                     </Link>
-                  </li>
-                  <li className="has-children">
-                    <Link legacyBehavior href={`/${Region}/jobs/about-us`}>
-                      Pages
-                    </Link>
-
-                    <ul className="sub-menu">
-                      <li>
-                        <Link legacyBehavior href={`/${Region}/jobs/about-us`}>
-                          About Us
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          legacyBehavior
-                          href={`/${Region}/jobs/pricing-plan`}
-                        >
-                          <a>Pricing Plan</a>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          legacyBehavior
-                          href={`/${Region}/jobs/content-protected`}
-                        >
-                          Content Protected
-                        </Link>
-                      </li>
-                    </ul>
                   </li>
                   <li>
-                    <Link legacyBehavior href={`/${Region}/jobs/blogs`}>
+                    <Link
+                      className={
+                        pathname === `/${Region}/jobs/about-us` ? "active" : ""
+                      }
+                      href={`/${Region}/jobs/about-us`}
+                    >
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link legacyBehavior href={`/${Region}/jobs/pricing-plan`}>
+                      <a
+                        className={
+                          pathname === `/${Region}/jobs/pricing-plan`
+                            ? "active"
+                            : ""
+                        }
+                      >
+                        Pricing Plan
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className={
+                        pathname === `/${Region}/jobs/blogs` ? "active" : ""
+                      }
+                      href={`/${Region}/jobs/blogs`}
+                    >
                       Blogs
                     </Link>
                   </li>
                   <li>
-                    <Link legacyBehavior href={`/${Region}/jobs/contact-us`}>
+                    <Link
+                      className={
+                        pathname === `/${Region}/jobs/contact-us`
+                          ? "active"
+                          : ""
+                      }
+                      href={`/${Region}/jobs/contact-us`}
+                    >
                       Contact Us
                     </Link>
                   </li>
@@ -196,14 +223,29 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
             </div>
             <div className="header-right">
               <div className="block-signin">
-                <Link legacyBehavior href={`/${Region}/auth/register`}>
-                  <a className="text-link-bd-btom hover-up">Register</a>
-                </Link>
-                <Link legacyBehavior href={`/${Region}/auth/login`}>
-                  <a className="btn btn-default btn-shadow ml-40 hover-up">
-                    Sign in
-                  </a>
-                </Link>
+                {!userLoginned ? (
+                  <>
+                    <Link legacyBehavior href={`/${Region}/auth/register`}>
+                      <a className="text-link-bd-btom hover-up">Register</a>
+                    </Link>
+                    <Link legacyBehavior href={`/${Region}/auth/login`}>
+                      <a className="btn btn-default btn-shadow ml-40 hover-up">
+                        Sign in
+                      </a>
+                    </Link> 
+                  </>
+                ) : (
+                  <>
+                    <BiLogOut
+                      size={40}
+                      className="logout-btn curosor-pointer me-3"
+                    />
+
+                    <Link href={`/${Region}/dashboard`}>
+                      <RxAvatar size={35} className="cursor-pointer" />
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -76,3 +76,18 @@ input.InputError,
 select.InputError {
   border: 1px solid red !important;
 }
+.cursor-pointer {
+  cursor: pointer !important;
+}
+.logout-btn {
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;  
+  color: #483577;
+}
+.logout-btn:hover {
+  color: #ff2020;
+  cursor: pointer;
+}
