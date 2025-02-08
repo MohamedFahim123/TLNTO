@@ -88,12 +88,26 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
 
   useEffect(() => {
     (async () => {
-      const token = await axios.get("/api/get-token");
-      setUserLoginned(token ? true : false);
+      try {
+        const response = await axios.get("/api/check", {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setUserLoginned(true);
+        } else {
+          setUserLoginned(false);
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          console.warn(error?.response?.data?.error || "Unauthorized");
+        } else {
+          console.error("Error fetching token:", error);
+        }
+        setUserLoginned(false);
+      }
     })();
   }, []);
-
-  console.log(userLoginned);
 
   return (
     <>
@@ -232,7 +246,7 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
                       <a className="btn btn-default btn-shadow ml-40 hover-up">
                         Sign in
                       </a>
-                    </Link> 
+                    </Link>
                   </>
                 ) : (
                   <>

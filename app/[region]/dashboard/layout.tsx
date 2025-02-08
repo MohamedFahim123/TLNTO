@@ -6,12 +6,12 @@ import Header from "@/app/components/Dashboard/Header";
 import MobileMenu from "@/app/components/Dashboard/MobileMenu";
 import PageHead from "@/app/components/Dashboard/PageHead";
 import Sidebar from "@/app/components/Dashboard/Sidebar";
-import { PropsChildren } from "@/app/utils/interfaces";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import styles from "./dashboardStyles.module.css";
+import WithAuth from "@/app/components/RouteSecure/WithAuth";
 
-export default function DashboardLayout({ children }: PropsChildren) {
+function DashboardLayout({ children }: PropsWithChildren) {
   const pathName = usePathname();
   const [isToggled, setToggled] = useState<boolean>(false);
 
@@ -47,3 +47,4 @@ export default function DashboardLayout({ children }: PropsChildren) {
     </>
   );
 }
+export default WithAuth(DashboardLayout);

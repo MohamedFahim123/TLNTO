@@ -4,7 +4,6 @@
 // import Link from "next/link";
 // import BrandSlider from "@/app/components/Dashboard/BrandSlider";
 // import { Metadata } from "next";
-
 import { Metadata } from "next";
 
 // export const metadata: Metadata = {
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
   description: "Your Dashboard.",
 };
 
-export default function page() {
+function DashboardPage() {
   return (
     <>
       <h1>Dashboard</h1>
@@ -1186,3 +1185,4 @@ export default function page() {
     </>
   );
 }
+export default DashboardPage;
