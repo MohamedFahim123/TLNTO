@@ -13,20 +13,18 @@ import { MdCancel } from "react-icons/md";
 import { toast } from "react-toastify";
 import styles from "./dashboardStyles.module.css";
 import ProfleSideContent from "./ProfleSideContent";
+import { useTokenStore } from "@/app/store/Token";
 
 interface CITY {
   id: string;
   name: string;
 }
 
-export default function ProfileContainer({
-  cookieToken,
-}: {
-  cookieToken: string;
-}) {
+export default function ProfileContainer() {
   const [underUpdating, setUnderUpdating] = useState<boolean>(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { profile } = useProfileStore();
+  const { token, loginType } = useTokenStore();
   const {
     register,
     handleSubmit,
@@ -125,13 +123,13 @@ export default function ProfileContainer({
       formData.append("city_id", data.city_id);
 
       const res = await axios.post(
-        `${baseUrl}/user/update-profile?t=${new Date().getTime()}`,
+        `${baseUrl}/${loginType.toLowerCase()}/update-profile?t=${new Date().getTime()}`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
             Accept: "application/json",
-            Authorization: `Bearer ${cookieToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -191,7 +189,7 @@ export default function ProfileContainer({
   return (
     <>
       <div className="head d-flex align-items-center justify-content-between ">
-        <h4 className=" my-4">My Profile</h4>
+        <h4 className="my-4">My Profile</h4>
         <div className="links bg-white border border-black border-opacity-10 border-1 rounded-3 py-2 px-4 text-black-50 ">
           <span className="d-flex align-items-center justify-content-center">
             <Image

@@ -8,7 +8,6 @@ import { useCategoriesStore } from "@/app/store/MainCategories";
 import { useProfileStore } from "@/app/store/Profile";
 import { useWorkPlaceTypesStore } from "@/app/store/WorkPlaceTypes";
 import { MainRegion } from "@/app/utils/mainData";
-import axios from "axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,7 +18,6 @@ import { useTokenStore } from "@/app/store/Token";
 function Header() {
   const [scroll, setScroll] = useState<boolean | 0>(0);
   const region: string = Cookies.get("region") || MainRegion;
-  const [loginTypeState, setLoginTypeState] = useState<string>("");
 
   useEffect(() => {
     document.addEventListener("scroll", () => {
@@ -33,7 +31,7 @@ function Header() {
   const { countries, getCountries, countriesLoading } = useCountriesStore();
   const { profile, getProfile, profileLoading } = useProfileStore();
   const { industries, getIndustries, industriesLoading } = useIndustriesStore();
-  const { getToken, tokenLoading, token } = useTokenStore();
+  const { getToken, tokenLoading, token, loginType } = useTokenStore();
 
   const getCurrMainValues = useCallback(() => {
     if (!token && !tokenLoading) {
@@ -98,21 +96,16 @@ function Header() {
   }, [getProfile, profileLoading]);
 
   useEffect(() => {
-    (async () => {
-      const loginType = await axios.get("/api/get-login-type");
-      setLoginTypeState(loginType?.data?.loginType);
-    })();
-  }, []);
-
-  useEffect(() => {
+    getCurrMainValues();
     getAllCountries();
     getAllIndustries();
     getAllemploymentTypes();
     getAllWorkPlaceTypes();
     getAllCategories();
-    getProfileData();
-    getCurrMainValues();
-    if (loginTypeState === "Company") {
+    if (loginType) {
+      getProfileData();
+    }
+    if (loginType === "Company") {
       getAllCompanyDashboardJobs();
     }
   }, [
@@ -124,7 +117,7 @@ function Header() {
     getAllemploymentTypes,
     getAllCompanyDashboardJobs,
     getCurrMainValues,
-    loginTypeState,
+    loginType,
   ]);
 
   return (
@@ -148,7 +141,7 @@ function Header() {
                 </Link>
               </div>
               <span className="btn btn-grey-small ml-10">
-                {loginTypeState} Dashboard
+                {loginType} Dashboard
               </span>
             </div>
             <div className="header-menu d-none d-md-block">
@@ -168,7 +161,7 @@ function Header() {
             </div>
             <div className="header-right">
               <div className="block-signin d-flex justify-content-between align-items-center gap-4">
-                {!(loginTypeState === "User") && (
+                {!(loginType === "User") && (
                   <Link
                     className="btn btn-default icon-edit hover-up"
                     href={`/${region}/dashboard/post-job`}
@@ -185,7 +178,7 @@ function Header() {
                     className="rounded-circle"
                     style={{ objectFit: "contain" }}
                     src={
-                      loginTypeState === "Company"
+                      loginType === "Company"
                         ? profile?.companyLogo !== "N/A"
                           ? profile?.companyLogo ||
                             "/assets/imgs/page/homepage1/user1.png"
@@ -198,7 +191,7 @@ function Header() {
                   />
                   <div className="info-member">
                     <strong className="color-brand-1">
-                      {loginTypeState === "Company"
+                      {loginType === "Company"
                         ? profile?.name
                           ? profile?.name
                           : "Company Name"

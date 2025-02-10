@@ -12,7 +12,7 @@ const companyRoutes = [
   `/${Region}/dashboard`,
   `/${Region}/dashboard/candidates`,
   `/${Region}/dashboard/my-jobs`,
-  `/${Region}/dashboard/settings`,
+  `/${Region}/dashboard/profile-settings`,
   `/${Region}/dashboard/post-job`,
 ];
 
@@ -26,70 +26,58 @@ export default function WithAuth<T extends Record<string, unknown>>(
   WrappedComponent: ComponentType<T>
 ) {
   return function ProtectedComponent(props: T) {
-    const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
     const router = useRouter();
     const pathname = usePathname();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
     useEffect(() => {
       async function checkAuth() {
         try {
-          const tokenRes = await fetch("/api/check", {
+          const response = await fetch("/api/get-token", {
             credentials: "include",
           });
 
-          if (tokenRes.ok) {
-            try {
-              const response = await fetch("/api/get-login-type", {
-                credentials: "include",
-              });
+          if (response.ok) {
+            const { loginType } = await response.json();
 
-              if (response.ok) {
-                const data = await response.json();
-
-                // Redirect if the user is on a page that doesn't match their role
-                if (
-                  (data.loginType === "Company" &&
-                    userRoutes.includes(pathname)) ||
-                  (data.loginType === "User" &&
-                    companyRoutes.includes(pathname))
-                ) {
-                  router.push(
-                    data.loginType === "Company"
-                      ? `/${Region}/dashboard`
-                      : `/${Region}/dashboard/profile`
-                  );
-                } else {
-                  setIsAuthorized(true);
-                }
-              } else {
-                setIsAuthorized(false);
-                router.push(`/${Region}/auth/login`);
-              }
-            } catch (error) {
-              console.error("Auth Check Failed:", error);
-              setIsAuthorized(false);
-              router.push(`/${Region}/auth/login`);
+            if (
+              (loginType === "Company" && userRoutes.includes(pathname)) ||
+              (loginType === "User" && companyRoutes.includes(pathname))
+            ) {
+              const newPath =
+                loginType === "Company"
+                  ? `/${Region}/dashboard`
+                  : `/${Region}/dashboard/profile`;
+              router.push(newPath);
+              return;
             }
+
+            setIsAuthorized(true);
           } else {
             setIsAuthorized(false);
             router.push(`/${Region}/auth/login`);
+            return;
           }
         } catch (error) {
           console.error("Auth Check Failed:", error);
           setIsAuthorized(false);
           router.push(`/${Region}/auth/login`);
+          return;
+        } finally {
+          setIsLoading(false);
         }
       }
 
       checkAuth();
     }, [pathname, router]);
 
-    if (isAuthorized === null) {
-      return;
+    if (isLoading) {
+      return <div>Loading...</div>;
     }
 
     if (isAuthorized === false) {
-      return;
+      return null;
     }
 
     return <WrappedComponent {...props} />;

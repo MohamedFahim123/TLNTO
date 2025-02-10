@@ -1,28 +1,27 @@
 "use client";
+
 import { PostAJobForm } from "@/app/[region]/dashboard/utils/interfaces";
+import { DashboardUrls } from "@/app/[region]/dashboard/utils/URLS";
+import { useEmploymentTypesStore } from "@/app/store/EmployMentTypes";
+import { useCategoriesStore } from "@/app/store/MainCategories";
+import { useWorkPlaceTypesStore } from "@/app/store/WorkPlaceTypes";
+import { baseUrl, MainRegion } from "@/app/utils/mainData";
+import axios from "axios";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import styles from "./dashboardStyles.module.css";
 import { MdDelete } from "react-icons/md";
-import axios from "axios";
-import { DashboardUrls } from "@/app/[region]/dashboard/utils/URLS";
-import { baseUrl, MainRegion } from "@/app/utils/mainData";
-import Cookies from "js-cookie";
-import { useEmploymentTypesStore } from "@/app/store/EmployMentTypes";
-import { useWorkPlaceTypesStore } from "@/app/store/WorkPlaceTypes";
 import { toast } from "react-toastify";
-import { useCategoriesStore } from "@/app/store/MainCategories";
+import styles from "./dashboardStyles.module.css";
+import { useTokenStore } from "@/app/store/Token";
 
-export default function PostJobSection({
-  cookieToken,
-}: {
-  cookieToken: string;
-}) {
+export default function PostJobSection() {
   const region: string = Cookies.get("region") || MainRegion;
   const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
+  const { token } = useTokenStore();
   const {
     register,
     handleSubmit,
@@ -167,7 +166,7 @@ export default function PostJobSection({
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${cookieToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 

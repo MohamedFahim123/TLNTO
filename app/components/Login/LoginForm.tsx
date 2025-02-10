@@ -6,7 +6,6 @@ import { MainRegion } from "@/app/utils/mainData";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -18,7 +17,6 @@ export default function LoginForm({
   userLoginType: "User" | "Company";
 }) {
   const Region: string = Cookies.get("region") || MainRegion;
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -52,7 +50,7 @@ export default function LoginForm({
       if (token) {
         reset();
         await axios.post("/api/token", { token });
-        router.push(`/${Region}/dashboard`);
+        window.location.pathname = `/${Region}/dashboard`
       }
     } catch (error) {
       toast.dismiss(toastId);

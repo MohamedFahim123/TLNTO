@@ -1,26 +1,20 @@
 "use client";
 
+import { useTokenStore } from "@/app/store/Token";
+import { MainRegion } from "@/app/utils/mainData";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./dashboardStyles.module.css";
-import { MainRegion } from "@/app/utils/mainData";
-import axios from "axios";
 
 function Sidebar() {
   const [isToggled, setToggled] = useState(false);
   const toggleTrueFalse = () => setToggled(!isToggled);
   const pathName = usePathname();
   const currRegion: string = Cookies.get("region") || MainRegion;
-  const [loginTypeState, setLoginTypeState] = useState<string>("");
-  useEffect(() => {
-    (async () => {
-      const loginType = await axios.get("/api/get-login-type");
-      setLoginTypeState(loginType?.data?.loginType);
-    })();
-  }, []);
+  const { loginType } = useTokenStore();
 
   return (
     <>
@@ -37,7 +31,7 @@ function Sidebar() {
         />
         <nav className="nav-main-menu w-100">
           <ul className="main-menu">
-            {loginTypeState === "Company" && (
+            {loginType === "Company" && (
               <>
                 <li>
                   <Link
@@ -96,11 +90,11 @@ function Sidebar() {
                 <li>
                   <Link
                     className={`px-3 py-3 d-flex justify-content-start fs-6 fw-bold align-items-center gap-2 ${
-                      pathName === `/${currRegion}/dashboard/settings`
+                      pathName === `/${currRegion}/dashboard/profile-settings`
                         ? `${styles.active}`
                         : ""
                     }`}
-                    href={`/${currRegion}/dashboard/settings`}
+                    href={`/${currRegion}/dashboard/profile-settings`}
                   >
                     <Image
                       width={23}
@@ -108,13 +102,13 @@ function Sidebar() {
                       src="/assets/imgs/page/dashboard/settings.svg"
                       alt="jobBox"
                     />
-                    <span className="name">Setting</span>
+                    <span className="name">Profile Settings</span>
                   </Link>
                 </li>
               </>
             )}
 
-            {loginTypeState === "User" && (
+            {loginType === "User" && (
               <>
                 <li>
                   <Link

@@ -25,6 +25,9 @@ export async function POST(req: NextRequest) {
     return response;
   } catch (error: unknown) {
     console.error("Error storing token:", error);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Something Went Wrong" },
+      { status: 500 }
+    );
   }
 }

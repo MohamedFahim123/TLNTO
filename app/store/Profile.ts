@@ -59,7 +59,7 @@ export const useProfileStore = create<UseProfileStoreIterface>((set) => ({
 
     try {
       const res = await axios.get(
-        `${baseUrl}/${loginType?.toLowerCase()}/profile`,
+        `${baseUrl}/${loginType?.toLowerCase()}/profile?t=${currentTime}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export const useProfileStore = create<UseProfileStoreIterface>((set) => ({
         }
       );
 
-      const profile = res?.data?.data[loginType ? loginType : "user"] || null;
+      const profile = res?.data?.data[loginType?.toLowerCase()] || null;
       lastFetchedTime = currentTime;
 
       set({

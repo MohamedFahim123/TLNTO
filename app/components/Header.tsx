@@ -4,16 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
-import { MainRegion } from "../utils/mainData";
-import { useCountriesStore } from "../store/Countries";
-import { useIndustriesStore } from "../store/Industries";
-import { useEmploymentTypesStore } from "../store/EmployMentTypes";
-import { useWorkPlaceTypesStore } from "../store/WorkPlaceTypes";
-import { useCategoriesStore } from "../store/MainCategories";
-import axios from "axios";
-import { RxAvatar } from "react-icons/rx";
 import { BiLogOut } from "react-icons/bi";
+import { RxAvatar } from "react-icons/rx";
+import { useCountriesStore } from "../store/Countries";
+import { useEmploymentTypesStore } from "../store/EmployMentTypes";
+import { useIndustriesStore } from "../store/Industries";
+import { useCategoriesStore } from "../store/MainCategories";
 import { useTokenStore } from "../store/Token";
+import { useWorkPlaceTypesStore } from "../store/WorkPlaceTypes";
+import { MainRegion } from "../utils/mainData";
 
 interface HeaderProps {
   handleOpen: () => void;
@@ -97,27 +96,12 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
   }, [scroll]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get("/api/check", {
-          withCredentials: true,
-        });
-
-        if (response.status === 200) {
-          setUserLoginned(true);
-        } else {
-          setUserLoginned(false);
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.status === 401) {
-          console.warn(error?.response?.data?.error || "Unauthorized");
-        } else {
-          console.error("Error fetching token:", error);
-        }
-        setUserLoginned(false);
-      }
-    })();
-  }, []);
+    if (token) {
+      setUserLoginned(true);
+    } else {
+      setUserLoginned(false);
+    }
+  }, [token]);
 
   return (
     <>

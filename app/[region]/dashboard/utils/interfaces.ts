@@ -23,3 +23,12 @@ export interface UserProfileForm {
   exp: string;
   image: File;
 }
+export interface CompanyProfileSettingsForm {
+  name: string;
+  email: string;
+  phone: string;
+  country_id: string;
+  city_id: string;
+  industry_id: string;
+  logo: File;
+}

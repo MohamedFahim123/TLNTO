@@ -1,23 +1,16 @@
 "use client";
 
+import { useTokenStore } from "@/app/store/Token";
 import { MainRegion } from "@/app/utils/mainData";
-import axios from "axios";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 
 function MobileMenu({ isToggled }: { isToggled: boolean }) {
   const pathName = usePathname();
   const region: string = Cookies.get("region") || MainRegion;
-  const [loginTypeState, setLoginTypeState] = useState<string>("");
-  useEffect(() => {
-    (async () => {
-      const loginType = await axios.get("/api/get-login-type");
-      setLoginTypeState(loginType?.data?.loginType);
-    })();
-  }, []);
+  const { loginType } = useTokenStore();
 
   return (
     <>
@@ -41,7 +34,9 @@ function MobileMenu({ isToggled }: { isToggled: boolean }) {
                     <li>
                       <Link
                         className={
-                          pathName === `/${region}/dashboard` ? "dashboard2 active" : "dashboard2"
+                          pathName === `/${region}/dashboard`
+                            ? "dashboard2 active"
+                            : "dashboard2"
                         }
                         href={`/${region}/dashboard`}
                       >
@@ -55,7 +50,7 @@ function MobileMenu({ isToggled }: { isToggled: boolean }) {
                       </Link>
                     </li>
 
-                    {loginTypeState === "Compnay" && (
+                    {loginType === "Compnay" && (
                       <>
                         <li>
                           <Link
@@ -132,7 +127,7 @@ function MobileMenu({ isToggled }: { isToggled: boolean }) {
                       </>
                     )}
 
-                    {loginTypeState === "User" && (
+                    {loginType === "User" && (
                       <>
                         <li>
                           <Link

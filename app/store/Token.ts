@@ -1,10 +1,9 @@
 import axios from "axios";
 import { create } from "zustand";
-import { toast } from "react-toastify";
 
 export interface UseTokenStoreInterface {
   token: string | null;
-  loginType: string | null;
+  loginType: string;
   tokenLoading: boolean;
   tokenError: string | null;
   getToken: () => Promise<void>;
@@ -13,7 +12,7 @@ export interface UseTokenStoreInterface {
 
 export const useTokenStore = create<UseTokenStoreInterface>((set) => ({
   token: null,
-  loginType: null,
+  loginType: "",
   tokenLoading: false,
   tokenError: null,
 
@@ -33,16 +32,10 @@ export const useTokenStore = create<UseTokenStoreInterface>((set) => ({
       });
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        set({
-          token: null,
-          loginType: null,
-          tokenLoading: false,
-          tokenError: "Error fetching token or login type",
-        });
-        toast.error("Error fetching token or login type");
+        return;
       }
     }
   },
 
-  clearToken: () => set({ token: null, loginType: null }),
+  clearToken: () => set({ token: null, loginType: "" }),
 }));
