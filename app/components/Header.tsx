@@ -13,6 +13,7 @@ import { useCategoriesStore } from "../store/MainCategories";
 import axios from "axios";
 import { RxAvatar } from "react-icons/rx";
 import { BiLogOut } from "react-icons/bi";
+import { useTokenStore } from "../store/Token";
 
 interface HeaderProps {
   handleOpen: () => void;
@@ -31,7 +32,14 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
     useEmploymentTypesStore();
   const { workPlaceTypes, getWorkPlaceTypes, workPlaceTypesLoading } =
     useWorkPlaceTypesStore();
+  const { getToken, tokenLoading, token } = useTokenStore();
   const { categories, getCategories, categoriesLoading } = useCategoriesStore();
+
+  const getCurrMainValues = useCallback(() => {
+    if (!token && !tokenLoading) {
+      getToken();
+    }
+  }, [getToken, tokenLoading, token]);
 
   const getAllCountries = useCallback(() => {
     if (countries.length === 0 && !countriesLoading) {
@@ -69,12 +77,14 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
     getAllemploymentTypes();
     getAllWorkPlaceTypes();
     getAllCategories();
+    getCurrMainValues();
   }, [
     getAllCountries,
     getAllIndustries,
     getAllWorkPlaceTypes,
     getAllemploymentTypes,
     getAllCategories,
+    getCurrMainValues,
   ]);
 
   useEffect(() => {

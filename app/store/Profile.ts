@@ -1,7 +1,8 @@
 import axios from "axios";
-import { create } from "zustand";
 import { toast } from "react-toastify";
+import { create } from "zustand";
 import { baseUrl } from "../utils/mainData";
+import { useTokenStore } from "./Token";
 
 export interface Profile {
   id: number;
@@ -35,53 +36,40 @@ export interface UseProfileStoreIterface {
 
 let lastFetchedTime: number = 0;
 const CACHE_EXPIRATION_TIME: number = 15 * 60 * 1000;
-let cachedToken: string = "";
-let cachedLoginType: string = "";
 
 export const useProfileStore = create<UseProfileStoreIterface>((set) => ({
   profile: null,
   profileError: null,
   profileLoading: false,
+
   getProfile: async () => {
     const currentTime: number = new Date().getTime();
-    if (
-      currentTime - lastFetchedTime < CACHE_EXPIRATION_TIME &&
-      cachedToken &&
-      cachedLoginType
-    ) {
+    const { token, loginType } = useTokenStore.getState();
+
+    if (!token && !loginType) {
+      return;
+    }
+
+    if (currentTime - lastFetchedTime < CACHE_EXPIRATION_TIME) {
       set({ profileLoading: false });
       return;
     }
 
-    // const tokenRes = await axios.get("/api/get-token");
-    // const token: string = tokenRes?.data?.token;
-    // const loginTypeRes = await axios.get("/api/get-login-type");
-    // const loginType: string = loginTypeRes?.data?.loginType?.toLowerCase();
-
     set({ profileLoading: true });
 
     try {
-      if (!cachedToken) {
-        const tokenRes = await axios.get("/api/get-token");
-        cachedToken = tokenRes?.data?.token;
-      }
-
-      if (!cachedLoginType) {
-        const loginTypeRes = await axios.get("/api/get-login-type");
-        cachedLoginType = loginTypeRes?.data?.loginType?.toLowerCase();
-      }
       const res = await axios.get(
-        `${baseUrl}/${cachedLoginType}/profile?t=${currentTime}`,
+        `${baseUrl}/${loginType?.toLowerCase()}/profile`,
         {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            Authorization: `Bearer ${cachedToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      const profile = res?.data?.data[cachedLoginType] || null;
+      const profile = res?.data?.data[loginType ? loginType : "user"] || null;
       lastFetchedTime = currentTime;
 
       set({

@@ -14,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import styles from "./dashboardStyles.module.css";
+import { useTokenStore } from "@/app/store/Token";
 
 function Header() {
   const [scroll, setScroll] = useState<boolean | 0>(0);
@@ -32,6 +33,13 @@ function Header() {
   const { countries, getCountries, countriesLoading } = useCountriesStore();
   const { profile, getProfile, profileLoading } = useProfileStore();
   const { industries, getIndustries, industriesLoading } = useIndustriesStore();
+  const { getToken, tokenLoading, token } = useTokenStore();
+
+  const getCurrMainValues = useCallback(() => {
+    if (!token && !tokenLoading) {
+      getToken();
+    }
+  }, [getToken, tokenLoading, token]);
   const {
     companyDashboardJobs,
     getCompanyDashboardJobs,
@@ -103,6 +111,7 @@ function Header() {
     getAllWorkPlaceTypes();
     getAllCategories();
     getProfileData();
+    getCurrMainValues();
     if (loginTypeState === "Company") {
       getAllCompanyDashboardJobs();
     }
@@ -114,6 +123,7 @@ function Header() {
     getAllWorkPlaceTypes,
     getAllemploymentTypes,
     getAllCompanyDashboardJobs,
+    getCurrMainValues,
     loginTypeState,
   ]);
 

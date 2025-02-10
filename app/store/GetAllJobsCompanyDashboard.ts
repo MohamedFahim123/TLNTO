@@ -2,6 +2,7 @@ import axios from "axios";
 import { create } from "zustand";
 import { toast } from "react-toastify";
 import { baseUrl } from "../utils/mainData";
+import { useTokenStore } from "./Token";
 
 export interface JobTag {
   id: number;
@@ -9,6 +10,7 @@ export interface JobTag {
   sub_category_id: number;
   sub_category_name: string;
 }
+
 export interface Job {
   id: number;
   name: string;
@@ -28,7 +30,10 @@ export interface UseJobsCompanyDashboardStoreIterface {
   companyDashboardJobs: Job[];
   companyDashboardJobsError: unknown;
   companyDashboardJobsLoading: boolean;
+  cacheToken: () => Promise<void>;
+  token: string | null;
   getCompanyDashboardJobs: () => Promise<void>;
+  clearCache: () => void;
 }
 
 let lastFetchedTime: number = 0;
@@ -39,10 +44,34 @@ export const useJobsCompanyDashboardStore =
     companyDashboardJobs: [],
     companyDashboardJobsError: null,
     companyDashboardJobsLoading: false,
+    token: null,
+    cacheToken: async () => {
+      try {
+        const tokenResponse = await axios.get("/api/get-token");
+        const token = tokenResponse?.data?.token;
+        set({ token });
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          set({
+            companyDashboardJobsError: "Error fetching token or login type",
+          });
+          toast.error("Error fetching token or login type");
+          return;
+        }
+      }
+    },
+
+    clearCache: () => set({ token: null }),
+
     getCompanyDashboardJobs: async () => {
       const currentTime: number = new Date().getTime();
-      const tokenResponse = await axios.get("/api/get-token");
-      const token: string = tokenResponse?.data?.token;
+
+      const { token } = useTokenStore.getState();
+
+      if (!token) {
+        return;
+      }
+
       if (currentTime - lastFetchedTime < CACHE_EXPIRATION_TIME) {
         return;
       }
@@ -50,16 +79,13 @@ export const useJobsCompanyDashboardStore =
       set({ companyDashboardJobsLoading: true });
 
       try {
-        const res = await axios.get(
-          `${baseUrl}/company/all-jobs?t=${currentTime}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axios.get(`${baseUrl}/company/all-jobs`, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         const companyDashboardJobs = res?.data?.data?.jobs || [];
         lastFetchedTime = currentTime;
