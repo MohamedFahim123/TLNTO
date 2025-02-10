@@ -33,24 +33,42 @@ export default function WithAuth<T extends Record<string, unknown>>(
     useEffect(() => {
       async function checkAuth() {
         try {
-          const response = await fetch("/api/get-login-type", {
+          const tokenRes = await fetch("/api/check", {
             credentials: "include",
           });
 
-          if (response.ok) {
-            const data = await response.json();
+          if (tokenRes.ok) {
+            try {
+              const response = await fetch("/api/get-login-type", {
+                credentials: "include",
+              });
 
-            if (
-              (data.loginType === "Company" && userRoutes.includes(pathname)) ||
-              (data.loginType === "User" && companyRoutes.includes(pathname))
-            ) {
-              router.push(
-                data.loginType === "Company"
-                  ? `/${Region}/dashboard`
-                  : `/${Region}/dashboard/profile`
-              );
-            } else {
-              setIsAuthorized(true);
+              if (response.ok) {
+                const data = await response.json();
+
+                // Redirect if the user is on a page that doesn't match their role
+                if (
+                  (data.loginType === "Company" &&
+                    userRoutes.includes(pathname)) ||
+                  (data.loginType === "User" &&
+                    companyRoutes.includes(pathname))
+                ) {
+                  router.push(
+                    data.loginType === "Company"
+                      ? `/${Region}/dashboard`
+                      : `/${Region}/dashboard/profile`
+                  );
+                } else {
+                  setIsAuthorized(true);
+                }
+              } else {
+                setIsAuthorized(false);
+                router.push(`/${Region}/auth/login`);
+              }
+            } catch (error) {
+              console.error("Auth Check Failed:", error);
+              setIsAuthorized(false);
+              router.push(`/${Region}/auth/login`);
             }
           } else {
             setIsAuthorized(false);
@@ -67,6 +85,10 @@ export default function WithAuth<T extends Record<string, unknown>>(
     }, [pathname, router]);
 
     if (isAuthorized === null) {
+      return;
+    }
+
+    if (isAuthorized === false) {
       return;
     }
 

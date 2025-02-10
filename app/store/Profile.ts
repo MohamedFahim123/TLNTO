@@ -9,6 +9,12 @@ export interface Profile {
   email: string;
   phone: string;
   country_id: number;
+  first_name: string;
+  last_name: string;
+  exp: string;
+  bio: string;
+  image: string;
+  video: string;
   country: string;
   city_id: number;
   city: string;
@@ -29,6 +35,8 @@ export interface UseProfileStoreIterface {
 
 let lastFetchedTime: number = 0;
 const CACHE_EXPIRATION_TIME: number = 15 * 60 * 1000;
+let cachedToken: string = "";
+let cachedLoginType: string = "";
 
 export const useProfileStore = create<UseProfileStoreIterface>((set) => ({
   profile: null,
@@ -36,30 +44,44 @@ export const useProfileStore = create<UseProfileStoreIterface>((set) => ({
   profileLoading: false,
   getProfile: async () => {
     const currentTime: number = new Date().getTime();
-    if (currentTime - lastFetchedTime < CACHE_EXPIRATION_TIME) {
+    if (
+      currentTime - lastFetchedTime < CACHE_EXPIRATION_TIME &&
+      cachedToken &&
+      cachedLoginType
+    ) {
+      set({ profileLoading: false });
       return;
     }
 
-    const tokenRes = await axios.get("/api/get-token");
-    const token: string = tokenRes?.data?.token;
-    const loginTypeRes = await axios.get("/api/get-login-type");
-    const loginType: string = loginTypeRes?.data?.loginType?.toLowerCase();
+    // const tokenRes = await axios.get("/api/get-token");
+    // const token: string = tokenRes?.data?.token;
+    // const loginTypeRes = await axios.get("/api/get-login-type");
+    // const loginType: string = loginTypeRes?.data?.loginType?.toLowerCase();
 
     set({ profileLoading: true });
 
     try {
+      if (!cachedToken) {
+        const tokenRes = await axios.get("/api/get-token");
+        cachedToken = tokenRes?.data?.token;
+      }
+
+      if (!cachedLoginType) {
+        const loginTypeRes = await axios.get("/api/get-login-type");
+        cachedLoginType = loginTypeRes?.data?.loginType?.toLowerCase();
+      }
       const res = await axios.get(
-        `${baseUrl}/${loginType}/profile?t=${currentTime}`,
+        `${baseUrl}/${cachedLoginType}/profile?t=${currentTime}`,
         {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${cachedToken}`,
           },
         }
       );
 
-      const profile = res?.data?.data?.company || null;
+      const profile = res?.data?.data[cachedLoginType] || null;
       lastFetchedTime = currentTime;
 
       set({

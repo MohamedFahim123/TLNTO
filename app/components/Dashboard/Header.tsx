@@ -5,6 +5,7 @@ import { useEmploymentTypesStore } from "@/app/store/EmployMentTypes";
 import { useJobsCompanyDashboardStore } from "@/app/store/GetAllJobsCompanyDashboard";
 import { useIndustriesStore } from "@/app/store/Industries";
 import { useCategoriesStore } from "@/app/store/MainCategories";
+import { useProfileStore } from "@/app/store/Profile";
 import { useWorkPlaceTypesStore } from "@/app/store/WorkPlaceTypes";
 import { MainRegion } from "@/app/utils/mainData";
 import axios from "axios";
@@ -13,7 +14,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import styles from "./dashboardStyles.module.css";
-import { useProfileStore } from "@/app/store/Profile";
 
 function Header() {
   const [scroll, setScroll] = useState<boolean | 0>(0);
@@ -172,13 +172,30 @@ function Header() {
                     width={50}
                     height={50}
                     alt="jobImg"
+                    className="rounded-circle"
+                    style={{ objectFit: "contain" }}
                     src={
-                      profile?.companyLogo ||
-                      "/assets/imgs/page/homepage1/user3.png"
+                      loginTypeState === "Company"
+                        ? profile?.companyLogo !== "N/A"
+                          ? profile?.companyLogo ||
+                            "/assets/imgs/page/homepage1/user1.png"
+                          : "/assets/imgs/page/homepage1/user1.png"
+                        : profile?.image !== "N/A"
+                        ? profile?.image ||
+                          "/assets/imgs/page/homepage1/user1.png"
+                        : "/assets/imgs/page/homepage1/user1.png"
                     }
                   />
                   <div className="info-member">
-                    <strong className="color-brand-1">{profile?.name}</strong>
+                    <strong className="color-brand-1">
+                      {loginTypeState === "Company"
+                        ? profile?.name
+                          ? profile?.name
+                          : "Company Name"
+                        : profile?.first_name
+                        ? profile?.first_name + " " + profile?.last_name
+                        : "User Name"}
+                    </strong>
                   </div>
                 </div>
               </div>

@@ -11,3 +11,15 @@ export interface DashboardUrlsInterface {
   myJobs: string;
   postJob: string;
 }
+
+export interface UserProfileForm {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  bio: string;
+  country_id: string;
+  city_id: string;
+  exp: string;
+  image: File;
+}

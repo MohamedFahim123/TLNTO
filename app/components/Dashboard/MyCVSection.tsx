@@ -1,26 +1,14 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import styles from "./dashboardStyles.module.css";
 import { MdDelete } from "react-icons/md";
 import Cookies from "js-cookie";
 import { MainRegion } from "@/app/utils/mainData";
+import UploadProfileVideo from "./UploadProfileVideo";
 
-export default function MyCVSection() {
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+export default function MyCVSection({cookieToken}: {cookieToken: string}) {
   const region: string = Cookies.get("region") || MainRegion;
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setUploadedFile(file);
-    }
-  };
-
-  const handleFileRemove = () => {
-    setUploadedFile(null);
-  };
 
   return (
     <div className="col-12">
@@ -45,57 +33,8 @@ export default function MyCVSection() {
           </span>
         </div>
       </div>
-      <div className="section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white mb-4">
-        <div className="container py-4">
-          <h5 className={styles.subtitle}>Upload a video</h5>
-          <div className="row mt-30">
-            <div className="col-lg-6 mb-3 col-md-6">
-              <div className={styles.formGroup}>
-                <div className={styles.boxUpload}>
-                  <div>
-                    <label
-                      htmlFor="videoUpdload"
-                      className={styles.uploadButton}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {uploadedFile ? "Replace File" : "Upload File"}
-                    </label>
-                    <input
-                      id="videoUpdload"
-                      className="fileupload"
-                      type="file"
-                      accept="video/*"
-                      style={{ display: "none" }}
-                      onChange={handleFileUpload}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-6 mb-3 col-md-6">
-              {uploadedFile ? (
-                <div
-                  className={`${styles.formGroup} d-flex align-items-center ${styles.fileDisplay}`}
-                >
-                  <span className={styles.fileName}>{uploadedFile.name}</span>
-                  <button
-                    className={styles.btnDelete}
-                    onClick={handleFileRemove}
-                  >
-                    Delete
-                  </button>
-                </div>
-              ) : (
-                <div
-                  className={`${styles.formGroup} d-flex align-items-center ${styles.fileDisplay}`}
-                >
-                  <span className={styles.fileName}>No file uploaded</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <UploadProfileVideo cookieToken={cookieToken} />
 
       <div
         className={`section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white mb-4`}

@@ -1,11 +1,192 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import Cookies from "js-cookie";
-import { MainRegion } from "@/app/utils/mainData";
 
-export default function ProfileContainer() {
-  const region: string = Cookies.get("region") || MainRegion;
+import { UserProfileForm } from "@/app/[region]/dashboard/utils/interfaces";
+import { Country, useCountriesStore } from "@/app/store/Countries";
+import { useProfileStore } from "@/app/store/Profile";
+import { baseUrl } from "@/app/utils/mainData";
+import axios from "axios";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { BiSolidEdit } from "react-icons/bi";
+import { MdCancel } from "react-icons/md";
+import { toast } from "react-toastify";
+import styles from "./dashboardStyles.module.css";
+import ProfleSideContent from "./ProfleSideContent";
+
+interface CITY {
+  id: string;
+  name: string;
+}
+
+export default function ProfileContainer({
+  cookieToken,
+}: {
+  cookieToken: string;
+}) {
+  const [underUpdating, setUnderUpdating] = useState<boolean>(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { profile } = useProfileStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    watch,
+    setError,
+    setValue,
+    reset,
+  } = useForm<UserProfileForm>();
+  const { countries } = useCountriesStore();
+
+  const [currCities, setCurrCities] = useState<CITY[]>([]);
+  const getCurrCitiesInsideChosenCountry = async () => {
+    if (watch("country_id")) {
+      const toastId = toast.loading("Loading...");
+      const data: { country_id: string } = {
+        country_id: watch("country_id"),
+      };
+      try {
+        const res = await axios.post(
+          `${baseUrl}/cities?t=${new Date().getTime()}`,
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        );
+        setCurrCities(res?.data?.data);
+        toast.update(toastId, {
+          render: res?.data?.message || "Success! Cities loaded.",
+          type: "success",
+          isLoading: false,
+          autoClose: 1000,
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.update(toastId, {
+            render: error.response?.data?.message || "Error loading Cities!",
+            type: "error",
+            isLoading: false,
+            autoClose: 1500,
+          });
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (watch("country_id")) {
+      getCurrCitiesInsideChosenCountry();
+    }
+  }, [watch("country_id")]);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+        setValue("image", file);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageRemove = () => {
+    setImagePreview(null);
+    setValue("image", "" as unknown as File);
+  };
+
+  const handleChangeUpdatingeStatus = useCallback(() => {
+    setUnderUpdating(!underUpdating);
+    if (profile?.country_id && profile?.country !== "N/A") {
+      setValue("country_id", `${profile?.country_id}`);
+    }
+  }, [profile?.country, profile?.country_id, setValue, underUpdating]);
+
+  const onSubmit: SubmitHandler<UserProfileForm> = async (
+    data: UserProfileForm
+  ) => {
+    const toastId = toast.loading("Submitting...");
+    try {
+      const formData = new FormData();
+      if (data.image) {
+        formData.append("image", data.image);
+      }
+      formData.append("first_name", data.first_name);
+      formData.append("last_name", data.last_name);
+      formData.append("email", data.email);
+      formData.append("phone", data.phone);
+      formData.append("bio", data.bio);
+      formData.append("exp", data.exp);
+      formData.append("country_id", data.country_id);
+      formData.append("city_id", data.city_id);
+
+      const res = await axios.post(
+        `${baseUrl}/user/update-profile?t=${new Date().getTime()}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            Authorization: `Bearer ${cookieToken}`,
+          },
+        }
+      );
+
+      toast.update(toastId, {
+        render: res?.data?.message || "Success! Profile updated.",
+        type: "success",
+        isLoading: false,
+        autoClose: 1000,
+      });
+      reset();
+      window.location.reload();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverErrors = error.response?.data?.errors;
+        if (serverErrors) {
+          Object.keys(serverErrors).forEach((key) => {
+            setError(key as keyof UserProfileForm, {
+              type: "manual",
+              message: serverErrors[key].message || "This field is invalid",
+            });
+          });
+        }
+        toast.update(toastId, {
+          render: error.response?.data?.message || "Error updating Profile!",
+          type: "error",
+          isLoading: false,
+          autoClose: 1500,
+        });
+      } else {
+        toast.update(toastId, {
+          render: "Unexpected error occurred!",
+          type: "error",
+          isLoading: false,
+          autoClose: 1500,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (profile) {
+      setValue("first_name", profile?.first_name);
+      setValue("last_name", profile?.last_name);
+      setValue("email", profile?.email);
+      setValue("phone", profile?.phone);
+      setValue("bio", profile?.bio);
+      setValue("exp", profile?.exp);
+      setValue(
+        "country_id",
+        profile?.country === "N/A" ? "" : `${profile?.country_id}`
+      );
+      setValue("city_id", profile?.city !== "N/A" ? `${profile?.city_id}` : "");
+    }
+  }, [profile]);
 
   return (
     <>
@@ -17,23 +198,41 @@ export default function ProfileContainer() {
               className="me-1 lh-2"
               width={14}
               height={14}
-              src="/assets/imgs/page/dashboard/home.svg"
+              src={"/assets/imgs/page/dashboard/home.svg"}
               alt="jobBox"
             />
-            <Link
-              className="d-flex align-items-center"
-              href={`/${region}/dashboard`}
-            >
+            <p className="d-flex align-items-center">
               Admin <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
-            </Link>
+            </p>
             My Profile
           </span>
         </div>
       </div>
       <div className="col-xxl-9 col-xl-8 col-lg-8 ">
         <div className="section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white">
-          <div className="container">
-            <div className="panel-white mb-30 ">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="container position-relative"
+          >
+            <div className="position-absolute top-0" style={{ right: "20px" }}>
+              {underUpdating ? (
+                <span
+                  className="text-danger cursor-pointer"
+                  onClick={handleChangeUpdatingeStatus}
+                >
+                  <MdCancel size={45} className="me-2" />
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-default btn-brand cursor-pointer icon-tick"
+                  onClick={handleChangeUpdatingeStatus}
+                >
+                  <BiSolidEdit size={25} />
+                </button>
+              )}
+            </div>
+            <div className="panel-white mb-30">
               <div className="box-padding ">
                 <h6 className="color-text-paragraph-2 mb-4">
                   Update your profile
@@ -43,122 +242,197 @@ export default function ProfileContainer() {
                     <Image
                       width={100}
                       height={100}
-                      src="/assets/imgs/page/profile/img-profile.png"
-                      alt="jobBox"
+                      src={
+                        imagePreview
+                          ? imagePreview
+                          : profile?.image === "N/A"
+                          ? "/assets/imgs/page/homepage1/user1.png"
+                          : profile?.image ||
+                            "/assets/imgs/page/homepage1/user1.png"
+                      }
+                      alt="Profile Image"
+                      className="rounded-circle"
+                      style={{ objectFit: "contain" }}
                     />
                   </div>
                   <div className="info-profile ms-4">
-                    <a className="btn btn-default">Upload Avatar</a>
-                    <a className="btn btn-link">Delete</a>
+                    {underUpdating && (
+                      <div className="profile-image-actions">
+                        <div className={styles["file-input-wrapper"]}>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className={styles["file-input"]}
+                          />
+                          <button
+                            type="button"
+                            className={styles["file-input-button"]}
+                          >
+                            Upload Image
+                          </button>
+                        </div>
+                        <span className={styles["file-input-filename"]}>
+                          {imagePreview ? "Image selected" : "No file chosen"}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={handleImageRemove}
+                          className="btn btn-link"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-lg-6 col-md-6">
                     <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Full Name *
+                      <label
+                        htmlFor="userProfileFirstName"
+                        className="font-sm color-text-mutted mb-10"
+                      >
+                        First Name *
                       </label>
                       <input
-                        className="form-control"
+                        disabled={!underUpdating}
+                        id="userProfileFirstName"
+                        className={`form-control ${
+                          errors.first_name && "InputError"
+                        }`}
                         type="text"
-                        placeholder="Steven Job"
+                        placeholder="First Name"
+                        {...register("first_name", { required: "Required" })}
                       />
+                      {errors.first_name && (
+                        <div className="text-danger text-sm">
+                          {errors.first_name.message}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6">
                     <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
+                      <label
+                        htmlFor="userProfileLastName"
+                        className="font-sm color-text-mutted mb-10"
+                      >
+                        Last Name *
+                      </label>
+                      <input
+                        disabled={!underUpdating}
+                        className={`form-control ${
+                          errors.last_name && "InputError"
+                        }`}
+                        id="userProfileLastName"
+                        {...register("last_name", { required: "Required" })}
+                        type="text"
+                        placeholder="Last Name"
+                      />
+                      {errors.last_name && (
+                        <div className="text-danger text-sm">
+                          {errors.last_name.message}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-lg-6 col-md-6">
+                    <div className="form-group mb-30">
+                      <label
+                        htmlFor="userProfileEmail"
+                        className="font-sm color-text-mutted mb-10"
+                      >
                         Email *
                       </label>
                       <input
-                        className="form-control"
-                        type="text"
-                        placeholder="stevenjob@gmail.com"
+                        placeholder="Example@Email.com"
+                        disabled={!underUpdating}
+                        id="userProfileEmail"
+                        className={`form-control ${
+                          errors.email && "InputError"
+                        }`}
+                        {...register("email", { required: "Required" })}
+                        type="email"
                       />
+                      {errors.email && (
+                        <div className="text-danger text-sm">
+                          {errors.email.message}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6">
                     <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Contact number
+                      <label
+                        id="userProfilePhone"
+                        className="font-sm color-text-mutted mb-10"
+                      >
+                        Phone number *
                       </label>
                       <input
-                        className="form-control"
+                        id="userProfilePhone"
+                        {...register("phone", { required: "Required" })}
+                        disabled={!underUpdating}
+                        placeholder="Phone Number"
+                        className={`form-control ${
+                          errors.phone && "InputError"
+                        }`}
                         type="text"
-                        placeholder="01 - 234 567 89"
                       />
+                      {errors.phone && (
+                        <div className="text-danger text-sm">
+                          {errors.phone.message}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-12">
                     <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Bio
+                      <label
+                        id="userProfileBio"
+                        className="font-sm color-text-mutted mb-10"
+                      >
+                        Bio *
                       </label>
                       <textarea
-                        className="form-control"
-                        name="message"
+                        placeholder="Bio"
+                        className={`form-control ${errors.bio && "InputError"}`}
+                        id="userProfileBio"
+                        disabled={!underUpdating}
+                        {...register("bio", { required: "Required" })}
                         rows={5}
-                        style={{ height: "130px" }}
+                        style={{ height: "120px" }}
                         spellCheck="false"
-                        defaultValue={
-                          "We are AliThemes , a creative and dedicated group of individuals who love web development almost as much as we love our customers. We are passionate team with the mission for achieving the perfection in web design."
-                        }
                       />
+                      {errors.bio && (
+                        <div className="text-danger text-sm">
+                          {errors.bio.message}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6">
                     <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Experience
+                      <label
+                        htmlFor="userProfileExperience"
+                        className="font-sm color-text-mutted mb-10"
+                      >
+                        Experience *
                       </label>
                       <input
-                        className="form-control"
+                        {...register("exp", { required: "Required" })}
+                        id="userProfileExperience"
+                        placeholder="Experience"
+                        disabled={!underUpdating}
+                        className={`form-control ${errors.exp && "InputError"}`}
                         type="text"
-                        placeholder="1 - 5 Years"
                       />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Education Levels
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Certificate"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Current Salary($)
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="$2500"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Expected Salary($)
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="$3500"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group mt-10">
-                      <button className="btn btn-default btn-brand icon-tick">
-                        Save Change
-                      </button>
+                      {errors.exp && (
+                        <div className="text-danger text-sm">
+                          {errors.exp.message}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -166,244 +440,95 @@ export default function ProfileContainer() {
             </div>
             <div className="panel-white mb-30">
               <div className="box-padding">
-                <h6 className="color-text-paragraph-2">Contact Information</h6>
+                <h6 className="color-text-paragraph-2">Location Information</h6>
                 <div className="row mt-30">
                   <div className="col-lg-6 col-md-6">
                     <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Country
+                      <label
+                        className="form-label"
+                        htmlFor="CompanyRegisterCountry_Id"
+                      >
+                        Country *
                       </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="United States of America"
-                      />
+                      <select
+                        className={`form-control form-select ${
+                          errors.country_id && "InputError"
+                        }`}
+                        {...register("country_id", { required: "Required" })}
+                        id="CompanyRegisterCountry_Id"
+                        defaultValue={""}
+                        disabled={!underUpdating}
+                      >
+                        <option value="" disabled>
+                          Choose Your Country
+                        </option>
+                        {countries?.map((country: Country) => (
+                          <option key={country.id} value={country.id}>
+                            {country.name}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.country_id && (
+                        <div className="text-danger text-sm">
+                          {errors.country_id.message}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6">
                     <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        City
+                      <label
+                        className="form-label"
+                        htmlFor="CompanyRegistercity_id"
+                      >
+                        City *
                       </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Chicago"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Complete Address
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="205 North Michigan Avenue, Suite 810, Chicago, 60601, USA"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group mt-0">
-                      <button className="btn btn-default btn-brand icon-tick">
-                        Save Change
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="col-xxl-3 col-xl-4 col-lg-4 mt-sm-4 mt-lg-0">
-        {/* <div className="section-box py-3 mb-4 border border-black border-opacity-10 border-1 rounded-4 bg-white">
-          <div className="container">
-            <div className="panel-white">
-              <div className="panel-head">
-                <h5>Social Network</h5>
-                <a
-                  className="menudrop"
-                  id="dropdownMenu3"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  data-bs-display="static"
-                />
-                <ul
-                  className="dropdown-menu dropdown-menu-light dropdown-menu-end"
-                  aria-labelledby="dropdownMenu3"
-                >
-                  <li>
-                    <a className="dropdown-item active" href="#">
-                      Add new
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Actions
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="panel-body pt-20">
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Facebook
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="https://www.facebook.com"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Twitter
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="https://twitter.com"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group mb-30">
-                      <label className="font-sm color-text-mutted mb-10">
-                        Instagram
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="https://www.instagram.com"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group mt-0">
-                      <button className="btn btn-default btn-brand icon-tick">
-                        Save Change
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-        <div className="section-box py-3 border border-black border-opacity-10 border-1 rounded-4 bg-white">
-          <div className="container">
-            <div className="panel-white">
-              <div className="panel-head">
-                <h5>Familiar With...</h5>
-                <a
-                  className="menudrop"
-                  id="dropdownMenu3"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  data-bs-display="static"
-                />
-                <ul
-                  className="dropdown-menu dropdown-menu-light dropdown-menu-end"
-                  aria-labelledby="dropdownMenu3"
-                >
-                  <li>
-                    <a className="dropdown-item active" href="#">
-                      Add new
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Actions
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="panel-body pt-20">
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="form-group mb-30">
                       <select
-                        className="form-control form-select icon-search-right"
+                        disabled={!underUpdating}
+                        className={`form-control form-select ${
+                          errors.city_id && "InputError"
+                        }`}
+                        {...register("city_id", { required: "Required" })}
+                        id="CompanyRegistercity_id"
                         defaultValue={""}
                       >
                         <option value="" disabled>
-                          Familiar With
+                          Choose Your City
                         </option>
-                        <option value="1">HTML</option>
-                        <option value="2">CSS</option>
-                        <option value="3">Javascript</option>
-                        <option value="4">PHP</option>
+                        {currCities?.map((city: CITY) => (
+                          <option key={city.id} value={city.id}>
+                            {city.name}
+                          </option>
+                        ))}
                       </select>
+                      {errors.city_id && (
+                        <div className="text-danger text-sm">
+                          {errors.city_id.message}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <div className="col-lg-12">
-                    <div className="mb-20">
-                      <a className="btn btn-tag tags-link">
-                        Figma
-                        <span />
-                      </a>
-                      <a className="btn btn-tag tags-link">
-                        Adobe XD
-                        <span />
-                      </a>
-                      <a className="btn btn-tag tags-link">
-                        NextJS
-                        <span />
-                      </a>
-                      <a className="btn btn-tag tags-link">
-                        React
-                        <span />
-                      </a>
-                      <a className="btn btn-tag tags-link">
-                        App
-                        <span />
-                      </a>
-                      <a className="btn btn-tag tags-link">
-                        Digital
-                        <span />
-                      </a>
-                      <a className="btn btn-tag tags-link">
-                        NodeJS
-                        <span />
-                      </a>
+                  {underUpdating && (
+                    <div className="col-lg-12">
+                      <div className="form-group mt-0">
+                        <button
+                          title="Submit Changes"
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="btn btn-default btn-brand icon-tick"
+                        >
+                          Submit Changes
+                        </button>
+                      </div>
                     </div>
-                    <div className="mt-30 mb-40">
-                      <span className="info-icon font-sm color-text-paragraph-2">
-                        You can add up to 15 skills
-                      </span>
-                    </div>
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="form-group mt-0">
-                      <button className="btn btn-default btn-brand icon-tick">
-                        Save Change
-                      </button>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
+      <ProfleSideContent />
     </>
   );
 }

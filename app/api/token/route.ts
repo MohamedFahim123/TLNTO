@@ -6,7 +6,10 @@ export async function POST(req: NextRequest) {
     const token = body?.token;
 
     if (!token || typeof token !== "string") {
-      return NextResponse.json({ message: "Token missing or invalid" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Token missing or invalid" },
+        { status: 400 }
+      );
     }
 
     const response = NextResponse.json({ message: "Token stored securely" });

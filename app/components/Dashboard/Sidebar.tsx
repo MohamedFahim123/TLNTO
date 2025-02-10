@@ -37,27 +37,26 @@ function Sidebar() {
         />
         <nav className="nav-main-menu w-100">
           <ul className="main-menu">
-            <li>
-              <Link
-                className={`px-3 py-3 d-flex justify-content-start fs-6 fw-bold align-items-center gap-2 ${
-                  pathName === `/${currRegion}/dashboard`
-                    ? `${styles.active}`
-                    : ""
-                }`}
-                href={`/${currRegion}/dashboard`}
-              >
-                <Image
-                  width={23}
-                  height={23}
-                  src="/assets/imgs/page/dashboard/dashboard.svg"
-                  alt="jobBox"
-                />
-                <span className="name">Dashboard</span>
-              </Link>
-            </li>
-
             {loginTypeState === "Company" && (
               <>
+                <li>
+                  <Link
+                    className={`px-3 py-3 d-flex justify-content-start fs-6 fw-bold align-items-center gap-2 ${
+                      pathName === `/${currRegion}/dashboard`
+                        ? `${styles.active}`
+                        : ""
+                    }`}
+                    href={`/${currRegion}/dashboard`}
+                  >
+                    <Image
+                      width={23}
+                      height={23}
+                      src="/assets/imgs/page/dashboard/dashboard.svg"
+                      alt="jobBox"
+                    />
+                    <span className="name">Dashboard</span>
+                  </Link>
+                </li>
                 <li>
                   <Link
                     className={`px-3 py-3 d-flex justify-content-start fs-6 fw-bold align-items-center gap-2 ${
@@ -92,24 +91,6 @@ function Sidebar() {
                       alt="jobBox"
                     />
                     <span className="name">My Jobs</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className={`px-3 py-3 d-flex justify-content-start fs-6 fw-bold align-items-center gap-2 ${
-                      pathName === `/${currRegion}/dashboard/task-list`
-                        ? `${styles.active}`
-                        : ""
-                    }`}
-                    href={`/${currRegion}/dashboard/task-list`}
-                  >
-                    <Image
-                      width={23}
-                      height={23}
-                      src="/assets/imgs/page/dashboard/tasks.svg"
-                      alt="jobBox"
-                    />
-                    <span className="name">Tasks List</span>
                   </Link>
                 </li>
                 <li>
@@ -169,6 +150,25 @@ function Sidebar() {
                       alt="jobBox"
                     />
                     <span className="name">My Journey</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    className={`px-3 py-3 d-flex justify-content-start fs-6 fw-bold align-items-center gap-2 ${
+                      pathName === `/${currRegion}/dashboard/task-list`
+                        ? `${styles.active}`
+                        : ""
+                    }`}
+                    href={`/${currRegion}/dashboard/task-list`}
+                  >
+                    <Image
+                      width={23}
+                      height={23}
+                      src="/assets/imgs/page/dashboard/tasks.svg"
+                      alt="jobBox"
+                    />
+                    <span className="name">Tasks List</span>
                   </Link>
                 </li>
               </>

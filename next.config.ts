@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "skillni.valureach.com",
         pathname: "/defaults/**",
       },
+      {
+        protocol: "https",
+        hostname: "skillni.valureach.com",
+        pathname: "/storage/**",
+      },
     ],
   },
 };
