@@ -3,7 +3,7 @@ import "@/public/assets/css/style.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Your Favorite Job Portal",
+  title: "Your Favorite Job Portal",  
   description: "With Tlnto You Can Find Your Dream Job",
 };
 
