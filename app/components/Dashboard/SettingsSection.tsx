@@ -42,7 +42,6 @@ export default function SettingsSection() {
   const [currCities, setCurrCities] = useState<CITY[]>([]);
   const getCurrCitiesInsideChosenCountry = async () => {
     if (watch("country_id")) {
-      const toastId = toast.loading("Loading...");
       const data: { country_id: string } = {
         country_id: watch("country_id"),
       };
@@ -58,20 +57,9 @@ export default function SettingsSection() {
           }
         );
         setCurrCities(res?.data?.data);
-        toast.update(toastId, {
-          render: res?.data?.message || "Success! Cities loaded.",
-          type: "success",
-          isLoading: false,
-          autoClose: 1000,
-        });
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toast.update(toastId, {
-            render: error.response?.data?.message || "Error loading Cities!",
-            type: "error",
-            isLoading: false,
-            autoClose: 1500,
-          });
+          toast.error(error.response?.data?.message || "Error loading Cities!");
         }
       }
     }
@@ -183,8 +171,8 @@ export default function SettingsSection() {
       );
       setValue("city_id", profile?.city !== "N/A" ? `${profile?.city_id}` : "");
     }
-  }, [profile]);
-  console.log(errors);
+  }, [profile, setValue]);
+
   return (
     <div className="container">
       <div className="head d-flex align-items-center justify-content-between ">
@@ -454,9 +442,11 @@ export default function SettingsSection() {
                           className={`form-control form-select ${
                             errors.city_id && "InputError"
                           }`}
-                          {...register("city_id", { required: "Required" })}
+                          value={watch("city_id")}
+                          onChange={(e) => {
+                            setValue("city_id", e.target.value);
+                          }}
                           id="CompanyRegistercity_id"
-                          defaultValue={""}
                         >
                           <option value="" disabled>
                             Choose Your City

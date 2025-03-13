@@ -6,6 +6,8 @@ export interface PostAJobForm {
   salary: string;
   description: string;
   tags: string[];
+  currency_id: string;
+  exp_level_id: string;
 }
 export interface DashboardUrlsInterface {
   myJobs: string;

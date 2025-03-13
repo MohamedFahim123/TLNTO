@@ -184,7 +184,7 @@ export default function ProfileContainer() {
       );
       setValue("city_id", profile?.city !== "N/A" ? `${profile?.city_id}` : "");
     }
-  }, [profile]);
+  }, [profile, setValue]);
 
   return (
     <>

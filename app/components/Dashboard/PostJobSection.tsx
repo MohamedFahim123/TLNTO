@@ -78,6 +78,7 @@ export default function PostJobSection() {
       }
     }
   }, [selectedCategory]);
+
   useEffect(() => {
     if (selectedCategory) {
       getCurrSubCategInsideMainCategories();
@@ -334,17 +335,62 @@ export default function PostJobSection() {
             </div>
             <div className={`${styles.formGroup} mb-30 col-md-6`}>
               <label htmlFor="postAJobsalary" className={styles.formLabel}>
-                salary *
+                salary 
               </label>
               <input
                 className={styles.formControl}
                 type="text"
                 id="postAJobsalary"
-                {...register("salary", { required: "Required" })}
-                placeholder="5000$"
+                {...register("salary")}
+                placeholder="5000"
               />
               {errors.salary && (
                 <span className="text-danger">{errors.salary.message}</span>
+              )}
+            </div>
+            <div className={`${styles.formGroup} mb-30 col-md-6`}>
+              <label htmlFor="postAJobcurrency_id" className={styles.formLabel}>
+                Currency 
+              </label>
+              <select
+                className={`${styles.formControl} form-select`}
+                title="Currency"
+                defaultValue={""}
+                id="postAJobcurrency_id"
+                {...register("currency_id")}
+              >
+                <option disabled value="">
+                  Select Currency
+                </option>
+              </select>
+              {errors.currency_id && (
+                <span className="text-danger">
+                  {errors.currency_id.message}
+                </span>
+              )}
+            </div>
+            <div className={`${styles.formGroup} mb-30 col-md-6`}>
+              <label
+                htmlFor="postAJobexp_level_id"
+                className={styles.formLabel}
+              >
+                Experience Level *
+              </label>
+              <select
+                className={`${styles.formControl} form-select`}
+                title="Experience Level"
+                defaultValue={""}
+                id="postAJobexp_level_id"
+                {...register("exp_level_id", { required: "Required" })}
+              >
+                <option disabled value="">
+                  Select Experience Level
+                </option>
+              </select>
+              {errors.exp_level_id && (
+                <span className="text-danger">
+                  {errors.exp_level_id.message}
+                </span>
               )}
             </div>
             <div className={`${styles.formGroup} mb-30 col-md-6`}>

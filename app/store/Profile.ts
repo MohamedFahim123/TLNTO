@@ -17,7 +17,7 @@ export interface Profile {
   image: string;
   video: string;
   country: string;
-  city_id: number;
+  city_id: number | string;
   city: string;
   industry_id: number;
   industry: string;

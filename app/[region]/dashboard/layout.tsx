@@ -1,15 +1,14 @@
 "use client";
 
 import BurgerIcon from "@/app/components/Dashboard/BurgerIcon";
-import Footer from "@/app/components/Dashboard/Footer";
 import Header from "@/app/components/Dashboard/Header";
 import MobileMenu from "@/app/components/Dashboard/MobileMenu";
 import PageHead from "@/app/components/Dashboard/PageHead";
 import Sidebar from "@/app/components/Dashboard/Sidebar";
+import WithAuth from "@/app/components/RouteSecure/WithAuth";
 import { usePathname } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
 import styles from "./dashboardStyles.module.css";
-import WithAuth from "@/app/components/RouteSecure/WithAuth";
 
 function DashboardLayout({ children }: PropsWithChildren) {
   const pathName = usePathname();
@@ -40,7 +39,6 @@ function DashboardLayout({ children }: PropsWithChildren) {
             <div className="container">
               <div className="row">{children}</div>
             </div>
-            <Footer />
           </div>
         </div>
       </main>
