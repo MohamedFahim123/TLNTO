@@ -14,6 +14,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import styles from "./dashboardStyles.module.css";
 import { useTokenStore } from "@/app/store/Token";
+import { useCurrencyStore } from "@/app/store/Currencies";
+import { useYearEXPStore } from "@/app/store/yearExps";
 
 function Header() {
   const [scroll, setScroll] = useState<boolean | 0>(0);
@@ -32,6 +34,14 @@ function Header() {
   const { profile, getProfile, profileLoading } = useProfileStore();
   const { industries, getIndustries, industriesLoading } = useIndustriesStore();
   const { getToken, tokenLoading, token, loginType } = useTokenStore();
+
+  const { currency, getCurrency, currencyLoading } = useCurrencyStore();
+
+  const getAllCurrencies = useCallback(() => {
+    if (currency.length === 0 && !currencyLoading) {
+      getCurrency();
+    }
+  }, [getCurrency, currencyLoading, currency.length]);
 
   const getCurrMainValues = useCallback(() => {
     if (!token && !tokenLoading) {
@@ -89,6 +99,14 @@ function Header() {
     companyDashboardJobs.length,
   ]);
 
+  const { yearEXPs, getYearEXPs, yearEXPsLoading } = useYearEXPStore();
+
+  const getAllYearEXPS = useCallback(() => {
+    if (yearEXPs.length === 0 && !yearEXPsLoading) {
+      getYearEXPs();
+    }
+  }, [getYearEXPs, yearEXPsLoading, yearEXPs.length]);
+
   const getProfileData = useCallback(() => {
     if (!profileLoading) {
       getProfile();
@@ -96,12 +114,14 @@ function Header() {
   }, [getProfile, profileLoading]);
 
   useEffect(() => {
+    getAllYearEXPS();
     getCurrMainValues();
     getAllCountries();
     getAllIndustries();
     getAllemploymentTypes();
     getAllWorkPlaceTypes();
     getAllCategories();
+    getAllCurrencies();
     if (loginType) {
       getProfileData();
     }
@@ -110,6 +130,8 @@ function Header() {
     }
   }, [
     getAllCountries,
+    getAllYearEXPS,
+    getAllCurrencies,
     getProfileData,
     getAllCategories,
     getAllIndustries,

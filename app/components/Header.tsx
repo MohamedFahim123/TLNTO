@@ -1,4 +1,5 @@
 ﻿"use client";
+import axios from "axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
+import { toast } from "react-toastify";
 import { Country, useCountriesStore } from "../store/Countries";
 import { useEmploymentTypesStore } from "../store/EmployMentTypes";
 import { useIndustriesStore } from "../store/Industries";
@@ -13,8 +15,6 @@ import { useCategoriesStore } from "../store/MainCategories";
 import { useTokenStore } from "../store/Token";
 import { useWorkPlaceTypesStore } from "../store/WorkPlaceTypes";
 import { MainRegion } from "../utils/mainData";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 interface HeaderProps {
   handleOpen: () => void;
@@ -284,11 +284,12 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
               </button>
               {isOpen && (
                 <ul
-                  className="bg-white shadow-lg rounded position-absolute top-100 end-0 mt-2 p-2"
+                  className="bg-white shadow-lg rounded position-absolute top-100 mt-2 p-2"
                   id="region"
                   style={{
                     maxHeight: "500px",
                     overflow: "auto",
+                    left: "0px",
                     zIndex: "100",
                   }}
                 >

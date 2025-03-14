@@ -1,13 +1,15 @@
 export interface PostAJobForm {
   title: string;
   location: string;
-  work_place_type_id: string;
-  employment_type_id: string;
   salary: string;
   description: string;
+  work_place_type_id: string;
+  employment_type_id: string;
   tags: string[];
+  country_id: string;
+  city_id: string;
+  year_exp_id: string;
   currency_id: string;
-  exp_level_id: string;
 }
 export interface DashboardUrlsInterface {
   myJobs: string;

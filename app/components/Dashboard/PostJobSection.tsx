@@ -16,10 +16,19 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import styles from "./dashboardStyles.module.css";
 import { useTokenStore } from "@/app/store/Token";
+import { Country, useCountriesStore } from "@/app/store/Countries";
+import { useCurrencyStore } from "@/app/store/Currencies";
+import { useYearEXPStore } from "@/app/store/yearExps";
+
+interface CITY {
+  id: string;
+  name: string;
+}
 
 export default function PostJobSection() {
   const region: string = Cookies.get("region") || MainRegion;
   const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
+  const { countries } = useCountriesStore();
   const [inputValue, setInputValue] = useState<string>("");
   const { token } = useTokenStore();
   const {
@@ -28,11 +37,14 @@ export default function PostJobSection() {
     setValue,
     reset,
     setError,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<PostAJobForm>();
   const { employmentTypes } = useEmploymentTypesStore();
   const { workPlaceTypes } = useWorkPlaceTypesStore();
   const { categories } = useCategoriesStore();
+  const { currency } = useCurrencyStore();
+  const { yearEXPs } = useYearEXPStore();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [currSubCategory, setCurrSubCategory] = useState<
     {
@@ -160,6 +172,40 @@ export default function PostJobSection() {
     );
   };
 
+  const [currCities, setCurrCities] = useState<CITY[]>([]);
+  const getCurrCitiesInsideChosenCountry = async () => {
+    if (watch("country_id")) {
+      const data: { country_id: string } = {
+        country_id: watch("country_id"),
+      };
+      try {
+        const res = await axios.post(
+          `${baseUrl}/cities?t=${new Date().getTime()}`,
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        );
+        setCurrCities(res?.data?.data);
+
+        console.log(res);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data?.message || "Error loading Cities!");
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (watch("country_id")) {
+      getCurrCitiesInsideChosenCountry();
+    }
+  }, [watch("country_id")]);
+
   const onSubmit: SubmitHandler<PostAJobForm> = async (data: PostAJobForm) => {
     const toastId = toast.loading("Submitting...");
     try {
@@ -274,6 +320,60 @@ export default function PostJobSection() {
               )}
             </div>
             <div className={`${styles.formGroup} mb-30 col-md-6`}>
+              <label className={styles.formLabel} htmlFor="PostAJobCountry_Id">
+                Country *
+              </label>
+              <select
+                className={`${styles.formControl} form-select ${
+                  errors.country_id && "InputError"
+                }`}
+                {...register("country_id", { required: "Required" })}
+                id="PostAJobCountry_Id"
+                defaultValue={""}
+              >
+                <option value="" disabled>
+                  Choose Your Country
+                </option>
+                {countries?.map((country: Country) => (
+                  <option key={country.id} value={country.id}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+              {errors.country_id && (
+                <div className="text-danger text-small">
+                  {errors.country_id.message}
+                </div>
+              )}
+            </div>
+            <div className={`${styles.formGroup} mb-30 col-md-6`}>
+              <label className={styles.formLabel} htmlFor="PostAJobcity_id">
+                City *
+              </label>
+              <select
+                className={`${styles.formControl} form-select ${
+                  errors.city_id && "InputError"
+                }`}
+                {...register("city_id", { required: "Required" })}
+                id="PostAJobcity_id"
+                defaultValue={""}
+              >
+                <option value="" disabled>
+                  Choose Your Country
+                </option>
+                {currCities?.map((city: CITY) => (
+                  <option key={city.id} value={city.id}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+              {errors.city_id && (
+                <div className="text-danger text-small">
+                  {errors.city_id.message}
+                </div>
+              )}
+            </div>
+            <div className={`${styles.formGroup} mb-30 col-md-6`}>
               <label
                 htmlFor="postAJobwork_place_type_id"
                 className={styles.formLabel}
@@ -335,7 +435,7 @@ export default function PostJobSection() {
             </div>
             <div className={`${styles.formGroup} mb-30 col-md-6`}>
               <label htmlFor="postAJobsalary" className={styles.formLabel}>
-                salary 
+                salary
               </label>
               <input
                 className={styles.formControl}
@@ -350,7 +450,7 @@ export default function PostJobSection() {
             </div>
             <div className={`${styles.formGroup} mb-30 col-md-6`}>
               <label htmlFor="postAJobcurrency_id" className={styles.formLabel}>
-                Currency 
+                Currency
               </label>
               <select
                 className={`${styles.formControl} form-select`}
@@ -362,6 +462,11 @@ export default function PostJobSection() {
                 <option disabled value="">
                   Select Currency
                 </option>
+                {currency?.map((currency) => (
+                  <option key={currency.currencyId} value={currency.currencyId}>
+                    {currency.currencyCode}
+                  </option>
+                ))}
               </select>
               {errors.currency_id && (
                 <span className="text-danger">
@@ -381,15 +486,20 @@ export default function PostJobSection() {
                 title="Experience Level"
                 defaultValue={""}
                 id="postAJobexp_level_id"
-                {...register("exp_level_id", { required: "Required" })}
+                {...register("year_exp_id", { required: "Required" })}
               >
                 <option disabled value="">
                   Select Experience Level
                 </option>
+                {yearEXPs?.map((yearEXP) => (
+                  <option key={yearEXP.id} value={yearEXP.id}>
+                    {yearEXP.name}
+                  </option>
+                ))}
               </select>
-              {errors.exp_level_id && (
+              {errors.year_exp_id && (
                 <span className="text-danger">
-                  {errors.exp_level_id.message}
+                  {errors.year_exp_id.message}
                 </span>
               )}
             </div>
