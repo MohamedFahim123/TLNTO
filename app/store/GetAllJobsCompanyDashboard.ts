@@ -79,7 +79,7 @@ export const useJobsCompanyDashboardStore =
       set({ companyDashboardJobsLoading: true });
 
       try {
-        const res = await axios.get(`${baseUrl}/company/all-jobs`, {
+        const res = await axios.get(`${baseUrl}/company/all-jobs?t=${currentTime}`, {
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
