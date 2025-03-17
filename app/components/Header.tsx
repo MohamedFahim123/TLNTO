@@ -15,6 +15,8 @@ import { useCategoriesStore } from "../store/MainCategories";
 import { useTokenStore } from "../store/Token";
 import { useWorkPlaceTypesStore } from "../store/WorkPlaceTypes";
 import { MainRegion } from "../utils/mainData";
+import { useCitiesInsideCurrRegionStore } from "../store/CurrCitiesInsideCurrRegion";
+import { useYearEXPStore } from "../store/yearExps";
 
 interface HeaderProps {
   handleOpen: () => void;
@@ -32,16 +34,56 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
   const { industries, getIndustries, industriesLoading } = useIndustriesStore();
   const { employmentTypesLoading, getEmploymentTypes, employmentTypes } =
     useEmploymentTypesStore();
+  const { yearEXPs, getYearEXPs, yearEXPsLoading } = useYearEXPStore();
   const { workPlaceTypes, getWorkPlaceTypes, workPlaceTypesLoading } =
     useWorkPlaceTypesStore();
   const { getToken, tokenLoading, token } = useTokenStore();
   const { categories, getCategories, categoriesLoading } = useCategoriesStore();
   const [activeRegion, setActiveRegion] = useState<Country>({
-    name: Region,
-    code: Region,
-    logo: "",
-    id: Math.random(),
+    id: 0,
+    name: "",
+    code: "",
+    phone_code: "",
+    flag: "",
   });
+
+  useEffect(() => {
+    if (countries?.length > 0) {
+      setActiveRegion(
+        countries?.find((el) => el?.code === Region) || {
+          id: 0,
+          name: "",
+          code: "",
+          phone_code: "",
+          flag: "",
+        }
+      );
+    }
+  }, [Region, countries]);
+
+  const {
+    setCurrRegion,
+    getCitiesInsideCurrRegion,
+    citiesInsideCurrRegion,
+    citiesInsideCurrRegionLoading,
+  } = useCitiesInsideCurrRegionStore();
+
+  const getAllCitiesInsideCurrRegion = useCallback(() => {
+    if (citiesInsideCurrRegion.length === 0 && !citiesInsideCurrRegionLoading) {
+      getCitiesInsideCurrRegion();
+    }
+  }, [
+    getCitiesInsideCurrRegion,
+    citiesInsideCurrRegionLoading,
+    citiesInsideCurrRegion.length,
+  ]);
+
+  useEffect(() => {
+    if (countries?.length > 0) {
+      getAllCitiesInsideCurrRegion();
+    }
+  }, [getAllCitiesInsideCurrRegion, countries]);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const getCurrMainValues = useCallback(() => {
@@ -55,6 +97,12 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
       getCountries();
     }
   }, [getCountries, countriesLoading, countries.length]);
+
+  const getAllYearExps = useCallback(() => {
+    if (yearEXPs.length === 0 && !yearEXPsLoading) {
+      getYearEXPs();
+    }
+  }, [getYearEXPs, yearEXPsLoading, yearEXPs.length]);
 
   const getAllIndustries = useCallback(() => {
     if (industries.length === 0 && !industriesLoading) {
@@ -82,6 +130,7 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
 
   useEffect(() => {
     getAllCountries();
+    getAllYearExps();
     getAllIndustries();
     getAllemploymentTypes();
     getAllWorkPlaceTypes();
@@ -131,6 +180,8 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
   const handleRegionChange = (el: Country) => {
     setActiveRegion(el);
     setIsOpen(false);
+    setCurrRegion(el.code);
+    Cookies.set("region", el.code);
     router.replace(`/${el.code}/jobs/home`);
   };
 
@@ -268,20 +319,22 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
               </div>
             </div>
             <div className="d-flex align-items-center position-relative">
-              <button
-                type="button"
-                id="regionDropdown"
-                onClick={() => setIsOpen(!isOpen)}
-                className="d-flex align-items-center btn btn-light"
-              >
-                <Image
-                  src={activeRegion.logo}
-                  alt={activeRegion.name}
-                  width={15}
-                  height={15}
-                  className="me-1"
-                />
-              </button>
+              {countries.length > 0 && (
+                <button
+                  type="button"
+                  id="regionDropdown"
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="d-flex align-items-center btn btn-light me-2"
+                >
+                  <Image
+                    src={activeRegion?.flag || "/assets/imgs/Egypt.webp"}
+                    alt={activeRegion?.name || "flag"}
+                    width={20}
+                    height={20}
+                    className="me-1"
+                  />
+                </button>
+              )}
               {isOpen && (
                 <ul
                   className="bg-white shadow-lg rounded position-absolute top-100 mt-2 p-2"
@@ -300,9 +353,9 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
                         onClick={() => handleRegionChange(country)}
                         className="py-2 cursor-pointer"
                       >
-                        {country.logo && (
+                        {country.flag && (
                           <Image
-                            src={country.logo}
+                            src={country.flag}
                             alt={country.name}
                             width={15}
                             height={15}

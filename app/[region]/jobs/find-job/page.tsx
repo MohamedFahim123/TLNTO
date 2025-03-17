@@ -1,7 +1,4 @@
-import AllJobsSection from "@/app/components/FindAJob/AllJobsSection";
-import FindAJobHeroSection from "@/app/components/FindAJob/FindAJobHeroSection";
-import Blogs from "@/app/components/Home/Blogs";
-import NewsletterSection from "@/app/components/Home/NewsletterSection";
+import FindAJobMainPage from "@/app/components/FindAJob/FindAJobMainPage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,12 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function FindAJobPage() {
-  return (
-    <>
-      <FindAJobHeroSection />
-      <AllJobsSection />
-      <Blogs />
-      <NewsletterSection />
-    </>
-  );
+  return <FindAJobMainPage />;
 }

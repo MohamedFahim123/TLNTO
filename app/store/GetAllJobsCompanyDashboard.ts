@@ -21,8 +21,18 @@ export interface Job {
   status: string;
   salary: string;
   tags: JobTag[];
+  currency: string;
+  country_name: string;
+  city_name: string;
+  created_at: string;
   title: string;
   work_place_type_id: number;
+  years_exp: string;
+  company: {
+    id: number;
+    name: string;
+    companyLogo: string;
+  }
   work_place_type_name: string;
 }
 

@@ -7,7 +7,8 @@ export interface Country {
   id: number;
   name: string;
   code: string;
-  logo: string
+  phone_code: string;
+  flag: string;
 }
 
 export interface UseCountryStoreIterface {
