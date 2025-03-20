@@ -16,5 +16,5 @@ const nextConfig: NextConfig = {
     ],
   },
 };
-
+// https://skillni.valureach.com/defaults/admin.jpg
 export default nextConfig;

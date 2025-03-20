@@ -27,8 +27,6 @@ export default function AllJobsSection({
   selectedSubCategory: string;
   currSubCategory: { id: number; name: string }[];
 }) {
-
-
   return (
     <section className="section-box mt-30">
       <div className="container">
@@ -48,7 +46,11 @@ export default function AllJobsSection({
                           <Image
                             width={50}
                             height={50}
-                            src={job.company.companyLogo}
+                            src={
+                              job?.company?.companyLogo !== "N/A"
+                                ? job?.company?.companyLogo
+                                : "/assets/imgs/page/company/company.png"
+                            }
                             alt="jobBox"
                           />
                         </div>
@@ -57,7 +59,7 @@ export default function AllJobsSection({
                             legacyBehavior
                             href={`/${Region}/jobs/find-job/slug`}
                           >
-                            <a className="name-job">{job.company.name}</a>
+                            <a className="name-job">{job?.company?.name}</a>
                           </Link>
                           <span className="location-small">
                             {job.country_name} - {job.city_name}
@@ -96,18 +98,23 @@ export default function AllJobsSection({
                           <span className="btn btn-grey-small mr-5">
                             {job.tags[0].sub_category_name}
                           </span>
-                          - {" "}
+                          -{" "}
                           <span className="btn btn-grey-small mr-5">
-                            {job.tags[0].name}
+                            {job.tags[0]?.name}
                           </span>
-                          <span className="btn btn-grey-small mr-5">
-                            {job.tags[1].name}
-                          </span>
+                          {job.tags[1] && (
+                            <span className="btn btn-grey-small mr-5">
+                              {job.tags[1]?.name}
+                            </span>
+                          )}
                         </div>
                         <div className="card-2-bottom mt-30">
                           <div className="row">
                             <div className="col-lg-7 col-7">
-                              <span className="card-text-price">{job.currency}{job.salary}</span>
+                              <span className="card-text-price">
+                                {job.currency}
+                                {job.salary}
+                              </span>
                             </div>
                             <div className="col-lg-5 col-5 text-end">
                               <div

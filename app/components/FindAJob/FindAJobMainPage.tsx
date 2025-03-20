@@ -170,6 +170,8 @@ const FindAJobMainPage = () => {
     router.replace(`${pathname}?${newParams.toString()}`);
   };
 
+  console.log(allJobs)
+
   return (
     <>
       <FindAJobHeroSection
