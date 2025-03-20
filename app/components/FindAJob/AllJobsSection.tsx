@@ -14,12 +14,18 @@ export default function AllJobsSection({
   defaultValues,
   handleChange,
   allJobs,
+  currCategory,
+  selectedSubCategory,
+  currSubCategory,
 }: {
   defaultValues: DefaultValues;
   allJobs: Job[];
   handleChange: (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => void;
+  currCategory: string;
+  selectedSubCategory: string;
+  currSubCategory: { id: number; name: string }[];
 }) {
 
 
@@ -173,6 +179,9 @@ export default function AllJobsSection({
             </div> */}
           </div>
           <FilterationPart
+            currCategory={currCategory}
+            selectedSubCategory={selectedSubCategory}
+            currSubCategory={currSubCategory}
             defaultValues={defaultValues}
             handleChange={handleChange}
             Region={Region}

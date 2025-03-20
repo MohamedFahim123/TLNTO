@@ -11,7 +11,8 @@ export interface SearchData {
   industry?: string;
   year_exp?: string;
   title?: string;
-  tags?: string[];
+  category?: string;
+  sub_category?: string;
   job_posted?: string;
   city?: string;
 }

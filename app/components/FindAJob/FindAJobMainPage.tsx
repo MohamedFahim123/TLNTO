@@ -2,9 +2,12 @@
 
 import { SearchData, useAllJobsStore } from "@/app/store/WebSiteAllJobs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AllJobsSection from "./AllJobsSection";
 import FindAJobHeroSection from "./FindAJobHeroSection";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { baseUrl } from "@/app/utils/mainData";
 
 export interface DefaultValues {
   work_place_type: string;
@@ -12,7 +15,8 @@ export interface DefaultValues {
   industry: string;
   year_exp: string;
   title: string;
-  tags: string[];
+  category: string;
+  sub_category: string;
   job_posted: string;
   city: string;
 }
@@ -31,14 +35,69 @@ const FindAJobMainPage = () => {
   const pathname = usePathname();
   const { allJobs } = useAllJobsStore();
 
+  const [currCategory, setCurrCategory] = useState<string>("");
+  const [currSubCategory, setCurrSubCategory] = useState<
+    {
+      id: number;
+      name: string;
+    }[]
+  >([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
+
+  const getCurrSubCategInsideMainCategories = useCallback(async () => {
+    if (currCategory) {
+      const toastId = toast.loading("Loading...");
+      const data: { category_id: string } = {
+        category_id: currCategory,
+      };
+      setSelectedSubCategory("");
+      try {
+        const res = await axios.post(
+          `${baseUrl}/sub-categories?t=${new Date().getTime()}`,
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        );
+        setCurrSubCategory(res?.data?.data);
+        toast.update(toastId, {
+          render: res?.data?.message || "Success! Sub-Categories loaded.",
+          type: "success",
+          isLoading: false,
+          autoClose: 1000,
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          toast.update(toastId, {
+            render:
+              error.response?.data?.message || "Error loading Sub-Categories!",
+            type: "error",
+            isLoading: false,
+            autoClose: 1500,
+          });
+        }
+      }
+    }
+  }, [currCategory]);
+
+  useEffect(() => {
+    if (currCategory) {
+      getCurrSubCategInsideMainCategories();
+    }
+  }, [currCategory]);
+
   const [defaultValues, setDefaultValues] = useState<DefaultValues>({
     work_place_type: "",
     employment_type: "",
     industry: "",
     year_exp: "",
     title: "",
-    tags: [],
     job_posted: "",
+    category: "",
+    sub_category: "",
     city: "",
   });
 
@@ -54,6 +113,8 @@ const FindAJobMainPage = () => {
     const title = searchParams.get("title");
     const job_posted = searchParams.get("job_posted");
     const city = searchParams.get("city");
+    const category = searchParams.get("category");
+    const sub_category = searchParams.get("sub_category");
 
     setDefaultValues({
       work_place_type: work_place_type || "",
@@ -63,7 +124,8 @@ const FindAJobMainPage = () => {
       title: title || "",
       job_posted: job_posted || "",
       city: city || "",
-      tags: [],
+      category: category || "",
+      sub_category: sub_category || "",
     });
 
     fetchJobs({
@@ -74,7 +136,8 @@ const FindAJobMainPage = () => {
       title: title || undefined,
       job_posted: job_posted || undefined,
       city: city || undefined,
-      tags: undefined,
+      category: category || undefined,
+      sub_category: sub_category || undefined,
     });
   }, [searchParams]);
 
@@ -88,7 +151,16 @@ const FindAJobMainPage = () => {
       [name]: value,
     }));
 
+    if(name === "category") { 
+      setCurrCategory(value);
+    }
+
+    if(name === "sub_category") {
+      setSelectedSubCategory(value);
+    }
+
     const newParams = new URLSearchParams(searchParams);
+
     if (value) {
       newParams.set(name, value);
     } else {
@@ -105,6 +177,9 @@ const FindAJobMainPage = () => {
         handleChange={handleChange}
       />
       <AllJobsSection
+        currCategory={currCategory}
+        selectedSubCategory={selectedSubCategory}
+        currSubCategory={currSubCategory}
         defaultValues={defaultValues}
         allJobs={allJobs}
         handleChange={handleChange}

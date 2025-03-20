@@ -6,79 +6,28 @@ import { useYearEXPStore } from "@/app/store/yearExps";
 import Link from "next/link";
 import { DefaultValues } from "./FindAJobMainPage";
 import { useCategoriesStore } from "@/app/store/MainCategories";
-import { useCallback, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { baseUrl } from "@/app/utils/mainData";
 
 const FilterationPart = ({
   defaultValues,
   handleChange,
   Region,
+  currCategory,
+  selectedSubCategory,
+  currSubCategory,
 }: {
   defaultValues: DefaultValues;
   handleChange: (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => void;
   Region: string;
+  currCategory: string;
+  selectedSubCategory: string;
+  currSubCategory: { id: number; name: string }[];
 }) => {
-  const [currCategory, setCurrCategory] = useState<string>("");
   const { employmentTypes } = useEmploymentTypesStore();
   const { workPlaceTypes } = useWorkPlaceTypesStore();
   const { yearEXPs } = useYearEXPStore();
   const { categories } = useCategoriesStore();
-
-  const [currSubCategory, setCurrSubCategory] = useState<
-    {
-      id: number;
-      name: string;
-    }[]
-  >([]);
-  const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
-  const getCurrSubCategInsideMainCategories = useCallback(async () => {
-    if (currCategory) {
-      const toastId = toast.loading("Loading...");
-      const data: { category_id: string } = {
-        category_id: currCategory,
-      };
-      setSelectedSubCategory("");
-      try {
-        const res = await axios.post(
-          `${baseUrl}/sub-categories?t=${new Date().getTime()}`,
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-          }
-        );
-        setCurrSubCategory(res?.data?.data);
-        toast.update(toastId, {
-          render: res?.data?.message || "Success! Sub-Categories loaded.",
-          type: "success",
-          isLoading: false,
-          autoClose: 1000,
-        });
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          toast.update(toastId, {
-            render:
-              error.response?.data?.message || "Error loading Sub-Categories!",
-            type: "error",
-            isLoading: false,
-            autoClose: 1500,
-          });
-        }
-      }
-    }
-  }, [currCategory]);
-
-  useEffect(() => {
-    if (currCategory) {
-      getCurrSubCategInsideMainCategories();
-    }
-  }, [currCategory]);
 
   return (
     <div className="col-lg-3 col-md-12 col-sm-12 col-12">
@@ -156,8 +105,8 @@ const FilterationPart = ({
             <h5 className="medium-heading mb-15">Main Category</h5>
             <div className="form-group">
               <select
-                onChange={(e) => setCurrCategory(e.target.value)}
-                name="mainCateg"
+                onChange={handleChange}
+                name="category"
                 value={currCategory}
                 className="form-control form-icons select-active"
               >
@@ -176,8 +125,8 @@ const FilterationPart = ({
             <h5 className="medium-heading mb-15">Sub Category</h5>
             <div className="form-group">
               <select
-                onChange={(e) => setSelectedSubCategory(e.target.value)}
-                name="SubCateg"
+                onChange={handleChange}
+                name="sub_category"
                 value={selectedSubCategory}
                 className="form-control form-icons select-active"
               >
