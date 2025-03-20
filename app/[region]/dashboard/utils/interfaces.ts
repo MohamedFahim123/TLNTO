@@ -10,6 +10,8 @@ export interface PostAJobForm {
   city_id: string;
   year_exp_id: string;
   currency_id: string;
+  category_id: string;
+  sub_category_id: string;
 }
 export interface DashboardUrlsInterface {
   myJobs: string;

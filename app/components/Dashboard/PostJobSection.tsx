@@ -38,6 +38,7 @@ export default function PostJobSection() {
     reset,
     setError,
     watch,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<PostAJobForm>();
   const { employmentTypes } = useEmploymentTypesStore();
@@ -52,6 +53,7 @@ export default function PostJobSection() {
       name: string;
     }[]
   >([]);
+
   const getCurrSubCategInsideMainCategories = useCallback(async () => {
     if (selectedCategory) {
       const toastId = toast.loading("Loading...");
@@ -144,6 +146,7 @@ export default function PostJobSection() {
   useEffect(() => {
     if (selectedSubCategory) {
       getCurrTagsInsideSubCateg();
+      clearErrors();
     }
   }, [selectedSubCategory]);
 
@@ -175,6 +178,7 @@ export default function PostJobSection() {
   const [currCities, setCurrCities] = useState<CITY[]>([]);
   const getCurrCitiesInsideChosenCountry = async () => {
     if (watch("country_id")) {
+      setValue("city_id", "");
       const data: { country_id: string } = {
         country_id: watch("country_id"),
       };
@@ -190,8 +194,6 @@ export default function PostJobSection() {
           }
         );
         setCurrCities(res?.data?.data);
-
-        console.log(res);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toast.error(error.response?.data?.message || "Error loading Cities!");
@@ -208,6 +210,8 @@ export default function PostJobSection() {
 
   const onSubmit: SubmitHandler<PostAJobForm> = async (data: PostAJobForm) => {
     const toastId = toast.loading("Submitting...");
+    data.category_id = selectedCategory;
+    data.sub_category_id = selectedSubCategory;
     try {
       const response = await axios.post(DashboardUrls.postJob, data, {
         headers: {
