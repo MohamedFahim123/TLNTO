@@ -1,7 +1,11 @@
+"use client";
+
 import TopRekruterSlider from "@/app/sliders/TopRekruter";
 import React from "react";
+import { useTopRecruiterStore } from "@/app/store/TopRecruiters";
 
 function TopRecruiters() {
+  const { topRecruiters } = useTopRecruiterStore();
   return (
     <section className="section-box mt-50">
       <div className="container">
@@ -16,7 +20,7 @@ function TopRecruiters() {
       </div>
       <div className="container">
         <div className="box-swiper mt-50">
-          <TopRekruterSlider />
+          <TopRekruterSlider topRecruiters={topRecruiters} />
         </div>
       </div>
     </section>

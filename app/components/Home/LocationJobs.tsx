@@ -1,7 +1,12 @@
+"use client";
+
+import { useCountryJobsStore } from "@/app/store/CountryJobs";
 import Link from "next/link";
 import React from "react";
 
 function LocationJobs() {
+  const { countryJobs } = useCountryJobsStore();
+
   return (
     <section className="section-box mt-50">
       <div className="container">
@@ -16,216 +21,45 @@ function LocationJobs() {
       </div>
       <div className="container">
         <div className="row mt-50">
-          <div className="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12">
-            <div className="card-image-top hover-up">
-              <Link legacyBehavior href="/jobs-grid">
-                <a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage:
-                        "url(/assets/imgs/page/homepage1/location1.png)",
-                    }}
-                  >
-                    <span className="lbl-hot">Hot</span>
-                  </div>
-                </a>
-              </Link>
-              <div className="informations">
-                <Link legacyBehavior href="/jobs-grid">
-                  <a>
-                    <h5>Paris, France</h5>
-                  </a>
-                </Link>
-                <div className="row">
-                  <div className="col-lg-6 col-6">
-                    <span className="text-14 color-text-paragraph-2">
-                      5 Vacancy
-                    </span>
-                  </div>
-                  <div className="col-lg-6 col-6 text-end">
-                    <span className="color-text-paragraph-2 text-14">
-                      120 companies
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-4 col-lg-4 col-md-7 col-sm-12 col-12">
-            <div className="card-image-top hover-up">
-              <Link legacyBehavior href="/jobs-grid">
-                <a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage:
-                        "url(/assets/imgs/page/homepage1/location2.png)",
-                    }}
-                  >
-                    <span className="lbl-hot">Trending</span>
-                  </div>
-                </a>
-              </Link>
-              <div className="informations">
-                <Link legacyBehavior href="/jobs-grid">
-                  <a>
-                    <h5>London, England</h5>
-                  </a>
-                </Link>
-                <div className="row">
-                  <div className="col-lg-6 col-6">
-                    <span className="text-14 color-text-paragraph-2">
-                      7 Vacancy
-                    </span>
-                  </div>
-                  <div className="col-lg-6 col-6 text-end">
-                    <span className="color-text-paragraph-2 text-14">
-                      68 companies
-                    </span>
+          {countryJobs?.length > 0 &&
+            countryJobs?.slice(0, 6)?.map((job) => (
+              <div
+                key={job.id}
+                className="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12"
+              >
+                <div className="card-image-top hover-up">
+                  <Link legacyBehavior href="#">
+                    <div
+                      className="image"
+                      style={{
+                        backgroundImage: `url(${job?.image})`,
+                      }}
+                    >
+                      <span className="lbl-hot">Hot</span>
+                    </div>
+                  </Link>
+                  <div className="informations">
+                    <Link legacyBehavior href="/jobs-grid">
+                      <a>
+                        <h5>{job?.name}</h5>
+                      </a>
+                    </Link>
+                    <div className="row">
+                      <div className="col-lg-6 col-6">
+                        <span className="text-14 color-text-paragraph-2">
+                          {job?.jobs_count} Vacancy
+                        </span>
+                      </div>
+                      <div className="col-lg-6 col-6 text-end">
+                        <span className="color-text-paragraph-2 text-14">
+                          {job?.companies_count} companies
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="col-xl-5 col-lg-5 col-md-7 col-sm-12 col-12">
-            <div className="card-image-top hover-up">
-              <Link legacyBehavior href="/jobs-grid">
-                <a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage:
-                        "url(/assets/imgs/page/homepage1/location3.png)",
-                    }}
-                  >
-                    <span className="lbl-hot">Hot</span>
-                  </div>
-                </a>
-              </Link>
-              <div className="informations">
-                <Link legacyBehavior href="/jobs-grid">
-                  <a>
-                    <h5>New York, USA</h5>
-                  </a>
-                </Link>
-                <div className="row">
-                  <div className="col-lg-6 col-6">
-                    <span className="text-14 color-text-paragraph-2">
-                      9 Vacancy
-                    </span>
-                  </div>
-                  <div className="col-lg-6 col-6 text-end">
-                    <span className="color-text-paragraph-2 text-14">
-                      80 companies
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
-            <div className="card-image-top hover-up">
-              <Link legacyBehavior href="/jobs-grid">
-                <a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage:
-                        "url(/assets/imgs/page/homepage1/location4.png)",
-                    }}
-                  />
-                </a>
-              </Link>
-              <div className="informations">
-                <Link legacyBehavior href="/jobs-grid">
-                  <a>
-                    <h5>Amsterdam, Holland</h5>
-                  </a>
-                </Link>
-                <div className="row">
-                  <div className="col-lg-6 col-6">
-                    <span className="text-14 color-text-paragraph-2">
-                      16 Vacancy
-                    </span>
-                  </div>
-                  <div className="col-lg-6 col-6 text-end">
-                    <span className="color-text-paragraph-2 text-14">
-                      86 companies
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-5 col-lg-5 col-md-7 col-sm-12 col-12">
-            <div className="card-image-top hover-up">
-              <Link legacyBehavior href="/jobs-grid">
-                <a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage:
-                        "url(/assets/imgs/page/homepage1/location5.png)",
-                    }}
-                  />
-                </a>
-              </Link>
-              <div className="informations">
-                <Link legacyBehavior href="/jobs-grid">
-                  <a>
-                    <h5>Copenhagen, Denmark</h5>
-                  </a>
-                </Link>
-                <div className="row">
-                  <div className="col-lg-6 col-6">
-                    <span className="text-14 color-text-paragraph-2">
-                      39 Vacancy
-                    </span>
-                  </div>
-                  <div className="col-lg-6 col-6 text-end">
-                    <span className="color-text-paragraph-2 text-14">
-                      186 companies
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12">
-            <div className="card-image-top hover-up">
-              <Link legacyBehavior href="/jobs-grid">
-                <a>
-                  <div
-                    className="image"
-                    style={{
-                      backgroundImage:
-                        "url(/assets/imgs/page/homepage1/location6.png)",
-                    }}
-                  />
-                </a>
-              </Link>
-              <div className="informations">
-                <Link legacyBehavior href="/jobs-grid">
-                  <a>
-                    <h5>Berlin, Germany</h5>
-                  </a>
-                </Link>
-                <div className="row">
-                  <div className="col-lg-6 col-6">
-                    <span className="text-14 color-text-paragraph-2">
-                      15 Vacancy
-                    </span>
-                  </div>
-                  <div className="col-lg-6 col-6 text-end">
-                    <span className="color-text-paragraph-2 text-14">
-                      632 companies
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            ))}
         </div>
       </div>
     </section>

@@ -62,7 +62,7 @@ export default function AllJobsSection({
                             <a className="name-job">{job?.company?.name}</a>
                           </Link>
                           <span className="location-small">
-                            {job.country_name} - {job.city_name}
+                            {job?.country_name} - {job?.city_name}
                           </span>
                         </div>
                       </div>
@@ -72,39 +72,39 @@ export default function AllJobsSection({
                             legacyBehavior
                             href={`/${Region}/jobs/find-job/slug`}
                           >
-                            <a>{job.title}</a>
+                            <a>{job?.title}</a>
                           </Link>
                         </h6>
                         <div className="mt-5">
                           <span className="card-briefcase">
-                            {job.employment_type_name}
+                            {job?.employment_type_name}
                           </span>
-                          <span className="card-time">{job.created_at}</span>
+                          <span className="card-time">{job?.created_at}</span>
                         </div>
                         <div>
                           <span className="card-briefcase">
-                            {job.work_place_type_name}
+                            {job?.work_place_type_name}
                           </span>
-                          {job.years_exp !== "N/A" && (
-                            <span className="card-time">{job.years_exp}</span>
+                          {job?.years_exp !== "N/A" && (
+                            <span className="card-time">{job?.years_exp}</span>
                           )}
                         </div>
                         <p className="font-sm color-text-paragraph mt-15">
-                          {job.description.length > 50
-                            ? job.description?.slice(0, 50) + "..."
-                            : job.description}
+                          {job?.description?.length > 50
+                            ? job?.description?.slice(0, 50) + "..."
+                            : job?.description}
                         </p>
                         <div className="mt-30">
                           <span className="btn btn-grey-small mr-5">
-                            {job.tags[0].sub_category_name}
+                            {job?.tags[0]?.sub_category_name}
                           </span>
                           -{" "}
                           <span className="btn btn-grey-small mr-5">
-                            {job.tags[0]?.name}
+                            {job?.tags[0]?.name}
                           </span>
-                          {job.tags[1] && (
+                          {job?.tags[1] && (
                             <span className="btn btn-grey-small mr-5">
-                              {job.tags[1]?.name}
+                              {job?.tags[1]?.name}
                             </span>
                           )}
                         </div>
@@ -112,8 +112,8 @@ export default function AllJobsSection({
                           <div className="row">
                             <div className="col-lg-7 col-7">
                               <span className="card-text-price">
-                                {job.currency}
-                                {job.salary}
+                                {job?.currency}
+                                {job?.salary}
                               </span>
                             </div>
                             <div className="col-lg-5 col-5 text-end">

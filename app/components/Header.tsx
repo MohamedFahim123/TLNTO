@@ -17,7 +17,8 @@ import { useWorkPlaceTypesStore } from "../store/WorkPlaceTypes";
 import { MainRegion } from "../utils/mainData";
 import { useCitiesInsideCurrRegionStore } from "../store/CurrCitiesInsideCurrRegion";
 import { useYearEXPStore } from "../store/yearExps";
-
+import { useTopRecruiterStore } from "../store/TopRecruiters";
+import { useCountryJobsStore } from "../store/CountryJobs";
 interface HeaderProps {
   handleOpen: () => void;
   handleRemove: () => void;
@@ -46,6 +47,33 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
     phone_code: "",
     flag: "",
   });
+
+  const { topRecruiters, getTopRecruiters, topRecruitersLoading } =
+    useTopRecruiterStore();
+  const { countryJobs, getCountryJobs, countryJobsLoading } =
+    useCountryJobsStore();
+  const getAllTopRecruiters = useCallback(
+    (Region: string) => {
+      if (topRecruiters.length === 0 && !topRecruitersLoading) {
+        getTopRecruiters(Region);
+      }
+    },
+    [getTopRecruiters, topRecruitersLoading, topRecruiters.length]
+  );
+  const getAllCountryJobs = useCallback(
+    (Region: string) => {
+      if (countryJobs.length === 0 && !countryJobsLoading) {
+        getCountryJobs(Region);
+      }
+    },
+    [getCountryJobs, countryJobsLoading, countryJobs.length]
+  );
+  useEffect(() => {
+    if (Region) {
+      getAllTopRecruiters(Region);
+      getAllCountryJobs(Region);
+    }
+  }, [getAllTopRecruiters, Region, getAllCountryJobs]);
 
   useEffect(() => {
     if (countries?.length > 0) {
@@ -143,6 +171,7 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
     getAllemploymentTypes,
     getAllCategories,
     getCurrMainValues,
+    getAllYearExps,
   ]);
 
   useEffect(() => {
