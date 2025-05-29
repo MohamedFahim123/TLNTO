@@ -1,5 +1,3 @@
-import Blogs from "@/app/components/Home/Blogs";
-import NewsletterSection from "@/app/components/Home/NewsletterSection";
 import RecruitersHeroSection from "@/app/components/Recruiters/RecruitersHeroSection";
 import ShoiwAllRecuiters from "@/app/components/Recruiters/ShoiwAllRecuiters";
 import { Metadata } from "next";
@@ -14,8 +12,8 @@ export default function RecruitersPage() {
     <>
       <RecruitersHeroSection />
       <ShoiwAllRecuiters />
-      <Blogs />
-      <NewsletterSection />
+      {/* <Blogs /> */}
+      {/* <NewsletterSection /> */}
     </>
   );
 }

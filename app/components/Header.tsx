@@ -281,16 +281,6 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
                   <li className="mx-3">
                     <Link
                       className={
-                        pathname === `/${Region}/jobs/advicev` ? "active" : ""
-                      }
-                      href={`/${Region}/advicev`}
-                    >
-                      Advicev
-                    </Link>
-                  </li>
-                  <li className="mx-3">
-                    <Link
-                      className={
                         pathname === `/${Region}/jobs/about-us` ? "active" : ""
                       }
                       href={`/${Region}/jobs/about-us`}
@@ -309,16 +299,6 @@ const Header = ({ handleOpen, handleRemove, openClass }: HeaderProps) => {
                       >
                         Pricing Plan
                       </a>
-                    </Link>
-                  </li>
-                  <li className="mx-3">
-                    <Link
-                      className={
-                        pathname === `/${Region}/jobs/blogs` ? "active" : ""
-                      }
-                      href={`/${Region}/jobs/blogs`}
-                    >
-                      Blogs
                     </Link>
                   </li>
                   <li className="mx-3">

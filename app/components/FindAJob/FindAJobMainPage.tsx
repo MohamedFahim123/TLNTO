@@ -139,6 +139,12 @@ const FindAJobMainPage = () => {
       category: category || undefined,
       sub_category: sub_category || undefined,
     });
+    if (category) {
+      setCurrCategory(category);
+    }
+    if(sub_category){
+      setSelectedSubCategory(sub_category);
+    }
   }, [searchParams]);
 
   const handleChange = (
@@ -151,11 +157,11 @@ const FindAJobMainPage = () => {
       [name]: value,
     }));
 
-    if(name === "category") { 
+    if (name === "category") {
       setCurrCategory(value);
     }
 
-    if(name === "sub_category") {
+    if (name === "sub_category") {
       setSelectedSubCategory(value);
     }
 
@@ -169,8 +175,6 @@ const FindAJobMainPage = () => {
 
     router.replace(`${pathname}?${newParams.toString()}`);
   };
-
-  console.log(allJobs)
 
   return (
     <>

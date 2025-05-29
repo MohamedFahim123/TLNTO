@@ -34,11 +34,6 @@ const Sidebar = ({ openClass }: { openClass: string }) => {
                       </Link>
                     </li>
                     <li>
-                      <Link legacyBehavior href={`/${Region}/jobs/advicev`}>
-                        <a>Advicev</a>
-                      </Link>
-                    </li>
-                    <li>
                       <Link legacyBehavior href={`/${Region}/jobs/about-us`}>
                         <a>About Us</a>
                       </Link>
@@ -46,11 +41,6 @@ const Sidebar = ({ openClass }: { openClass: string }) => {
                     <li>
                       <Link legacyBehavior href={`/${Region}/jobs/contact-us`}>
                         <a>Contact Us</a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link legacyBehavior href={`/${Region}/jobs/blogs`}>
-                        <a>Blogs</a>
                       </Link>
                     </li>
                     <li>

@@ -1,5 +1,3 @@
-import Customers from "@/app/components/ContactUs/Customers";
-import NewsletterSection from "@/app/components/Home/NewsletterSection";
 import PricingHero from "@/app/components/PricingPage/PricingHero";
 import { Metadata } from "next";
 import MainQuestions from "./MainQuestions";
@@ -15,8 +13,8 @@ export default function PricingPlan() {
       <PricingHero />
       <PrincingPackages />
       <MainQuestions />
-      <Customers />
-      <NewsletterSection />
+      {/* <Customers /> */}
+      {/* <NewsletterSection /> */}
     </div>
   );
 }

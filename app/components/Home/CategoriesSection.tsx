@@ -2,6 +2,7 @@ import CategorySlider from "@/app/sliders/Category";
 import React from "react";
 
 function CategoriesSection() {
+
   return (
     <section className="section-box mt-80">
       <div className="section-box wow animate__animated animate__fadeIn">

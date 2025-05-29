@@ -1,11 +1,13 @@
 "use client";
 
 import { useCountryJobsStore } from "@/app/store/CountryJobs";
+import { useCitiesInsideCurrRegionStore } from "@/app/store/CurrCitiesInsideCurrRegion";
 import Link from "next/link";
 import React from "react";
 
 function LocationJobs() {
   const { countryJobs } = useCountryJobsStore();
+  const { currRegion } = useCitiesInsideCurrRegionStore();
 
   return (
     <section className="section-box mt-50">
@@ -28,7 +30,7 @@ function LocationJobs() {
                 className="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12"
               >
                 <div className="card-image-top hover-up">
-                  <Link legacyBehavior href="#">
+                  <Link href={`/${currRegion}/jobs/find-job?city=${job.id}`}>
                     <div
                       className="image"
                       style={{
@@ -39,10 +41,8 @@ function LocationJobs() {
                     </div>
                   </Link>
                   <div className="informations">
-                    <Link legacyBehavior href="/jobs-grid">
-                      <a>
-                        <h5>{job?.name}</h5>
-                      </a>
+                    <Link href={`/${currRegion}/jobs/find-job?city=${job.id}`}>
+                      <h5>{job?.name}</h5>
                     </Link>
                     <div className="row">
                       <div className="col-lg-6 col-6">
