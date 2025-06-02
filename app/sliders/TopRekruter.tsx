@@ -1,14 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Fragment } from "react";
 import { Swiper } from "swiper/react";
-import { TopRecruiter } from "../store/TopRecruiters";
+import { TopRecruiter } from "../components/Home/TopRecruiters";
 
 const TopRekruterSlider = ({
   topRecruiters,
+  region,
 }: {
   topRecruiters: TopRecruiter[];
+  region: string;
 }) => {
   return (
     <>
@@ -48,7 +51,7 @@ const TopRekruterSlider = ({
             <Fragment key={recruiter.id}>
               <div className="swiper-slide">
                 <div className="item-5 hover-up wow animate__animated animate__fadeIn">
-                  <a href="#">
+                  <Link href={`/${region}/jobs/recruiters/${recruiter.id}`}>
                     <div className="item-logo">
                       <div className="image-left">
                         <Image
@@ -76,7 +79,7 @@ const TopRekruterSlider = ({
                         </span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </Fragment>

@@ -1,13 +1,56 @@
-"use client";
-
-import { useCountryJobsStore } from "@/app/store/CountryJobs";
-import { useCitiesInsideCurrRegionStore } from "@/app/store/CurrCitiesInsideCurrRegion";
+import { fetchApi } from "@/app/Actions/FetchApi";
+import { MainRegion } from "@/app/utils/mainData";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
 
-function LocationJobs() {
-  const { countryJobs } = useCountryJobsStore();
-  const { currRegion } = useCitiesInsideCurrRegionStore();
+export interface Company {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  country_id: number;
+  country: string;
+  city_id: number;
+  city: string;
+  industry_id: number;
+  industry: string;
+  commercial_certification: string;
+  official_registeration: string;
+  companyLogo: string;
+  status: string;
+  jobs_count: number;
+  active_jobs_count: number;
+}
+
+export interface CountryJobs {
+  id: number;
+  name: string;
+  country_id: number;
+  country: string;
+  code: string;
+  image: string;
+  companies: Company[];
+  companies_count: number;
+  jobs_count: number;
+}
+
+async function LocationJobs() {
+  const cookiesData = await cookies();
+  const currRegion: string = cookiesData.get("region")?.value || MainRegion;
+  const countryJobsRes = await fetchApi<{ data: CountryJobs[] }>(
+    `country-jobs`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        code: currRegion,
+      },
+    }
+  );
+
+  const countryJobs: CountryJobs[] = countryJobsRes?.data || [];
 
   return (
     <section className="section-box mt-50">
