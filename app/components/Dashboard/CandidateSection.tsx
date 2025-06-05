@@ -1,86 +1,54 @@
-"use client";
-
+import { fetchApi } from "@/app/Actions/FetchApi";
+import { getServerCookies } from "@/app/Actions/HandleServerCookies";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
 import Candidate from "./Candidate";
-import { CandidateElement, candidates } from "./candidates";
-import Pagination from "./Pagination";
-import ShowSelect from "./ShowSelect";
-import { MainRegion } from "@/app/utils/mainData";
-import Cookies from "js-cookie";
 
-export default function CandidateSection() {
-  const alphabet: string[] = "abcdefghijklmnopqrstuvwxyz".split("");
-  const [filteredData, setFilteredData] =
-    useState<CandidateElement[]>(candidates);
-  const [active, setActive] = useState<string>("");
-  const region: string = Cookies.get("region") || MainRegion;
+export interface CandidateInterface {
+  img: string;
+  title: string;
+  job: string;
+  des: string;
+  rating: string;
+  skills: string[];
+  location: string;
+  salary: string;
+}
 
-  function handleClick(constter: string) {
-    const newData: CandidateElement[] = candidates.filter((item) =>
-      item.title.toLowerCase().startsWith(constter)
-    );
-    setFilteredData(newData);
-    setActive(constter);
-  }
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const showLimit: number = 8,
-    showPagination: number = 3;
+export default async function CandidateSection() {
+  const region: string = await getServerCookies("region");
+  const token = await getServerCookies("TLNTO_TOKEN");
+  const fetchedCandidates = await fetchApi<{
+    data: {
+      candidates: CandidateInterface[];
+    };
+  }>(`company/all-candidates`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  const [pagination, setPagination] = useState<number[] | []>([]);
-  const [limit, setLimit] = useState(showLimit);
-  const [pages, setPages] = useState(Math.ceil(filteredData.length / limit));
+  console.log(fetchedCandidates);
+  const candidates: CandidateInterface[] =
+    fetchedCandidates?.data?.candidates || [];
 
-  const cratePagination = useCallback(() => {
-    const arr: number[] = new Array(Math.ceil(filteredData.length / limit))
-      .fill(null)
-      .map((_, idx) => idx + 1);
+  // const [currentPage, setCurrentPage] = useState<number>(1);
 
-    setPagination(arr);
-    setPages(Math.ceil(filteredData.length / limit));
-  }, [filteredData.length, limit]);
+  // const next = () => {
+  //   setCurrentPage((page) => page + 1);
+  // };
 
-  useEffect(() => {
-    if (pages > 1 && filteredData.length > 0) {
-      cratePagination();
-    }
-  }, [limit, pages, filteredData.length, cratePagination]);
+  // const prev = () => {
+  //   setCurrentPage((page) => page - 1);
+  // };
 
-  const startIndex: number = currentPage * limit - limit;
-  const endIndex: number = startIndex + limit;
+  // const handleActive = (item: number) => {
+  //   setCurrentPage(item);
+  // };
 
-  const getPaginatedProducts: CandidateElement[] = filteredData.slice(
-    startIndex,
-    endIndex
-  );
-
-  const start: number =
-    Math.floor((currentPage - 1) / showPagination) * showPagination;
-  const end: number = start + showPagination;
-  const getPaginationGroup: number[] = pagination.slice(start, end);
-
-  const next = () => {
-    setCurrentPage((page) => page + 1);
-  };
-
-  const prev = () => {
-    setCurrentPage((page) => page - 1);
-  };
-
-  const handleActive = (item: number) => {
-    setCurrentPage(item);
-  };
-
-  const selectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLimit(Number(e.target.value));
-    setPages(Math.ceil(filteredData.length / Number(e.target.value)));
-  };
-
-  function reset() {
-    setFilteredData(candidates);
-    setActive("");
-  }
   return (
     <>
       <div className="col-12">
@@ -95,7 +63,10 @@ export default function CandidateSection() {
                 src="/assets/imgs/page/dashboard/home.svg"
                 alt="jobBox"
               />
-              <Link className="d-flex align-items-center" href={`/${region}/dashboard`}>
+              <Link
+                className="d-flex align-items-center"
+                href={`/${region}/dashboard`}
+              >
                 Admin
                 <span className="mb-1 mx-1 text-black-50 fs-5">&gt; </span>
               </Link>
@@ -107,40 +78,9 @@ export default function CandidateSection() {
           <div className="container">
             <div className={``}>
               <div className="box-padding">
-                <div className="row mb-30">
-                  <div className="col-12">
-                    <div className="box-list-character mb-15">
-                      <ul>
-                        {alphabet.map((letter) => (
-                          <li key={letter} onClick={() => handleClick(letter)}>
-                            <a className={active === letter ? "active" : ""}>
-                              {letter}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="d-flex justify-content-end align-items-center gap-3">
-                      <button
-                        className="btn btn-default hover-up"
-                        onClick={reset}
-                      >
-                        Reset
-                      </button>
-                      <div className="select-box">
-                        <ShowSelect
-                          selectChange={selectChange}
-                          showLimit={showLimit}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {getPaginatedProducts.length === 0 && (
-                  <span>No Products Found </span>
-                )}
+                {candidates.length === 0 && <span>No Products Found </span>}
                 <div className="row">
-                  {getPaginatedProducts.map((item, i) => (
+                  {candidates.map((item, i) => (
                     <div
                       className="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12"
                       key={i}
@@ -150,14 +90,14 @@ export default function CandidateSection() {
                   ))}
                 </div>
                 <div className="paginations">
-                  <Pagination
+                  {/* <Pagination
                     getPaginationGroup={getPaginationGroup}
                     currentPage={currentPage}
                     pages={pages}
                     next={next}
                     prev={prev}
                     handleActive={handleActive}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CandidateElement } from "./candidates";
 import styles from "./dashboardStyles.module.css";
+import { CandidateInterface } from "./CandidateSection";
 
-export default function Candidate({ item }: { item: CandidateElement }) {
+export default function Candidate({ item }: { item: CandidateInterface }) {
   return (
     <>
       <div

@@ -8,7 +8,7 @@ import CategoryTab from "../CategoryTab";
 async function JobOfTheDaySection() {
   const cookiesData = await cookies();
   const currRegion: string = cookiesData.get("region")?.value || MainRegion;
-  const jobsOfTheDayRes = await fetchApi<{ data: Job[] }>(`recent-jobs`, {
+  const jobsOfTheDayRes = await fetchApi<{ data: Job[] }>(`recent-jobs?t=${new Date().getTime()}`, {
     method: "Post",
     headers: {
       "Content-Type": "application/json",
@@ -17,6 +17,8 @@ async function JobOfTheDaySection() {
     },
   });
   const recentJobs: Job[] = jobsOfTheDayRes?.data || [];
+
+  console.log(jobsOfTheDayRes)
 
   return (
     <>
